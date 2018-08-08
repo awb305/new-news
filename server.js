@@ -1,3 +1,7 @@
+// ==============================================================================
+// Set Dependencies
+// ==============================================================================
+
 require("dotenv").config();
 var express = require("express");
 var bodyParser = require("body-parser");
@@ -5,15 +9,24 @@ var exphbs = require("express-handlebars");
 
 var db = require("./models");
 
+// ==============================================================================
+// Express Setup
+// create the express app
+// set up the express app to handle the data parsing
+// use express.static to serve static pages
+// ==============================================================================
+
 var app = express();
 var PORT = process.env.PORT || 3000;
 
-// Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static("public"));
 
-// Handlebars
+// ==============================================================================
+// Handlebars Setup
+// ==============================================================================
+
 app.engine(
   "handlebars",
   exphbs({
@@ -22,9 +35,17 @@ app.engine(
 );
 app.set("view engine", "handlebars");
 
-// Routes
-require("./routes/apiRoutes")(app);
-require("./routes/htmlRoutes")(app);
+// ==============================================================================
+// Routing
+// ==============================================================================
+
+var routes = require("./routes/router.js");
+
+app.use(routes);
+
+// ==============================================================================
+// Database Sync Options
+// ==============================================================================
 
 var syncOptions = { force: false };
 
@@ -34,7 +55,10 @@ if (process.env.NODE_ENV === "test") {
   syncOptions.force = true;
 }
 
-// Starting the server, syncing our models ------------------------------------/
+// ==============================================================================
+// Server Listener
+// ==============================================================================
+
 db.sequelize.sync(syncOptions).then(function() {
   app.listen(PORT, function() {
     console.log(
@@ -44,5 +68,3 @@ db.sequelize.sync(syncOptions).then(function() {
     );
   });
 });
-
-module.exports = app;
