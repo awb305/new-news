@@ -2,10 +2,10 @@
 // Set Dependencies & Required files
 // ==============================================================================
 
-var express = require('express');
+var express = require("express");
 var router = express.Router();
 
-var db = require('../models');
+var db = require("../models");
 
 // ===============================================================================
 // Routing
@@ -23,7 +23,9 @@ router.get("/", function(req, res) {
 
 // Load example page and pass in an example by id
 router.get("/example/:id", function(req, res) {
-  db.Example.findOne({ where: { id: req.params.id } }).then(function(dbExample) {
+  db.Example.findOne({ where: { id: req.params.id } }).then(function(
+    dbExample
+  ) {
     res.render("example", {
       example: dbExample
     });
@@ -51,7 +53,9 @@ router.post("/api/examples", function(req, res) {
 
 // Delete an example by id
 router.delete("/api/examples/:id", function(req, res) {
-  db.Example.destroy({ where: { id: req.params.id } }).then(function(dbExample) {
+  db.Example.destroy({ where: { id: req.params.id } }).then(function(
+    dbExample
+  ) {
     res.json(dbExample);
   });
 });
