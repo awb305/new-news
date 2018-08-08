@@ -32,11 +32,6 @@ router.get("/example/:id", function(req, res) {
   });
 });
 
-// Render 404 page for any unmatched routes
-router.get("*", function(req, res) {
-  res.render("404");
-});
-
 // Get all examples
 router.get("/api/examples", function(req, res) {
   db.Example.findAll({}).then(function(dbExamples) {
@@ -58,6 +53,22 @@ router.delete("/api/examples/:id", function(req, res) {
   ) {
     res.json(dbExample);
   });
+});
+
+// ===============================================================================
+// User Sign Up
+
+// Load sign-up page
+router.get("/sign-up", function(req, res) {
+  res.render("sign-up");
+});
+
+// ===============================================================================
+// Unmatched routes
+
+// Render 404 page for any unmatched routes
+router.get("*", function(req, res) {
+  res.render("404");
 });
 
 module.exports = router;
