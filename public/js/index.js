@@ -1,8 +1,8 @@
 // Get references to page elements
 var $exampleText = $("#example-text");
-var $exampleDescription = $("#example-description");
-var $submitBtn = $("#submit");
-var $exampleList = $("#example-list");
+var userEmail = $("#signup-email");
+var userSubmit = $("#signup-submit");
+var userName = $("#signup-name");
 
 // The API object contains methods for each kind of request we'll make
 var API = {
@@ -59,28 +59,31 @@ var refreshExamples = function() {
   });
 };
 
-// handleFormSubmit is called whenever we submit a new example
-// Save the new example to the db and refresh the list
-var handleFormSubmit = function(event) {
+// handleFormSubmit is called whenever we submit a new user
+// Save the new user to the db and refresh the list
+$(userSubmit).on("click", function handleFormSubmit(event) {
   event.preventDefault();
-
-  var example = {
-    text: $exampleText.val().trim(),
-    description: $exampleDescription.val().trim()
-  };
-
-  if (!(example.text && example.description)) {
-    alert("You must enter an example text and description!");
+  // Wont submit the user if we are missing a name or an email
+  if (!userEmail.val().trim() || !userName.val().trim()) {
+    alert("User name and email is required to up the article")
     return;
   }
+  // Constructing a newUser object to hand to the database
+  var newUser = {
+    user_name : userName.val().trim(),
+    user_email: userEmail.val().trim(),
+  };
 
-  API.saveExample(example).then(function() {
-    refreshExamples();
+  console.log(newUser);
+    submitUser(newUser);
+});
+
+// Submits a new user and brings user to headlines page upon completion
+function submitUser(User) {
+  $.post("/api/posts/", User, function() {
+    window.location.href = "";
   });
-
-  $exampleText.val("");
-  $exampleDescription.val("");
-};
+}
 
 // handleDeleteBtnClick is called when an example's delete button is clicked
 // Remove the example from the db and refresh the list
