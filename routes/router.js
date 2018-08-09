@@ -7,7 +7,7 @@ var router = express.Router();
 
 var db = require("../models");
 
-var headlineArticles = require("../news_app/testHeadlines.js");
+// var headlineArticles = require("../news_app/testHeadlines.js");
 
 // ===============================================================================
 // Routing
