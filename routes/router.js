@@ -11,7 +11,10 @@ var db = require("../models");
 // Routing
 // ===============================================================================
 
-// Load index page
+// ===============================================================================
+// Home Page
+
+// Loads example index page - replace with our own home page
 router.get("/", function(req, res) {
   db.Example.findAll({}).then(function(dbExamples) {
     res.render("index", {
@@ -20,6 +23,9 @@ router.get("/", function(req, res) {
     });
   });
 });
+
+// ===============================================================================
+// Example Pages & Functionality to be removed
 
 // Load example page and pass in an example by id
 router.get("/example/:id", function(req, res) {
@@ -56,11 +62,51 @@ router.delete("/api/examples/:id", function(req, res) {
 });
 
 // ===============================================================================
-// User Sign Up
+// Headlines Page
+
+router.get("/headlines", function(req, res) {
+  res.render("headlines");
+});
+
+// ===============================================================================
+// News Worthy Page
+
+router.get("/news-worthy", function(req, res) {
+  res.render("worthy");
+});
+
+// ===============================================================================
+// User Sign Up & Log in
 
 // Load sign-up page
 router.get("/sign-up", function(req, res) {
   res.render("sign-up");
+});
+
+// Load log-in page
+router.get("/log-in", function(req, res) {
+  res.render("log-in");
+});
+
+// ===============================================================================
+// User Profile Pages
+
+router.get("/user/:id", function(req, res) {
+  res.render("user-profile");
+});
+
+// ===============================================================================
+// Bundles Pages
+
+router.get("/bundle/:id", function(req, res) {
+  res.render("bundle-display");
+});
+
+// ===============================================================================
+// Individual Article Pages
+
+router.get("/article/:id", function(req, res) {
+  res.render("article-display");
 });
 
 // ===============================================================================
