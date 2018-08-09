@@ -1,15 +1,13 @@
-module.exports = function(sequelize, DataTypes) {  
-var Bundles = sequelize.define("bundles", {
-    user_id: {
+module.exports = function(sequelize, DataTypes) {
+  var Bundles = sequelize.define("bundles", {
+    userid: {
       type: DataTypes.INT,
-      allowNull: false,
+      allowNull: false
     },
-    article_id: {
+    articleid: {
       type: DataTypes.INT,
-      allowNull: false,
-    },
-
-
+      allowNull: false
+    }
   });
-    return Bundles;
-}
+  return Bundles;
+};
