@@ -3,10 +3,25 @@
 // ==============================================================================
 
 var headlineArticles = {
+  // getOutput: function() {
+  //   // [in progress] - what needs to be returned is a stories object comprised of an array of objects.
+  //   // Each object in the array will have the headline and then the articles with an array of objects - each object would be an article
+
+  //   var storiesOutputObj = [];
+
+  //   var mainHeadlines = this.getHeadlines();
+  //   var allStories = this.getStories();
+
+  //   // create a for loop that takes each item
+
+  //   return storiesOutputObj;
+  // },
+
   getHeadlines: function() {
     var headlines = [];
     var storiesArr = this.articles.results;
 
+    // NEED TO ACCOUNT FOR DUPLICATES
     for (var i = 0; i < storiesArr.length; i++) {
       if (storiesArr[i].subsection !== "") {
         headlines.push(storiesArr[i].subsection);
