@@ -3,8 +3,51 @@
 // ==============================================================================
 
 var headlineArticles = {
-  
-  "headlines": ["World", "US News", "Business", "Technology", "Science", "Arts"],
+
+  getHeadlines: function() {
+
+    var headlines = [];
+    var storiesArr = this.articles.results;
+
+    for (var i = 0; i < storiesArr.length; i++) {
+
+      if(storiesArr[i].subsection !== "") {
+        headlines.push(storiesArr[i].subsection);
+      } else {
+        headlines.push(storiesArr[i].section);
+      }
+    }
+
+    return headlines;
+  },
+
+  getStories: function() {
+    
+    var stories = [];
+    var storiesArr = this.articles.results;
+
+    // for each story extract what is needed and add it to a new object
+    // add the object to the stories array which is returned when this function is called
+    for (var i = 0; i < storiesArr.length; i++) {
+
+      var storyObj = {
+        // set for the example since all articles are from NYTimes
+        publication:    "NY Times",
+        section:        storiesArr[i].section,
+        subsection:     storiesArr[i].subsection,
+        title:          storiesArr[i].title,
+        byline:         storiesArr[i].byline,
+        summary:        storiesArr[i].abstract,
+        date:           storiesArr[i].published_date,
+        image:          storiesArr[i].multimedia[2].url
+      }
+
+      stories.push(storyObj);
+    }
+
+    return stories;
+  },
+
   "articles":  [{
     "results": [
       {
