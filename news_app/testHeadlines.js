@@ -36,7 +36,7 @@ var headlineArticles = {
 
   getHeadlines: function() {
     var headlines = [];
-    var storiesArr = this.articles.results;
+    var storiesArr = this.articles[0].results;
 
     // NEED TO ACCOUNT FOR DUPLICATES
     for (var i = 0; i < storiesArr.length; i++) {
@@ -52,7 +52,7 @@ var headlineArticles = {
 
   getStories: function() {
     var stories = [];
-    var storiesArr = this.articles.results;
+    var storiesArr = this.articles[0].results;
 
     // for each story extract what is needed and add it to a new object
     // add the object to the stories array which is returned when this function is called
