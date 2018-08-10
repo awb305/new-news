@@ -3,19 +3,36 @@
 // ==============================================================================
 
 var headlineArticles = {
-  // getOutput: function() {
-  //   // [in progress] - what needs to be returned is a stories object comprised of an array of objects.
-  //   // Each object in the array will have the headline and then the articles with an array of objects - each object would be an article
+  getOutput: function() {
+    var storiesOutputObj = [];
 
-  //   var storiesOutputObj = [];
+    var mainHeadlines = this.getHeadlines();
+    var allStories = this.getStories();
 
-  //   var mainHeadlines = this.getHeadlines();
-  //   var allStories = this.getStories();
+    // look at each headline
+    for (var i = 0; i < mainHeadlines.length; i++) {
+      // create variables for the headline and the articles that correspond with that headline
+      var headline = mainHeadlines[i];
+      var articles = [];
 
-  //   // create a for loop that takes each item
+      // look at each article
+      for (var j = 0; j < allStories.length; j++) {
+        // if the article's headline matches the main headline, add the article to the articles array
+        if (headline === allStories[j].headline) {
+          articles.push(allStories[j]);
+        }
+      }
 
-  //   return storiesOutputObj;
-  // },
+      var storyObj = {
+        headline: headline,
+        articles: articles
+      };
+
+      storiesOutputObj.push(storyObj);
+    }
+
+    return storiesOutputObj;
+  },
 
   getHeadlines: function() {
     var headlines = [];
@@ -40,9 +57,20 @@ var headlineArticles = {
     // for each story extract what is needed and add it to a new object
     // add the object to the stories array which is returned when this function is called
     for (var i = 0; i < storiesArr.length; i++) {
+
+      var headline = "";
+
+      // determine the headline for the story
+      if (storiesArr[i].subsection !== "") {
+        headline = storiesArr[i].subsection;
+      } else {
+        headline = storiesArr[i].section;
+      }
+
       var storyObj = {
         // set for the example since all articles are from NYTimes
         publication: "NY Times",
+        headline: headline,
         section: storiesArr[i].section,
         subsection: storiesArr[i].subsection,
         title: storiesArr[i].title,
