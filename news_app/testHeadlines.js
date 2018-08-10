@@ -40,10 +40,17 @@ var headlineArticles = {
 
     // NEED TO ACCOUNT FOR DUPLICATES
     for (var i = 0; i < storiesArr.length; i++) {
+
+      var headline = "";
+
       if (storiesArr[i].subsection !== "") {
-        headlines.push(storiesArr[i].subsection);
+        headline = storiesArr[i].subsection;
       } else {
-        headlines.push(storiesArr[i].section);
+        headline = storiesArr[i].section;
+      }
+
+      if (!headlines.includes(headline)) {
+        headlines.push(headline);
       }
     }
 
