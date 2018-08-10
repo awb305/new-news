@@ -9,5 +9,8 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     }
   });
+  User.associate = function(models) {
+    Author.hasMany(models.Bundles);
+  };
   return User;
 };

@@ -8,8 +8,12 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
+    category: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     upNumber: {
-      type: DataTypes.INT
+      type: DataTypes.INTEGER
     },
     articleImg: {
       type: DataTypes.STRING
