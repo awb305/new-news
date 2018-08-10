@@ -67,11 +67,21 @@ var headlineArticles = require("../news_app/testHeadlines.js");
 // Headlines Page
 
 router.get("/headlines", function(req, res) {
-  var displayObj = headlineArticles.getOutput();
+  var displayObj = {
+    title: "Top Headlines",
+    articleGroup: headlineArticles.getOutput()
+  };
+
+  res.render("headlines", displayObj);
+});
+
+// test url for checking data
+router.get("/headlines-data", function(req, res) {
+  var displayObj = {
+    articleGroup: headlineArticles.getOutput()
+  };
 
   res.json(displayObj);
-
-  // res.render("headlines");
 });
 
 // ===============================================================================

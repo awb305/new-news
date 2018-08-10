@@ -1,3 +1,142 @@
 .list-group-item {
   line-height: 2.5;
 }
+
+body {
+  font-family: 'Crimson Text', serif;
+  color: #333;
+  background-color: #f7f7f7;
+}
+
+.headlines-title-container {
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0px 30px 0px;
+}
+
+.title-container > h1 {
+  font-size: 3.5rem;
+  font-weight: 300;
+  line-height: 1.2;
+}
+
+.headlines-container {
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.headline-button {
+  padding: 10px 30px;
+  cursor: pointer;
+  transition: 0.5s;
+  max-width: 80vw;
+  width: 250px;
+  margin: 10px auto;
+  border-radius: 2px;
+  text-transform: capitalize;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.headline-button:hover {
+  background-color: #ccc;
+  box-shadow: 0px 0px 5px rgb(0, 0, 0, .8);
+}
+
+.nav-icon {
+  width: 75px;
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  cursor: pointer;
+  z-index: 2500;
+}
+
+.left-side-slider {
+  height: 100vh;
+  width: 350px;
+  max-width: 95vw;
+  position: fixed;
+  z-index: 2000;
+  top: 0;
+  left: -350px;
+  overflow-x: hidden;
+  padding-top: 10px;
+  transition: 0.5s;
+}
+
+#nav-slider {
+  background-color: #E0E0E0;
+  color: #333;
+  z-index: 2200;
+}
+
+.left-side-slider-shadow {
+  box-shadow: 5px 0px 10px rgba(255, 255, 255, .5), 5px 0px 10px rgb(0, 0, 0, 1);
+}
+
+#nav-slider a {
+  text-decoration: none;
+  color: #333;
+}
+
+.side-slider-container {
+  overflow: auto;
+}
+
+.slider-backdrop, .nav-slider-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #000;
+  opacity: 0.8;
+}
+
+.slider-backdrop {
+  z-index: 1800;
+}
+
+.nav-slider-backdrop {
+  z-index: 2100;
+}
+
+.lock-scroll {
+  overflow: hidden;
+}
+
+#nav-slider {
+  padding: 20px 10px 0px 10px;
+}
+
+.nav-slider-header {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.nav-slider-body {
+  text-align: left;
+  display: block;
+  margin-top: 50px;
+}
+
+.nav-slider-signup {
+  margin-top: 30px;
+}
+
+.nav-slider-signup a {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.nav-slider-signup-link {
+  padding-right: 10px;
+}
+
+.nav-slider-login-link {
+  padding-left: 10px;
+}
