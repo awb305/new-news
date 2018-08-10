@@ -9,7 +9,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     upNumber: {
-      type: DataTypes.INT
+      type: DataTypes.INTEGER
     },
     articleImg: {
       type: DataTypes.STRING
