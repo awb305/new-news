@@ -1,13 +1,13 @@
 module.exports = function(sequelize, DataTypes) {
   var User = sequelize.define("user", {
-    user_name: {
+    userName: {
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: false
     },
-    user_email: {
+    userEmail: {
       type: DataTypes.TEXT,
-      allowNull: false,
-    },
+      allowNull: false
+    }
   });
   return User;
 };
