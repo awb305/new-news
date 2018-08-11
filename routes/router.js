@@ -102,6 +102,12 @@ router.get("/sign-up", function(req, res) {
   res.render("sign-up");
 });
 
+// Create a new user account
+router.post("/api/sign-up", function(req, res) {
+  console.log(req.body);
+  res.json();
+});
+
 // Load log-in page
 router.get("/log-in", function(req, res) {
   res.render("log-in");
