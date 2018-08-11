@@ -1,1 +1,33 @@
-<h1>To Come</h1>
+<div class="headlines-container">
+
+    <div class="title-container headlines-title-container">
+        <h1>Top Headlines</h1>
+    </div>
+
+    <div id="headlines-container">
+        {{#each articleGroup}}
+            <div class="headline-button" data-id="{{headlineSlug}}">{{headline}}</div>
+        {{/each}}
+    </div>
+
+</div>
+
+<div id="bottom-nav-container">
+    <img class="nav-icon" src="/images/nav-icon.svg">
+</div>
+
+
+
+<div class="side-slider-container">
+
+    {{> nav-slider}}
+                    
+    {{#each articleGroup}}
+        {{> headlines-slider}}
+    {{/each}}
+
+    {{#each article}}
+        {{> article-slider}}
+    {{/each}}
+    
+</div>

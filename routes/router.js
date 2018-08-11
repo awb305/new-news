@@ -5,9 +5,9 @@
 var express = require("express");
 var router = express.Router();
 
-var db = require("../models");
+// var db = require("../models");
 
-// var headlineArticles = require("../news_app/testHeadlines.js");
+var headlineArticles = require("../news_app/testHeadlines.js");
 
 // ===============================================================================
 // Routing
@@ -17,57 +17,74 @@ var db = require("../models");
 // Home Page
 
 // Loads example index page - replace with our own home page
-router.get("/", function(req, res) {
-  db.Example.findAll({}).then(function(dbExamples) {
-    res.render("index", {
-      msg: "Welcome!",
-      examples: dbExamples
-    });
-  });
-});
+// router.get("/", function(req, res) {
+//   db.Example.findAll({}).then(function(dbExamples) {
+//     res.render("index", {
+//       msg: "Welcome!",
+//       examples: dbExamples
+//     });
+//   });
+// });
 
 // ===============================================================================
 // Example Pages & Functionality to be removed
 
 // Load example page and pass in an example by id
-router.get("/example/:id", function(req, res) {
-  db.Example.findOne({ where: { id: req.params.id } }).then(function(
-    dbExample
-  ) {
-    res.render("example", {
-      example: dbExample
-    });
-  });
-});
+// router.get("/example/:id", function(req, res) {
+//   db.Example.findOne({ where: { id: req.params.id } }).then(function(
+//     dbExample
+//   ) {
+//     res.render("example", {
+//       example: dbExample
+//     });
+//   });
+// });
 
 // Get all examples
-router.get("/api/examples", function(req, res) {
-  db.Example.findAll({}).then(function(dbExamples) {
-    res.json(dbExamples);
-  });
-});
+// router.get("/api/examples", function(req, res) {
+//   db.Example.findAll({}).then(function(dbExamples) {
+//     res.json(dbExamples);
+//   });
+// });
 
 // Create a new example
-router.post("/api/examples", function(req, res) {
-  db.Example.create(req.body).then(function(dbExample) {
-    res.json(dbExample);
-  });
-});
+// router.post("/api/examples", function(req, res) {
+//   db.Example.create(req.body).then(function(dbExample) {
+//     res.json(dbExample);
+//   });
+// });
 
 // Delete an example by id
-router.delete("/api/examples/:id", function(req, res) {
-  db.Example.destroy({ where: { id: req.params.id } }).then(function(
-    dbExample
-  ) {
-    res.json(dbExample);
-  });
-});
+// router.delete("/api/examples/:id", function(req, res) {
+//   db.Example.destroy({ where: { id: req.params.id } }).then(function(
+//     dbExample
+//   ) {
+//     res.json(dbExample);
+//   });
+// });
 
 // ===============================================================================
 // Headlines Page
 
-router.get("/headlines", function(req, res) {
-  res.render("headlines");
+router.get("/", function(req, res) {
+  var displayObj = {
+    title: "Top Headlines",
+    articleGroup: headlineArticles.getOutput(),
+    article: headlineArticles.getStories()
+  };
+
+  res.render("headlines", displayObj);
+});
+
+// test url for checking data
+router.get("/headlines-data", function(req, res) {
+  var displayObj = {
+    title: "Headlines Data",
+    articleGroup: headlineArticles.getOutput(),
+    article: headlineArticles.getStories()
+  };
+
+  res.json(displayObj);
 });
 
 // ===============================================================================

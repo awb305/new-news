@@ -1,11 +1,11 @@
 module.exports = function(sequelize, DataTypes) {
   var Bundles = sequelize.define("bundles", {
     userid: {
-      type: DataTypes.INT,
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     articleid: {
-      type: DataTypes.INT,
+      type: DataTypes.INTEGER,
       allowNull: false
     }
   });
