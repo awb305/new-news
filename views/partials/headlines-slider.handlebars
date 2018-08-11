@@ -1,23 +1,12 @@
 <div id="{{headlineSlug}}-slider" class="right-side-slider headlines-slider">
 
 	{{#each articles}}
-		<h1>{{title}}</h1>
+		<div class="article-summary" data-id="{{articleTempId}}">
+			<img class="article-summary-image" src="{{image}}">
+			<h4 class="article-summary-title">{{title}}</h4>
+		</div>
+		
 	{{/each}}
-	
-	{{!-- <div class="nav-slider-header">
-		<h2>{{headline}}</h2>
-	</div>
-
-	<div class="nav-slider-body">
-		<a href="#"></a><h4>Top Headlines</h4></a>
-		<a href="#"><h4>News Worthy Headlines</h4></a>
-		<a href="#"><h4>Your Bundles</h4></a>
-	</div>
-
-	<div class="nav-slider-signup">
-		<a href="#" class="nav-slider-signup-link">Sign Up</a>  |  
-		<a href="#" class="nav-slider-login-link">Log In</a>
-	</div> --}}
 
 </div>
 

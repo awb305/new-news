@@ -70,6 +70,9 @@ var headlineArticles = {
 
       var headline = "";
 
+      // create a temporary id for the story
+      var tempId = Math.floor(Math.random() * 10000000) + 1;
+
       // determine the headline for the story
       if (storiesArr[i].subsection !== "") {
         headline = storiesArr[i].subsection;
@@ -80,6 +83,8 @@ var headlineArticles = {
       var storyObj = {
         // set for the example since all articles are from NYTimes
         publication: "NY Times",
+        url: storiesArr[i].url,
+        articleTempId: tempId,
         headline: headline,
         section: storiesArr[i].section,
         subsection: storiesArr[i].subsection,
@@ -87,7 +92,8 @@ var headlineArticles = {
         byline: storiesArr[i].byline,
         summary: storiesArr[i].abstract,
         date: storiesArr[i].published_date,
-        image: storiesArr[i].multimedia[2].url
+        image: storiesArr[i].multimedia[3].url,
+        imageLarge: storiesArr[i].multimedia[4].url
       };
 
       stories.push(storyObj);

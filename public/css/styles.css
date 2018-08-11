@@ -183,3 +183,19 @@ body {
 .nav-slider-login-link {
   padding-left: 10px;
 }
+
+.headlines-slider{
+  padding: 20px 10px 0px 10px;
+}
+
+.article-summary {
+  cursor: pointer;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+}
+
+.article-summary-image {
+  width: 250px;
+  max-width: 90vw;
+}
