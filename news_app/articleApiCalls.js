@@ -1,6 +1,5 @@
 var nyTimesApiKey = process.env.nyTimesApiKey;
 var request = require("request");
-var bodyParser = require("body-parser");
 var articles = [];
 var nyTimesArticles = {};
 
@@ -25,6 +24,7 @@ function parseNYT() {
   articles.push({
     results: nyTimesArticles
   });
+  console.log(articles);
 }
 
 
