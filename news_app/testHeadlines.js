@@ -11,8 +11,10 @@ var headlineArticles = {
 
     // look at each headline
     for (var i = 0; i < mainHeadlines.length; i++) {
-      // create variables for the headline and the articles that correspond with that headline
+      // create variables for the headline, the headline slug and the articles that correspond with that headline
       var headline = mainHeadlines[i];
+      var headlineSlug = headline.toLowerCase();
+      headlineSlug = headlineSlug.replace(/ /g, "_");
       var articles = [];
 
       // look at each article
@@ -25,6 +27,7 @@ var headlineArticles = {
 
       var storyObj = {
         headline: headline,
+        headlineSlug: headlineSlug,
         articles: articles
       };
 
@@ -36,14 +39,21 @@ var headlineArticles = {
 
   getHeadlines: function() {
     var headlines = [];
-    var storiesArr = this.articles.results;
+    var storiesArr = this.articles[0].results;
 
     // NEED TO ACCOUNT FOR DUPLICATES
     for (var i = 0; i < storiesArr.length; i++) {
+
+      var headline = "";
+
       if (storiesArr[i].subsection !== "") {
-        headlines.push(storiesArr[i].subsection);
+        headline = storiesArr[i].subsection;
       } else {
-        headlines.push(storiesArr[i].section);
+        headline = storiesArr[i].section;
+      }
+
+      if (!headlines.includes(headline)) {
+        headlines.push(headline);
       }
     }
 
@@ -52,13 +62,16 @@ var headlineArticles = {
 
   getStories: function() {
     var stories = [];
-    var storiesArr = this.articles.results;
+    var storiesArr = this.articles[0].results;
 
     // for each story extract what is needed and add it to a new object
     // add the object to the stories array which is returned when this function is called
     for (var i = 0; i < storiesArr.length; i++) {
 
       var headline = "";
+
+      // create a temporary id for the story
+      var tempId = Math.floor(Math.random() * 10000000) + 1;
 
       // determine the headline for the story
       if (storiesArr[i].subsection !== "") {
@@ -70,6 +83,8 @@ var headlineArticles = {
       var storyObj = {
         // set for the example since all articles are from NYTimes
         publication: "NY Times",
+        url: storiesArr[i].url,
+        articleTempId: tempId,
         headline: headline,
         section: storiesArr[i].section,
         subsection: storiesArr[i].subsection,
@@ -77,7 +92,8 @@ var headlineArticles = {
         byline: storiesArr[i].byline,
         summary: storiesArr[i].abstract,
         date: storiesArr[i].published_date,
-        image: storiesArr[i].multimedia[2].url
+        image: storiesArr[i].multimedia[3].url,
+        imageLarge: storiesArr[i].multimedia[4].url
       };
 
       stories.push(storyObj);
