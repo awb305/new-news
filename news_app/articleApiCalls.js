@@ -1,12 +1,9 @@
-// var nyTimesApiKey = process.env.nyTimesApiKey;
-// var guardianApiKey = process.env.guardianApiKey;
+var nyTimesApiKey = process.env.nyTimesApiKey;
+var guardianApiKey = process.env.guardianApiKey;
 var request = require("request");
 var articles = [];
 var nyTimesArticles;
 var guardianArticles;
-
-var guardianApiKey = "bc72c363-ecf4-40b2-8fd0-82fc9fb61811"
-var nyTimesApiKey = "050b479b79e245f89de79c1743ea2c62"
 
 
 function getNYT(secondCall, parseCB) {
