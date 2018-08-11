@@ -7,32 +7,33 @@ var headlinesSliderOpen = false;
 var articleSliderOpen = false;
 var bundleSliderOpen = false;
 var openModalName = "";
+var openHeadlinesSliderName = "";
 
 // ==============================================================================
-// Displaying nav slider
+// Controlling Sliders
 // ==============================================================================
 
 function openNavSlider() {
   navSliderOpen = true;
   var navSlider = document.getElementById("nav-slider");
 
+  // slide the sider out to the left side of the screen
   navSlider.style.left = "0";
 
-  // add the sidemodal-backdrop class to create a dark opaque background behind the side modal
+  // add the slider-backdrop class to create a dark opaque background behind the nav slider
   $(".nav-slider-bg").addClass("nav-slider-backdrop");
 
-  // add focus to the open modal
+  // add focus to the open slider
   navSlider.focus();
 
   // prevent body from being scrollable
   $("body").addClass("lock-scroll");
 
-  // add the shadow effect
+  // add the shadow effect to the slider
   $(navSlider).addClass("left-side-slider-shadow");
 
   // enable swipe to close
   enableNavSwipeClose(navSlider);
-
 }
 
 function closeNavSlider() {
@@ -45,6 +46,46 @@ function closeNavSlider() {
 
   $("body").removeClass("lock-scroll");
   $(navSlider).removeClass("left-side-slider-shadow");
+}
+
+function openHeadlinesSlider() {
+  headlinesSliderOpen = true;
+  var currentHeadlinesSlider = document.getElementById(openHeadlinesSliderName + "-slider");
+
+  // slide the slider out to the right side of the screen
+  currentHeadlinesSlider.style.right = "0";
+
+  // add the slider-backdrop class to create a dark opaque background behind the side modal
+  // slider-bg is specific to each background to keep the opacity from layering
+  $("#" + openHeadlinesSliderName + "-slider-bg").addClass("headlines-slider-backdrop");
+
+  // add focus to the current headline slider
+  currentHeadlinesSlider.focus();
+
+  // lock the body from scrolling
+  $("body").addClass("lock-scroll");
+
+  // add the shadow to the slider
+  $(currentHeadlinesSlider).addClass("right-side-slider-shadow");
+
+  // enable swipe to close
+  enableHeadlinesSwipeClose(currentHeadlinesSlider);
+}
+
+function closeHeadlinesSlider() {
+  headlinesSliderOpen = false;
+  var currentHeadlinesSlider = document.getElementById(openHeadlinesSliderName + "-slider");
+
+  // move the slider so that it is off the screen. The number of pixels must be equal to or greater than what is set in the css
+  currentHeadlinesSlider.style.left = "-350px";
+  $("#" + openHeadlinesSliderName + "-slider-bg").removeClass("headlines-slider-backdrop");
+
+  // remove the lock-scroll from the body and remove the slider shadow
+  $("body").removeClass("lock-scroll");
+  $(currentHeadlinesSlider).removeClass("right-side-slider-shadow");
+
+  // reset the openHeadlinesSliderName
+  openHeadlinesSliderName = "";
 }
 
 function openSideData() {
@@ -81,10 +122,16 @@ function closeSideData() {
     openModalName = "";
 }
 
-function enableNavSwipeClose(modal) {
-  // create a new Hammer instance and apply to the current modal. On swipe, call the close function
-  var touchModal = new Hammer(modal);
-  touchModal.on("swipeleft", closeNavSlider);
+function enableNavSwipeClose(slider) {
+  // create a new Hammer instance and apply to the current slider. On swipe, call the close nav slider function
+  var touchSlider = new Hammer(slider);
+  touchSlider.on("swipeleft", closeNavSlider);
+}
+
+function enableHeadlinesSwipeClose(slider) {
+  // create a new Hammer instance and apply to the current slider. On swipe, call the close headlines slider function
+  var touchSlider = new Hammer(slider);
+  touchSlider.on("swiperight", closeHeadlinesSlider);
 }
 
 // ==============================================================================
@@ -112,3 +159,16 @@ $(".nav-slider-bg").mousedown(function(e) {
   }
 });
 
+// ==============================================================================
+// Articles Slider Event Listeners
+// ==============================================================================
+
+// listener - open articles group slider
+$(document).on("click", ".headline-button", function() {
+  // get the headline id
+  var headlinesId = $(this).attr("data-id");
+
+  openHeadlinesSliderName = headlinesId;
+
+  openHeadlinesSlider();
+});

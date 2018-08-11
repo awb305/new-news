@@ -6,7 +6,7 @@
 
     <div id="headlines-container">
         {{#each articleGroup}}
-            <div class="headline-button">{{headline}}</div>
+            <div class="headline-button" data-id="{{headlineSlug}}">{{headline}}</div>
         {{/each}}
     </div>
 
@@ -22,9 +22,12 @@
 
     {{> nav-slider}}
                     
-    {{!-- {{#each articleGroup}}
-        
-    {{/each}} --}}
+    {{#each articleGroup}}
+        {{> headlines-slider}}
+    {{/each}}
 
-    {{!-- <div class="side-slider-bg"></div> --}}
+    {{#each article}}
+        {{> article-slider}}
+    {{/each}}
+    
 </div>

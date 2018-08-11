@@ -11,8 +11,10 @@ var headlineArticles = {
 
     // look at each headline
     for (var i = 0; i < mainHeadlines.length; i++) {
-      // create variables for the headline and the articles that correspond with that headline
+      // create variables for the headline, the headline slug and the articles that correspond with that headline
       var headline = mainHeadlines[i];
+      var headlineSlug = headline.toLowerCase();
+      headlineSlug = headlineSlug.replace(/ /g, "_");;
       var articles = [];
 
       // look at each article
@@ -25,6 +27,7 @@ var headlineArticles = {
 
       var storyObj = {
         headline: headline,
+        headlineSlug: headlineSlug,
         articles: articles
       };
 

@@ -69,7 +69,8 @@ var headlineArticles = require("../news_app/testHeadlines.js");
 router.get("/headlines", function(req, res) {
   var displayObj = {
     title: "Top Headlines",
-    articleGroup: headlineArticles.getOutput()
+    articleGroup: headlineArticles.getOutput(),
+    article: headlineArticles.getStories()
   };
 
   res.render("headlines", displayObj);
@@ -78,7 +79,9 @@ router.get("/headlines", function(req, res) {
 // test url for checking data
 router.get("/headlines-data", function(req, res) {
   var displayObj = {
-    articleGroup: headlineArticles.getOutput()
+    title: "Headlines Data",
+    articleGroup: headlineArticles.getOutput(),
+    article: headlineArticles.getStories()
   };
 
   res.json(displayObj);
