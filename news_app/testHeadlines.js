@@ -14,7 +14,7 @@ var headlineArticles = {
       // create variables for the headline, the headline slug and the articles that correspond with that headline
       var headline = mainHeadlines[i];
       var headlineSlug = headline.toLowerCase();
-      headlineSlug = headlineSlug.replace(/ /g, "_");;
+      headlineSlug = headlineSlug.replace(/ /g, "_");
       var articles = [];
 
       // look at each article
