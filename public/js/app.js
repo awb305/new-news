@@ -6,7 +6,6 @@ var navSliderOpen = false;
 var headlinesSliderOpen = false;
 var articleSliderOpen = false;
 var bundleSliderOpen = false;
-var openModalName = "";
 var openHeadlinesSliderName = "";
 
 // ==============================================================================
@@ -77,7 +76,7 @@ function closeHeadlinesSlider() {
   var currentHeadlinesSlider = document.getElementById(openHeadlinesSliderName + "-slider");
 
   // move the slider so that it is off the screen. The number of pixels must be equal to or greater than what is set in the css
-  currentHeadlinesSlider.style.left = "-350px";
+  currentHeadlinesSlider.style.right = "-350px";
   $("#" + openHeadlinesSliderName + "-slider-bg").removeClass("headlines-slider-backdrop");
 
   // remove the lock-scroll from the body and remove the slider shadow
@@ -86,40 +85,6 @@ function closeHeadlinesSlider() {
 
   // reset the openHeadlinesSliderName
   openHeadlinesSliderName = "";
-}
-
-function openSideData() {
-    modalOpen = true;
-    var currentModal = document.getElementById("nav-slider");
-    
-    // set the width of the side modal so that it is displayed
-    currentModal.style.left = "0";
-
-    // add the sidemodal-backdrop class to create a dark opaque background behind the side modal
-    $(".side-slider-bg").addClass("side-slider-backdrop");
-
-    // add focus to the open modal
-    currentModal.focus();
-
-    // prevent body from being scrollable
-    $("body").addClass("lock-scroll");
-}
-
-function closeSideData() {
-
-    modalOpen = false;
-    var currentModal = document.getElementById(openModalName + "-data-modal");
-
-    // move the side modal so that it is off the screen. The number of pixels must be equal to or greater than what is set in the styles.css
-    currentModal.style.left = "-350px";
-    $(".side-modal-bg").removeClass("side-modal-backdrop");
-
-    // remove the lock-scroll class
-    $("body").removeClass('lock-scroll');
-
-
-    // reset the openModalName
-    openModalName = "";
 }
 
 function enableNavSwipeClose(slider) {
@@ -135,19 +100,12 @@ function enableHeadlinesSwipeClose(slider) {
 }
 
 // ==============================================================================
-// Nav Slider Event Listeners
+// Sliders Event Listeners
 // ==============================================================================
 
 // listener - open nav slider
 $(document).on("click", ".nav-icon", function() {
   navSliderOpen ? closeNavSlider() : openNavSlider();
-});
-
-// listener - close nav slider with Esc key
-$(document).keyup(function(e) {
-  if (navSliderOpen && e.keyCode === 27) {
-    closeNavSlider();
-  }
 });
 
 // listener - close nav slider with click outside slider
@@ -159,16 +117,39 @@ $(".nav-slider-bg").mousedown(function(e) {
   }
 });
 
-// ==============================================================================
-// Articles Slider Event Listeners
-// ==============================================================================
-
-// listener - open articles group slider
+// listener - open headlines slider
 $(document).on("click", ".headline-button", function() {
   // get the headline id
   var headlinesId = $(this).attr("data-id");
 
+  // store the headlinesId as the open slider
   openHeadlinesSliderName = headlinesId;
 
   openHeadlinesSlider();
+});
+
+// listener - close headlines slider with click outside slider
+$(".headlines-slider-bg").mousedown(function(e) {
+  var currentHeadlinesSlider = document.getElementById(openHeadlinesSliderName + "-slider");
+
+  if (!$(e.target).is(currentHeadlinesSlider)) {
+    closeHeadlinesSlider();
+  }
+});
+
+// listener - close slider with Esc key
+$(document).keyup(function(e) {
+  // determine if the key pressed was Esc
+  if (e.keyCode === 27) {
+    // if yes, then go through the slider priority and close the approriate slider
+    if (navSliderOpen) {
+      return closeNavSlider();
+    } else if (bundleSliderOpen) {
+      return closeBundleSlider();
+    } else if (articleSliderOpen) {
+      return closeArticleSlider();
+    } else if (headlinesSliderOpen) {
+      return closeHeadlinesSlider();
+    }
+  }
 });

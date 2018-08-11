@@ -66,7 +66,7 @@ var headlineArticles = require("../news_app/testHeadlines.js");
 // ===============================================================================
 // Headlines Page
 
-router.get("/headlines", function(req, res) {
+router.get("/", function(req, res) {
   var displayObj = {
     title: "Top Headlines",
     articleGroup: headlineArticles.getOutput(),
