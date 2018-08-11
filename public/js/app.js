@@ -7,6 +7,39 @@ var headlinesSliderOpen = false;
 var articleSliderOpen = false;
 var bundleSliderOpen = false;
 var openHeadlinesSliderName = "";
+// var openArticleId = "";
+
+// ==============================================================================
+// User Signup
+// ==============================================================================
+
+$("#signup-submit").on("click", function(event) {
+  event.preventDefault();
+
+  var nameInput = $("#signup-name");
+  var emailInput = $("#signup-email");
+  var passwordInput = $("#signup-password");
+
+  if(!nameInput.val().trim() || !emailInput.val().trim() || !passwordInput.val().trim()) {
+    return;
+  }
+
+  var newUser = {
+    name: nameInput.val().trim(),
+    email: emailInput.val().trim(),
+    password: passwordInput.val().trim()
+  };
+
+  console.log(newUser);
+
+  signupSubmit(newUser);
+});
+
+function signupSubmit(newUser) {
+  $.post("/api/sign-up", newUser, function(response) {
+    console.log(response);
+  });
+}
 
 // ==============================================================================
 // Controlling Sliders
@@ -54,7 +87,7 @@ function openHeadlinesSlider() {
   // slide the slider out to the right side of the screen
   currentHeadlinesSlider.style.right = "0";
 
-  // add the slider-backdrop class to create a dark opaque background behind the side modal
+  // add the slider-backdrop class to create a dark opaque background behind the headlines slider
   // slider-bg is specific to each background to keep the opacity from layering
   $("#" + openHeadlinesSliderName + "-slider-bg").addClass("headlines-slider-backdrop");
 
@@ -87,6 +120,30 @@ function closeHeadlinesSlider() {
   openHeadlinesSliderName = "";
 }
 
+// function openArticleSlider() {
+//   articleSliderOpen = true;
+//   var currentArticleSlider = document.getElementById(openArticleId + "-slider");
+
+//   // slide the slider out to the right side of the screen
+//   currentArticleSlider.style.right = "0";
+
+//   // add the slider-backdrop class to create a dark opaque background behind the article slider
+//   // slider-bg is specific to each background to keep the opacity from layering
+//   $("#" + openArticleId + "-slider-bg").addClass("headlines-slider-backdrop");
+
+//   // add focus to the current headline slider
+//   currentArticleSlider.focus();
+
+//   // lock the body from scrolling
+// //   $("body").addClass("lock-scroll");
+
+//   // add the shadow to the slider
+//   $(currentArticleSlider).addClass("right-side-slider-shadow");
+
+//   // enable swipe to close
+//   enableArticleSwipeClose(currentArticleSlider);
+// }
+
 function enableNavSwipeClose(slider) {
   // create a new Hammer instance and apply to the current slider. On swipe, call the close nav slider function
   var touchSlider = new Hammer(slider);
@@ -98,6 +155,12 @@ function enableHeadlinesSwipeClose(slider) {
   var touchSlider = new Hammer(slider);
   touchSlider.on("swiperight", closeHeadlinesSlider);
 }
+
+// function enableArticleSwipeClose(slider) {
+//   // create a new Hammer instance and apply to the current slider. On swipe, call the close article slider function
+//   var touchSlider = new Hammer(slider);
+//   touchSlider.on("swiperight", closeArticleSlider);
+// }
 
 // ==============================================================================
 // Sliders Event Listeners
