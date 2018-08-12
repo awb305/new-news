@@ -16,8 +16,8 @@ module.exports = function(app) {
   app.get("/", function(req, res) {
     var displayObj = {
       title: "Top Headlines",
-      articleGroup: headlineArticles.getOutput(),
-      article: headlineArticles.getStories()
+      articleGroup: headlineArticles.articleGroups,
+      allArticles: headlineArticles.articles
     };
 
     res.render("headlines", displayObj);
@@ -27,8 +27,8 @@ module.exports = function(app) {
   app.get("/headlines-data", function(req, res) {
     var displayObj = {
       title: "Headlines Data",
-      articleGroup: headlineArticles.getOutput(),
-      article: headlineArticles.getStories()
+      articleGroup: headlineArticles.articleGroups,
+      allArticles: headlineArticles.articles
     };
 
     res.json(displayObj);

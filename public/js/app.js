@@ -7,7 +7,7 @@ var headlinesSliderOpen = false;
 var articleSliderOpen = false;
 var bundleSliderOpen = false;
 var openHeadlinesSliderName = "";
-// var openArticleId = "";
+var openArticleId = "";
 
 // ==============================================================================
 // User Signup
@@ -120,29 +120,26 @@ function closeHeadlinesSlider() {
   openHeadlinesSliderName = "";
 }
 
-// function openArticleSlider() {
-//   articleSliderOpen = true;
-//   var currentArticleSlider = document.getElementById(openArticleId + "-slider");
+function openArticleSlider() {
+  articleSliderOpen = true;
+  var currentArticleSlider = document.getElementById(openArticleId + "-slider");
 
-//   // slide the slider out to the right side of the screen
-//   currentArticleSlider.style.right = "0";
+  // slide the slider out to the right side of the screen
+  currentArticleSlider.style.right = "0";
 
-//   // add the slider-backdrop class to create a dark opaque background behind the article slider
-//   // slider-bg is specific to each background to keep the opacity from layering
-//   $("#" + openArticleId + "-slider-bg").addClass("headlines-slider-backdrop");
+  // add the slider-backdrop class to create a dark opaque background behind the article slider
+  // slider-bg is specific to each background to keep the opacity from layering
+  $("#" + openArticleId + "-slider-bg").addClass("headlines-slider-backdrop");
 
-//   // add focus to the current headline slider
-//   currentArticleSlider.focus();
+  // add focus to the current headline slider
+  currentArticleSlider.focus();
 
-//   // lock the body from scrolling
-// //   $("body").addClass("lock-scroll");
+  // add the shadow to the slider
+  $(currentArticleSlider).addClass("right-side-slider-shadow");
 
-//   // add the shadow to the slider
-//   $(currentArticleSlider).addClass("right-side-slider-shadow");
-
-//   // enable swipe to close
-//   enableArticleSwipeClose(currentArticleSlider);
-// }
+  // enable swipe to close
+  enableArticleSwipeClose(currentArticleSlider);
+}
 
 function enableNavSwipeClose(slider) {
   // create a new Hammer instance and apply to the current slider. On swipe, call the close nav slider function
@@ -156,11 +153,11 @@ function enableHeadlinesSwipeClose(slider) {
   touchSlider.on("swiperight", closeHeadlinesSlider);
 }
 
-// function enableArticleSwipeClose(slider) {
-//   // create a new Hammer instance and apply to the current slider. On swipe, call the close article slider function
-//   var touchSlider = new Hammer(slider);
-//   touchSlider.on("swiperight", closeArticleSlider);
-// }
+function enableArticleSwipeClose(slider) {
+  // create a new Hammer instance and apply to the current slider. On swipe, call the close article slider function
+  var touchSlider = new Hammer(slider);
+  touchSlider.on("swiperight", closeArticleSlider);
+}
 
 // ==============================================================================
 // Sliders Event Listeners
@@ -185,7 +182,7 @@ $(document).on("click", ".headline-button", function() {
   // get the headline id
   var headlinesId = $(this).attr("data-id");
 
-  // store the headlinesId as the open slider
+  // store the headlinesId as the open headline slider
   openHeadlinesSliderName = headlinesId;
 
   openHeadlinesSlider();
@@ -198,6 +195,17 @@ $(".headlines-slider-bg").mousedown(function(e) {
   if (!$(e.target).is(currentHeadlinesSlider)) {
     closeHeadlinesSlider();
   }
+});
+
+// listener - open article slider
+$(document).on("click", ".article-slider-trigger", function() {
+  // get the article id
+  var articleId = $(this).attr("data-id");
+
+  // store the articleId as the open article slider
+  openArticleId = articleId;
+
+  openArticleSlider();
 });
 
 // listener - close slider with Esc key
