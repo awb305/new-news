@@ -8,10 +8,19 @@ body {
   background-color: #f7f7f7;
 }
 
+a {
+  color: #4765AD;
+}
+
+a:hover {
+  text-decoration: none;
+  color: #283860;
+}
+
 .headlines-title-container {
   background-color: #333;
   color: #fff;
-  padding: 20px 0px 30px 0px;
+  padding: 20px 0px 10px 0px;
 }
 
 .title-container > h1 {
@@ -20,7 +29,11 @@ body {
   line-height: 1.2;
 }
 
-.headlines-container {
+.title-container > .headlines-date {
+  font-style: italic;
+}
+
+.headlines-page-container {
   height: 100vh;
   width: 100vw;
   margin: 0;
@@ -183,7 +196,7 @@ body {
   padding-left: 10px;
 }
 
-.headlines-slider{
+.headlines-slider {
   padding: 20px 10px 0px 10px;
 }
 
@@ -194,7 +207,49 @@ body {
   text-align: center;
 }
 
-.article-summary-image {
+.article-summary-image, .article-slider-image {
   width: 250px;
   max-width: 90vw;
+}
+
+.article-slider {
+  padding: 5px 10px 0px 10px;
+  text-align: center;
+}
+
+.article-slider-publication {
+  font-weight: bold;
+  font-size: 20px;
+  border-bottom: 1px solid #cccccc;
+
+}
+
+.article-slider-byline, .article-slider-date {
+  font-size: 0.9rem;
+  font-style: italic;
+  margin-bottom: 0px;
+}
+
+.article-slider-summary {
+  margin: 0px;
+  text-align: left;
+  padding-top: 20px;
+}
+
+.article-slider-read-article {
+  text-align: left;
+}
+
+.article-slider > .add-worthy-btn {
+  margin-top: 20px;
+}
+
+.add-worthy-btn {
+  border-radius: 8px;
+  border: none;
+  background-color: #5C83E0;
+  padding: 5px 10px;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #f7f7f7
 }
