@@ -4,7 +4,8 @@
 
 var headlineArticles = {
   getOutput: function() {
-    var storiesOutputObj = [];
+    var allArticlesGrouped = [];
+    var allArticlesArr = [];
 
     var mainHeadlines = this.getHeadlines();
     var allStories = this.getStories();
@@ -25,23 +26,33 @@ var headlineArticles = {
         }
       }
 
-      var storyObj = {
+      var articleGroupObj = {
         headline: headline,
         headlineSlug: headlineSlug,
         articles: articles
       };
 
-      storiesOutputObj.push(storyObj);
+      allArticlesGrouped.push(articleGroupObj);
     }
 
-    return storiesOutputObj;
+    // for every article, add it to the allArticles array
+    for (var i = 0; i < allStories.length; i++) {
+      // push every article to the articles array
+      allArticlesArr.push(allStories[i]);
+    }
+
+    var headlinesOutputObj = {
+      articleGroups: allArticlesGrouped,
+      articles: allArticlesArr
+    };
+
+    return headlinesOutputObj;
   },
 
   getHeadlines: function() {
     var headlines = [];
     var storiesArr = this.articles[0].results;
 
-    // NEED TO ACCOUNT FOR DUPLICATES
     for (var i = 0; i < storiesArr.length; i++) {
 
       var headline = "";
@@ -80,7 +91,7 @@ var headlineArticles = {
         headline = storiesArr[i].section;
       }
 
-      var storyObj = {
+      var articleGroupObj = {
         // set for the example since all articles are from NYTimes
         publication: "NY Times",
         url: storiesArr[i].url,
@@ -96,7 +107,7 @@ var headlineArticles = {
         imageLarge: storiesArr[i].multimedia[4].url
       };
 
-      stories.push(storyObj);
+      stories.push(articleGroupObj);
     }
 
     return stories;
@@ -587,4 +598,4 @@ var headlineArticles = {
 };
 
 // export the object
-module.exports = headlineArticles;
+module.exports = headlineArticles.getOutput();

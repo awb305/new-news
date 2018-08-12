@@ -7,7 +7,7 @@ var headlinesSliderOpen = false;
 var articleSliderOpen = false;
 var bundleSliderOpen = false;
 var openHeadlinesSliderName = "";
-// var openArticleId = "";
+var openArticleId = "";
 
 // ==============================================================================
 // User Signup
@@ -37,6 +37,44 @@ $("#signup-submit").on("click", function(event) {
 
 function signupSubmit(newUser) {
   $.post("/api/sign-up", newUser, function(response) {
+    console.log(response);
+  });
+}
+
+// ==============================================================================
+// Worthy Button Click on Article
+// ==============================================================================
+
+$(".add-worthy-btn").on("click", function(event) {
+  event.preventDefault();
+
+  var articleId = $(this).attr("data-id");
+
+  var worthyArticleData = document.getElementById(articleId + "-data");
+  // convert element to JQuery
+  worthyArticleData = $(worthyArticleData);
+
+  var worthyArticleObj = {
+    publication: worthyArticleData.attr("data-publication"),
+    url: worthyArticleData.attr("data-url"),
+    headline: worthyArticleData.attr("data-headline"),
+    section: worthyArticleData.attr("data-section"),
+    subsection: worthyArticleData.attr("data-subsection"),
+    title: worthyArticleData.attr("data-title"),
+    byline: worthyArticleData.attr("data-byline"),
+    summary: worthyArticleData.attr("data-summary"),
+    date: worthyArticleData.attr("data-date"),
+    image: worthyArticleData.attr("data-image"),
+    imageLarge: worthyArticleData.attr("data-imageLarge")
+  };
+  
+  console.log(worthyArticleObj);
+  
+  worthyArticleSubmit(worthyArticleObj);
+});
+  
+function worthyArticleSubmit(worthyArticle) {
+  $.post("/api/worthy-article", worthyArticle, function(response) {
     console.log(response);
   });
 }
@@ -120,29 +158,26 @@ function closeHeadlinesSlider() {
   openHeadlinesSliderName = "";
 }
 
-// function openArticleSlider() {
-//   articleSliderOpen = true;
-//   var currentArticleSlider = document.getElementById(openArticleId + "-slider");
+function openArticleSlider() {
+  articleSliderOpen = true;
+  var currentArticleSlider = document.getElementById(openArticleId + "-slider");
 
-//   // slide the slider out to the right side of the screen
-//   currentArticleSlider.style.right = "0";
+  // slide the slider out to the right side of the screen
+  currentArticleSlider.style.right = "0";
 
-//   // add the slider-backdrop class to create a dark opaque background behind the article slider
-//   // slider-bg is specific to each background to keep the opacity from layering
-//   $("#" + openArticleId + "-slider-bg").addClass("headlines-slider-backdrop");
+  // add the slider-backdrop class to create a dark opaque background behind the article slider
+  // slider-bg is specific to each background to keep the opacity from layering
+  $("#" + openArticleId + "-slider-bg").addClass("headlines-slider-backdrop");
 
-//   // add focus to the current headline slider
-//   currentArticleSlider.focus();
+  // add focus to the current headline slider
+  currentArticleSlider.focus();
 
-//   // lock the body from scrolling
-// //   $("body").addClass("lock-scroll");
+  // add the shadow to the slider
+  $(currentArticleSlider).addClass("right-side-slider-shadow");
 
-//   // add the shadow to the slider
-//   $(currentArticleSlider).addClass("right-side-slider-shadow");
-
-//   // enable swipe to close
+  // enable swipe to close
 //   enableArticleSwipeClose(currentArticleSlider);
-// }
+}
 
 function enableNavSwipeClose(slider) {
   // create a new Hammer instance and apply to the current slider. On swipe, call the close nav slider function
@@ -185,7 +220,7 @@ $(document).on("click", ".headline-button", function() {
   // get the headline id
   var headlinesId = $(this).attr("data-id");
 
-  // store the headlinesId as the open slider
+  // store the headlinesId as the open headline slider
   openHeadlinesSliderName = headlinesId;
 
   openHeadlinesSlider();
@@ -198,6 +233,17 @@ $(".headlines-slider-bg").mousedown(function(e) {
   if (!$(e.target).is(currentHeadlinesSlider)) {
     closeHeadlinesSlider();
   }
+});
+
+// listener - open article slider
+$(document).on("click", ".article-slider-trigger", function() {
+  // get the article id
+  var articleId = $(this).attr("data-id");
+
+  // store the articleId as the open article slider
+  openArticleId = articleId;
+
+  openArticleSlider();
 });
 
 // listener - close slider with Esc key

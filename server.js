@@ -39,9 +39,7 @@ app.set("view engine", "handlebars");
 // Routing
 // ==============================================================================
 
-var routes = require("./routes/router.js");
-
-app.use(routes);
+require("./routes/router")(app);
 
 // ==============================================================================
 // Database Sync Options

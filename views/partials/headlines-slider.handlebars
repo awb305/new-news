@@ -1,9 +1,9 @@
 <div id="{{headlineSlug}}-slider" class="right-side-slider headlines-slider">
 
 	{{#each articles}}
-		<div class="article-summary" data-id="{{articleTempId}}">
-			<img class="article-summary-image" src="{{image}}">
-			<h4 class="article-summary-title">{{title}}</h4>
+		<div class="article-summary article-slider-trigger" data-id="{{articleTempId}}">
+			<img class="article-summary-image article-slider-trigger" src="{{image}}" data-id="{{articleTempId}}">
+			<h4 class="article-summary-title article-slider-trigger" data-id="{{articleTempId}}">{{title}}</h4>
 		</div>
 		
 	{{/each}}
