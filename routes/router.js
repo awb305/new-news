@@ -68,10 +68,16 @@ module.exports = function(app) {
   });
 
   // ===============================================================================
-  // Bundles Pages
+  // Bundles & News Worthy Articles
 
   app.get("/bundle/:id", function(req, res) {
     res.render("bundle-display");
+  });
+
+  // store an article deemed news worthy
+  app.post("/api/worthy-article", function(req, res) {
+    console.log(req.body);
+    res.json();
   });
 
   // ===============================================================================

@@ -42,6 +42,44 @@ function signupSubmit(newUser) {
 }
 
 // ==============================================================================
+// Worthy Button Click on Article
+// ==============================================================================
+
+$(".add-worthy-btn").on("click", function(event) {
+  event.preventDefault();
+
+  var articleId = $(this).attr("data-id");
+
+  var worthyArticleData = document.getElementById(articleId + "-data");
+  // convert element to JQuery
+  worthyArticleData = $(worthyArticleData);
+
+  var worthyArticleObj = {
+    publication: worthyArticleData.attr("data-publication"),
+    url: worthyArticleData.attr("data-url"),
+    headline: worthyArticleData.attr("data-headline"),
+    section: worthyArticleData.attr("data-section"),
+    subsection: worthyArticleData.attr("data-subsection"),
+    title: worthyArticleData.attr("data-title"),
+    byline: worthyArticleData.attr("data-byline"),
+    summary: worthyArticleData.attr("data-summary"),
+    date: worthyArticleData.attr("data-date"),
+    image: worthyArticleData.attr("data-image"),
+    imageLarge: worthyArticleData.attr("data-imageLarge")
+  };
+  
+  console.log(worthyArticleObj);
+  
+  worthyArticleSubmit(worthyArticleObj);
+});
+  
+function worthyArticleSubmit(worthyArticle) {
+  $.post("/api/worthy-article", worthyArticle, function(response) {
+    console.log(response);
+  });
+}
+
+// ==============================================================================
 // Controlling Sliders
 // ==============================================================================
 
@@ -138,7 +176,7 @@ function openArticleSlider() {
   $(currentArticleSlider).addClass("right-side-slider-shadow");
 
   // enable swipe to close
-  enableArticleSwipeClose(currentArticleSlider);
+//   enableArticleSwipeClose(currentArticleSlider);
 }
 
 function enableNavSwipeClose(slider) {
@@ -153,11 +191,11 @@ function enableHeadlinesSwipeClose(slider) {
   touchSlider.on("swiperight", closeHeadlinesSlider);
 }
 
-function enableArticleSwipeClose(slider) {
-  // create a new Hammer instance and apply to the current slider. On swipe, call the close article slider function
-  var touchSlider = new Hammer(slider);
-  touchSlider.on("swiperight", closeArticleSlider);
-}
+// function enableArticleSwipeClose(slider) {
+//   // create a new Hammer instance and apply to the current slider. On swipe, call the close article slider function
+//   var touchSlider = new Hammer(slider);
+//   touchSlider.on("swiperight", closeArticleSlider);
+// }
 
 // ==============================================================================
 // Sliders Event Listeners
