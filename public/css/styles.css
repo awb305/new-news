@@ -28,11 +28,11 @@ a:hover {
 .headlines-title-container, .worthy-title-container {
   background-color: #333;
   color: #fff;
-  padding: 20px 0px 10px 0px;
+  padding: 20px 5px 10px 5px;
 }
 
 .title-container > h1 {
-  font-size: 3.5rem;
+  font-size: 3rem;
   font-weight: 300;
   line-height: 1.2;
 }
@@ -46,6 +46,11 @@ a:hover {
   width: 800px;
   max-width: 95vw;
   margin: 0 auto;
+}
+
+#worthy-articles-container > .article-summary > .article-summary-title {
+  margin-top: 10px;
+  line-height: 1.1;
 }
 
 #worthy-articles-container > .article-summary > img {
@@ -183,6 +188,10 @@ a:hover {
 .nav-slider-header {
   text-align: center;
   margin-top: 20px;
+}
+
+.nav-slider-header > h1 {
+  font-weight: bold;
 }
 
 .nav-slider-body {
