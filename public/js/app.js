@@ -69,7 +69,6 @@ $(".add-worthy-btn").on("click", function(event) {
   };
   
   console.log(worthyArticleObj);
-  
   worthyArticleSubmit(worthyArticleObj);
 });
   
