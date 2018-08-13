@@ -175,8 +175,14 @@ function openArticleSlider() {
   // add the shadow to the slider
   $(currentArticleSlider).addClass("right-side-slider-shadow");
 
-  // nudge open headline slider 1 spot
-  nudgeSlider("headlines");
+  // check if the headlines slider is open
+  if (headlinesSliderOpen) {
+    // nudge open headlines slider 1 spot
+    nudgeSlider("headlines");
+  } else {
+    // lock the body from scrolling
+    $("body").addClass("lock-scroll");
+  }
 
   // enable swipe to close
   enableArticleSwipeClose(currentArticleSlider);
@@ -193,8 +199,14 @@ function closeArticleSlider() {
   // remove the slider shadow
   $(currentArticleSlider).removeClass("right-side-slider-shadow");
 
-  // nudge open headline slider back to spot "zero"
-  nudgeBackSlider("headlines", 0);
+  // check if the headlines slider is open
+  if (headlinesSliderOpen) {
+    // nudge open headlines slider back to spot "zero"
+    nudgeBackSlider("headlines", 0);
+  } else {
+    // remove the body lock-scroll
+    $("body").removeClass("lock-scroll");
+  }
 
   // reset the openHeadlinesSliderName
   openArticleId = "";

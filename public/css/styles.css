@@ -17,7 +17,15 @@ a:hover {
   color: #283860;
 }
 
-.headlines-title-container {
+.headlines-page-container, .worthy-page-container {
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.headlines-title-container, .worthy-title-container {
   background-color: #333;
   color: #fff;
   padding: 20px 0px 10px 0px;
@@ -29,16 +37,20 @@ a:hover {
   line-height: 1.2;
 }
 
-.title-container > .headlines-date {
+.title-container > .title-date {
   font-style: italic;
 }
 
-.headlines-page-container {
-  height: 100vh;
-  width: 100vw;
-  margin: 0;
-  padding: 0;
-  text-align: center;
+#worthy-articles-container {
+  padding-top: 20px;
+  width: 800px;
+  max-width: 95vw;
+  margin: 0 auto;
+}
+
+#worthy-articles-container > .article-summary > img {
+  width: 800px;
+  max-width: 90vw;
 }
 
 .headline-button {
@@ -210,6 +222,14 @@ a:hover {
 .article-summary-image, .article-slider-image {
   width: 250px;
   max-width: 90vw;
+}
+
+.article-summary-title {
+  margin-bottom: 0px;
+}
+
+.article-summary-publication {
+  font-style: italic;
 }
 
 .article-slider {
