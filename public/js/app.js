@@ -166,7 +166,7 @@ function openArticleSlider() {
 
   // add the slider-backdrop class to create a dark opaque background behind the article slider
   // slider-bg is specific to each background to keep the opacity from layering
-  $("#" + openArticleId + "-slider-bg").addClass("headlines-slider-backdrop");
+  $("#" + openArticleId + "-slider-bg").addClass("article-slider-backdrop");
 
   // add focus to the current headline slider
   currentArticleSlider.focus();
@@ -174,8 +174,75 @@ function openArticleSlider() {
   // add the shadow to the slider
   $(currentArticleSlider).addClass("right-side-slider-shadow");
 
+  // check if the headlines slider is open
+  if (headlinesSliderOpen) {
+    // nudge open headlines slider 1 spot
+    nudgeSlider("headlines");
+  } else {
+    // lock the body from scrolling
+    $("body").addClass("lock-scroll");
+  }
+
   // enable swipe to close
-//   enableArticleSwipeClose(currentArticleSlider);
+  enableArticleSwipeClose(currentArticleSlider);
+}
+
+function closeArticleSlider() {
+  articleSliderOpen = false;
+  var currentArticleSlider = document.getElementById(openArticleId + "-slider");
+
+  // move the slider so that it is off the screen. The number of pixels must be equal to or greater than what is set in the css
+  currentArticleSlider.style.right = "-350px";
+  $("#" + openArticleId + "-slider-bg").removeClass("article-slider-backdrop");
+
+  // remove the slider shadow
+  $(currentArticleSlider).removeClass("right-side-slider-shadow");
+
+  // check if the headlines slider is open
+  if (headlinesSliderOpen) {
+    // nudge open headlines slider back to spot "zero"
+    nudgeBackSlider("headlines", 0);
+  } else {
+    // remove the body lock-scroll
+    $("body").removeClass("lock-scroll");
+  }
+
+  // reset the openHeadlinesSliderName
+  openArticleId = "";
+}
+
+function nudgeSlider(slider) {
+  if (openHeadlinesSlider && slider === "headlines") {
+    var currentHeadlinesSlider = document.getElementById(openHeadlinesSliderName + "-slider");
+
+    // slide the headlines slider 350px more
+    currentHeadlinesSlider.style.right = "+350px";
+  }
+
+  if (openArticleSlider && slider === "article") {
+    var currentArticleSlider = document.getElementById(openArticleId + "-slider");
+
+    // slide the articles slider 350px more
+    currentArticleSlider.style.right = "+350px";
+  }
+}
+
+function nudgeBackSlider(slider, spot) {
+  if (openHeadlinesSlider && slider === "headlines") {
+    var currentHeadlinesSlider = document.getElementById(openHeadlinesSliderName + "-slider");
+
+    // slide the headlines slider back to the correct screen location
+    var headlinesLocation = 350 * spot + "px";
+    currentHeadlinesSlider.style.right = headlinesLocation;
+  }
+
+  if (openArticleSlider && slider === "article") {
+    var currentArticleSlider = document.getElementById(openArticleId + "-slider");
+
+    // slide the articles slider back to the correct screen location
+    var articleLocation = 350 * spot + "px";
+    currentArticleSlider.style.right = articleLocation;
+  }
 }
 
 function enableNavSwipeClose(slider) {
@@ -190,11 +257,11 @@ function enableHeadlinesSwipeClose(slider) {
   touchSlider.on("swiperight", closeHeadlinesSlider);
 }
 
-// function enableArticleSwipeClose(slider) {
-//   // create a new Hammer instance and apply to the current slider. On swipe, call the close article slider function
-//   var touchSlider = new Hammer(slider);
-//   touchSlider.on("swiperight", closeArticleSlider);
-// }
+function enableArticleSwipeClose(slider) {
+  // create a new Hammer instance and apply to the current slider. On swipe, call the close article slider function
+  var touchSlider = new Hammer(slider);
+  touchSlider.on("swiperight", closeArticleSlider);
+}
 
 // ==============================================================================
 // Sliders Event Listeners
@@ -231,6 +298,15 @@ $(".headlines-slider-bg").mousedown(function(e) {
 
   if (!$(e.target).is(currentHeadlinesSlider)) {
     closeHeadlinesSlider();
+  }
+});
+
+// listener - close headlines slider with click outside slider
+$(".article-slider-bg").mousedown(function(e) {
+  var currentArticleSlider = document.getElementById(openArticleId + "-slider");
+
+  if (!$(e.target).is(currentArticleSlider)) {
+    closeArticleSlider();
   }
 });
 

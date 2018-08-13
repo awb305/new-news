@@ -83,6 +83,7 @@ var headlineArticles = {
 
       // create a temporary id for the story
       var tempId = Math.floor(Math.random() * 10000000) + 1;
+      tempId += "tid";
 
       // determine the headline for the story
       if (storiesArr[i].subsection !== "") {
@@ -95,7 +96,7 @@ var headlineArticles = {
         // set for the example since all articles are from NYTimes
         publication: "NY Times",
         url: storiesArr[i].url,
-        articleTempId: tempId,
+        articleId: tempId,
         headline: headline,
         section: storiesArr[i].section,
         subsection: storiesArr[i].subsection,

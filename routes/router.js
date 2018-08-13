@@ -39,8 +39,15 @@ module.exports = function (app) {
   // ===============================================================================
   // News Worthy Page
 
-  app.get("/news-worthy", function (req, res) {
-    res.render("worthy");
+
+  app.get("/news-worthy", function(req, res) {
+    var displayObj = {
+      title: "News Worthy Articles",
+      worthyArticles: headlineArticles.articles
+    };
+
+    res.render("worthy", displayObj);
+
   });
 
   // ===============================================================================

@@ -1,1 +1,35 @@
-<h1>To Come</h1>
+<div class="worthy-page-container">
+
+    <div class="title-container worthy-title-container">
+        <h1>News Worthy</h1>
+        <h4 class="title-date">[Today's Date]</h4>
+    </div>
+
+    <div id="worthy-articles-container">
+
+        {{#each worthyArticles}}
+            <div class="article-summary article-slider-trigger" data-id="{{articleId}}">
+                <img class="article-summary-image article-slider-trigger" src="{{imageLarge}}" data-id="{{articleId}}">
+                <h3 class="article-summary-title article-slider-trigger" data-id="{{articleId}}">{{title}}</h3>
+                <p class="article-summary-publication article-slider-trigger" data-id="{{articleId}}">{{publication}}</p>
+	    	</div>
+        {{/each}}
+    </div>
+
+</div>
+
+<div id="bottom-nav-container">
+    <img class="nav-icon" src="/images/nav-icon.svg">
+</div>
+
+
+
+<div class="side-slider-container">
+
+    {{> nav-slider}}
+
+    {{#each worthyArticles}}
+        {{> article-slider}}
+    {{/each}}
+    
+</div>
