@@ -5,15 +5,17 @@
 // var db = require("../models");
 
 var headlineArticles = require("../news_app/testHeadlines.js");
+var db = require("../models");
+
 
 // ===============================================================================
 // Routing
 // ===============================================================================
-module.exports = function(app) {
+module.exports = function (app) {
   // ===============================================================================
   // Headlines Page
 
-  app.get("/", function(req, res) {
+  app.get("/", function (req, res) {
     var displayObj = {
       title: "Top Headlines",
       articleGroup: headlineArticles.articleGroups,
@@ -24,7 +26,7 @@ module.exports = function(app) {
   });
 
   // test url for checking data
-  app.get("/headlines-data", function(req, res) {
+  app.get("/headlines-data", function (req, res) {
     var displayObj = {
       title: "Headlines Data",
       articleGroup: headlineArticles.articleGroups,
@@ -37,7 +39,7 @@ module.exports = function(app) {
   // ===============================================================================
   // News Worthy Page
 
-  app.get("/news-worthy", function(req, res) {
+  app.get("/news-worthy", function (req, res) {
     res.render("worthy");
   });
 
@@ -45,45 +47,80 @@ module.exports = function(app) {
   // User Sign Up & Log in
 
   // Load sign-up page
-  app.get("/sign-up", function(req, res) {
+  app.get("/sign-up", function (req, res) {
     res.render("sign-up");
   });
 
   // Create a new user account
-  app.post("/api/sign-up", function(req, res) {
+  app.post("/api/sign-up", function (req, res) {
     console.log(req.body);
     res.json();
   });
 
   // Load log-in page
-  app.get("/log-in", function(req, res) {
+  app.get("/log-in", function (req, res) {
     res.render("log-in");
   });
 
   // ===============================================================================
   // User Profile Pages
 
-  app.get("/user/:id", function(req, res) {
+  app.get("/user/:id", function (req, res) {
     res.render("user-profile");
   });
 
   // ===============================================================================
   // Bundles & News Worthy Articles
 
-  app.get("/bundle/:id", function(req, res) {
+  app.get("/bundle/:id", function (req, res) {
     res.render("bundle-display");
   });
 
   // store an article deemed news worthy
-  app.post("/api/worthy-article", function(req, res) {
-    console.log(req.body);
-    res.json();
-  });
+  app.post("/api/worthy-article", function (req, res) {
+    db.Article.findOne({
+      where: {
+        title: req.body.title
+      }
+    }).then(function (results) {
+      console.log(results);
+      if (results !== null) {
+        db.Article.update({
+          worthyScore: (results.worthyScore + 1)
+        }, {
+          where: {
+            title: req.body.title
+          }
+        }).then(function (results) {
+          res.json(results);
+        });
+        console.log("article already exists");
+      } else {
+        db.Article.create({
+          publication: req.body.publication,
+          url: req.body.url,
+          headline: req.body.headline,
+          section: req.body.section,
+          subsection: req.body.subsection,
+          title: req.body.title,
+          byline: req.body.byline,
+          summary: req.body.summary,
+          date: req.body.date,
+          articleImg: req.body.image,
+          articleImgLg: req.body.imageLarge,
+          worthyScore: 1
+        }).then(function (dbArticle) {
+          res.json(dbArticle);
+        });
+      }
 
+    });
+
+  });
   // ===============================================================================
   // Individual Article Pages
 
-  app.get("/article/:id", function(req, res) {
+  app.get("/article/:id", function (req, res) {
     res.render("article-display");
   });
 
@@ -91,7 +128,7 @@ module.exports = function(app) {
   // Unmatched routes
 
   // Render 404 page for any unmatched routes
-  app.get("*", function(req, res) {
+  app.get("*", function (req, res) {
     res.render("404");
   });
 };
