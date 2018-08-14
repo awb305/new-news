@@ -6,7 +6,7 @@
 
 var headlineArticles = require("../news_app/testHeadlines.js");
 var db = require("../models");
-
+var moment = require("moment");
 
 // ===============================================================================
 // Routing
@@ -18,6 +18,7 @@ module.exports = function (app) {
   app.get("/", function (req, res) {
     var displayObj = {
       title: "Top Headlines",
+      today: moment().format("LL"),
       articleGroup: headlineArticles.articleGroups,
       allArticles: headlineArticles.articles
     };
@@ -43,6 +44,7 @@ module.exports = function (app) {
   app.get("/news-worthy", function(req, res) {
     var displayObj = {
       title: "News Worthy Articles",
+      today: moment().format("LL"),
       worthyArticles: headlineArticles.articles
     };
 
