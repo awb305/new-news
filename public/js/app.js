@@ -13,7 +13,10 @@ var openArticleId = "";
 // User Signup
 // ==============================================================================
 
-$("#signup-submit").on("click", function(event) {
+
+//Emily's initial code 
+
+/* $("#signup-submit").on("click", function(event) {
   event.preventDefault();
 
   var nameInput = $("#signup-name");
@@ -39,13 +42,80 @@ function signupSubmit(newUser) {
   $.post("/api/sign-up", newUser, function(response) {
     console.log(response);
   });
+} */
+
+
+$("#signup-submit").on("click", function (event) {
+  event.preventDefault();
+
+  var firstName = $("#signup-first-name");
+  var lastName = $("#signup-first-name");
+  var email = $("#signup-email");
+  var password = $("#signup-password");
+
+  if (!firstName.val().trim() || !lastName.val().trim() || !email.val().trim() || !password.val().trim()) {
+    return;
+  }
+
+  var newUser = {
+    firstName: firstName.val().trim(),
+    lastName: lastName.val().trim(),
+    email: email.val().trim(),
+    password: password.val().trim()
+  };
+
+  console.log(newUser);
+
+  let emailObj = {
+    email: email.val().trim()
+  }
+  //signupSubmit(newUser);
+
+  // getUser(emailObj);
+
+  deleteUser(emailObj);
+
+
+});
+
+
+
+
+function signupSubmit(newUser) {
+  $.post("/api/sign-up", newUser, function (response) {
+    console.log(response);
+  });
 }
+
+// Post works but Get doesn't 
+
+function getUser(emailObj) {
+  $.post("/api/get-user", emailObj, function (response) {
+    console.log(response);
+  });
+}
+
+function deleteUser(emailObj) {
+  $.post("/api/delete-user", emailObj, function (response) {
+    console.log(response);
+  });
+}
+
+
+
+
+
+
+
+
+
+
 
 // ==============================================================================
 // Worthy Button Click on Article
 // ==============================================================================
 
-$(".add-worthy-btn").on("click", function(event) {
+$(".add-worthy-btn").on("click", function (event) {
   event.preventDefault();
 
   var articleId = $(this).attr("data-id");
@@ -67,13 +137,13 @@ $(".add-worthy-btn").on("click", function(event) {
     image: worthyArticleData.attr("data-image"),
     imageLarge: worthyArticleData.attr("data-imageLarge")
   };
-  
+
   console.log(worthyArticleObj);
   worthyArticleSubmit(worthyArticleObj);
 });
-  
+
 function worthyArticleSubmit(worthyArticle) {
-  $.post("/api/worthy-article", worthyArticle, function(response) {
+  $.post("/api/worthy-article", worthyArticle, function (response) {
     console.log(response);
   });
 }
@@ -268,12 +338,12 @@ function enableArticleSwipeClose(slider) {
 // ==============================================================================
 
 // listener - open nav slider
-$(document).on("click", ".nav-icon", function() {
+$(document).on("click", ".nav-icon", function () {
   navSliderOpen ? closeNavSlider() : openNavSlider();
 });
 
 // listener - close nav slider with click outside slider
-$(".nav-slider-bg").mousedown(function(e) {
+$(".nav-slider-bg").mousedown(function (e) {
   var navSlider = document.getElementById("nav-slider");
 
   if (!$(e.target).is(navSlider)) {
@@ -282,7 +352,7 @@ $(".nav-slider-bg").mousedown(function(e) {
 });
 
 // listener - open headlines slider
-$(document).on("click", ".headline-button", function() {
+$(document).on("click", ".headline-button", function () {
   // get the headline id
   var headlinesId = $(this).attr("data-id");
 
@@ -293,7 +363,7 @@ $(document).on("click", ".headline-button", function() {
 });
 
 // listener - close headlines slider with click outside slider
-$(".headlines-slider-bg").mousedown(function(e) {
+$(".headlines-slider-bg").mousedown(function (e) {
   var currentHeadlinesSlider = document.getElementById(openHeadlinesSliderName + "-slider");
 
   if (!$(e.target).is(currentHeadlinesSlider)) {
@@ -302,7 +372,7 @@ $(".headlines-slider-bg").mousedown(function(e) {
 });
 
 // listener - close headlines slider with click outside slider
-$(".article-slider-bg").mousedown(function(e) {
+$(".article-slider-bg").mousedown(function (e) {
   var currentArticleSlider = document.getElementById(openArticleId + "-slider");
 
   if (!$(e.target).is(currentArticleSlider)) {
@@ -311,7 +381,7 @@ $(".article-slider-bg").mousedown(function(e) {
 });
 
 // listener - open article slider
-$(document).on("click", ".article-slider-trigger", function() {
+$(document).on("click", ".article-slider-trigger", function () {
   // get the article id
   var articleId = $(this).attr("data-id");
 
@@ -322,7 +392,7 @@ $(document).on("click", ".article-slider-trigger", function() {
 });
 
 // listener - close slider with Esc key
-$(document).keyup(function(e) {
+$(document).keyup(function (e) {
   // determine if the key pressed was Esc
   if (e.keyCode === 27) {
     // if yes, then go through the slider priority and close the approriate slider

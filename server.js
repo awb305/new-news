@@ -2,6 +2,11 @@
 // Set Dependencies
 // ==============================================================================
 
+
+// api toke 00uAx60DZmizeCiFte0S-oP3dXYzOrBLRrXDVPRt1s
+// https://dev-144409.oktapreview.com Dashboard
+
+
 require("dotenv").config();
 var express = require("express");
 var bodyParser = require("body-parser");
@@ -15,9 +20,9 @@ var db = require("./models");
 
 
 const oidc = new ExpressOIDC(Object.assign({
-  issuer: "https://dev-385652.oktapreview.com/oauth2/default",
-  client_id: "0oafwzfcvdzZQc5Bm0h7",
-  client_secret: "23AxcKBHzaW-Q6Odo03OYI7G43Eu1bX1YQ86BXNp",
+  issuer: "https://dev-144409.oktapreview.com/oauth2/default",
+  client_id: "0oafwiujl5Ct5uy6b0h7",
+  client_secret: "9hGHTd2zsGjHYKptFcfxibNhOp13IQYNsuhtRh11",
   redirect_uri: "http://localhost:3000/authorization-code/callback",
   routes: {
     callback: {
@@ -26,6 +31,19 @@ const oidc = new ExpressOIDC(Object.assign({
   },
   scope: "openid profile email"
 }, {}));
+
+
+
+
+const okta = require('@okta/okta-sdk-nodejs');
+
+const client = new okta.Client({
+  orgUrl: 'https://dev-144409.oktapreview.com/',
+  token: '00uAx60DZmizeCiFte0S-oP3dXYzOrBLRrXDVPRt1s', // Obtained from Developer Dashboard
+  requestExecutor: new okta.DefaultRequestExecutor() // Will be added by default in 2.0
+});
+
+
 
 
 
@@ -74,7 +92,7 @@ app.set("view engine", "handlebars");
 
 //app.use(routes);
 
-require("./routes/apiRoutes")(app, oidc);
+require("./routes/apiRoutes")(app, oidc, client);
 require("./routes/htmlRoutes")(app);
 
 // ==============================================================================
