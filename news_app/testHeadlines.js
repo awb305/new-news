@@ -1,4 +1,10 @@
 // ==============================================================================
+// Set Dependencies
+// ==============================================================================
+
+var moment = require("moment");
+
+// ==============================================================================
 // Test Object For Creating Headlines Output Page
 // ==============================================================================
 
@@ -92,6 +98,9 @@ var headlineArticles = {
         headline = storiesArr[i].section;
       }
 
+      // convert the publication date format using moment
+      var publicationDate = moment(storiesArr[i].published_date).format("LL");
+
       var articleGroupObj = {
         // set for the example since all articles are from NYTimes
         publication: "NY Times",
@@ -103,7 +112,7 @@ var headlineArticles = {
         title: storiesArr[i].title,
         byline: storiesArr[i].byline,
         summary: storiesArr[i].abstract,
-        date: storiesArr[i].published_date,
+        date: publicationDate,
         image: storiesArr[i].multimedia[3].url,
         imageLarge: storiesArr[i].multimedia[4].url
       };
