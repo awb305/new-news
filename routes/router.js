@@ -45,10 +45,21 @@ module.exports = function (app) {
     var displayObj = {
       title: "News Worthy Articles",
       today: moment().format("LL"),
-      worthyArticles: headlineArticles.articles
     };
 
     res.render("worthy", displayObj);
+
+    db.Article.findAll({
+      order: [
+        ["date", "DESC"],
+        ["worthyScore", "DESC"]
+      ],
+      attributes: ["id","articleImg","title","publication","worthyScore"]
+
+
+    }).then(function(articlesOfWorth) {
+      res.json(articlesOfWorth);
+    });
 
   });
 
