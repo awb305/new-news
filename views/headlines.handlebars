@@ -1,7 +1,8 @@
-<div class="headlines-container">
+<div class="headlines-page-container">
 
     <div class="title-container headlines-title-container">
         <h1>Top Headlines</h1>
+        <h4 class="title-date">{{today}}</h4>
     </div>
 
     <div id="headlines-container">
@@ -26,7 +27,7 @@
         {{> headlines-slider}}
     {{/each}}
 
-    {{#each article}}
+    {{#each allArticles}}
         {{> article-slider}}
     {{/each}}
     

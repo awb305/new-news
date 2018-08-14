@@ -7,6 +7,76 @@ var headlinesSliderOpen = false;
 var articleSliderOpen = false;
 var bundleSliderOpen = false;
 var openHeadlinesSliderName = "";
+var openArticleId = "";
+
+// ==============================================================================
+// User Signup
+// ==============================================================================
+
+$("#signup-submit").on("click", function(event) {
+  event.preventDefault();
+
+  var nameInput = $("#signup-name");
+  var emailInput = $("#signup-email");
+  var passwordInput = $("#signup-password");
+
+  if(!nameInput.val().trim() || !emailInput.val().trim() || !passwordInput.val().trim()) {
+    return;
+  }
+
+  var newUser = {
+    name: nameInput.val().trim(),
+    email: emailInput.val().trim(),
+    password: passwordInput.val().trim()
+  };
+
+  console.log(newUser);
+
+  signupSubmit(newUser);
+});
+
+function signupSubmit(newUser) {
+  $.post("/api/sign-up", newUser, function(response) {
+    console.log(response);
+  });
+}
+
+// ==============================================================================
+// Worthy Button Click on Article
+// ==============================================================================
+
+$(".add-worthy-btn").on("click", function(event) {
+  event.preventDefault();
+
+  var articleId = $(this).attr("data-id");
+
+  var worthyArticleData = document.getElementById(articleId + "-data");
+  // convert element to JQuery
+  worthyArticleData = $(worthyArticleData);
+
+  var worthyArticleObj = {
+    publication: worthyArticleData.attr("data-publication"),
+    url: worthyArticleData.attr("data-url"),
+    headline: worthyArticleData.attr("data-headline"),
+    section: worthyArticleData.attr("data-section"),
+    subsection: worthyArticleData.attr("data-subsection"),
+    title: worthyArticleData.attr("data-title"),
+    byline: worthyArticleData.attr("data-byline"),
+    summary: worthyArticleData.attr("data-summary"),
+    date: worthyArticleData.attr("data-date"),
+    image: worthyArticleData.attr("data-image"),
+    imageLarge: worthyArticleData.attr("data-imageLarge")
+  };
+  
+  console.log(worthyArticleObj);
+  worthyArticleSubmit(worthyArticleObj);
+});
+  
+function worthyArticleSubmit(worthyArticle) {
+  $.post("/api/worthy-article", worthyArticle, function(response) {
+    console.log(response);
+  });
+}
 
 // ==============================================================================
 // Controlling Sliders
@@ -54,7 +124,7 @@ function openHeadlinesSlider() {
   // slide the slider out to the right side of the screen
   currentHeadlinesSlider.style.right = "0";
 
-  // add the slider-backdrop class to create a dark opaque background behind the side modal
+  // add the slider-backdrop class to create a dark opaque background behind the headlines slider
   // slider-bg is specific to each background to keep the opacity from layering
   $("#" + openHeadlinesSliderName + "-slider-bg").addClass("headlines-slider-backdrop");
 
@@ -87,6 +157,94 @@ function closeHeadlinesSlider() {
   openHeadlinesSliderName = "";
 }
 
+function openArticleSlider() {
+  articleSliderOpen = true;
+  var currentArticleSlider = document.getElementById(openArticleId + "-slider");
+
+  // slide the slider out to the right side of the screen
+  currentArticleSlider.style.right = "0";
+
+  // add the slider-backdrop class to create a dark opaque background behind the article slider
+  // slider-bg is specific to each background to keep the opacity from layering
+  $("#" + openArticleId + "-slider-bg").addClass("article-slider-backdrop");
+
+  // add focus to the current headline slider
+  currentArticleSlider.focus();
+
+  // add the shadow to the slider
+  $(currentArticleSlider).addClass("right-side-slider-shadow");
+
+  // check if the headlines slider is open
+  if (headlinesSliderOpen) {
+    // nudge open headlines slider 1 spot
+    nudgeSlider("headlines");
+  } else {
+    // lock the body from scrolling
+    $("body").addClass("lock-scroll");
+  }
+
+  // enable swipe to close
+  enableArticleSwipeClose(currentArticleSlider);
+}
+
+function closeArticleSlider() {
+  articleSliderOpen = false;
+  var currentArticleSlider = document.getElementById(openArticleId + "-slider");
+
+  // move the slider so that it is off the screen. The number of pixels must be equal to or greater than what is set in the css
+  currentArticleSlider.style.right = "-350px";
+  $("#" + openArticleId + "-slider-bg").removeClass("article-slider-backdrop");
+
+  // remove the slider shadow
+  $(currentArticleSlider).removeClass("right-side-slider-shadow");
+
+  // check if the headlines slider is open
+  if (headlinesSliderOpen) {
+    // nudge open headlines slider back to spot "zero"
+    nudgeBackSlider("headlines", 0);
+  } else {
+    // remove the body lock-scroll
+    $("body").removeClass("lock-scroll");
+  }
+
+  // reset the openHeadlinesSliderName
+  openArticleId = "";
+}
+
+function nudgeSlider(slider) {
+  if (openHeadlinesSlider && slider === "headlines") {
+    var currentHeadlinesSlider = document.getElementById(openHeadlinesSliderName + "-slider");
+
+    // slide the headlines slider 350px more
+    currentHeadlinesSlider.style.right = "+350px";
+  }
+
+  if (openArticleSlider && slider === "article") {
+    var currentArticleSlider = document.getElementById(openArticleId + "-slider");
+
+    // slide the articles slider 350px more
+    currentArticleSlider.style.right = "+350px";
+  }
+}
+
+function nudgeBackSlider(slider, spot) {
+  if (openHeadlinesSlider && slider === "headlines") {
+    var currentHeadlinesSlider = document.getElementById(openHeadlinesSliderName + "-slider");
+
+    // slide the headlines slider back to the correct screen location
+    var headlinesLocation = 350 * spot + "px";
+    currentHeadlinesSlider.style.right = headlinesLocation;
+  }
+
+  if (openArticleSlider && slider === "article") {
+    var currentArticleSlider = document.getElementById(openArticleId + "-slider");
+
+    // slide the articles slider back to the correct screen location
+    var articleLocation = 350 * spot + "px";
+    currentArticleSlider.style.right = articleLocation;
+  }
+}
+
 function enableNavSwipeClose(slider) {
   // create a new Hammer instance and apply to the current slider. On swipe, call the close nav slider function
   var touchSlider = new Hammer(slider);
@@ -97,6 +255,12 @@ function enableHeadlinesSwipeClose(slider) {
   // create a new Hammer instance and apply to the current slider. On swipe, call the close headlines slider function
   var touchSlider = new Hammer(slider);
   touchSlider.on("swiperight", closeHeadlinesSlider);
+}
+
+function enableArticleSwipeClose(slider) {
+  // create a new Hammer instance and apply to the current slider. On swipe, call the close article slider function
+  var touchSlider = new Hammer(slider);
+  touchSlider.on("swiperight", closeArticleSlider);
 }
 
 // ==============================================================================
@@ -122,7 +286,7 @@ $(document).on("click", ".headline-button", function() {
   // get the headline id
   var headlinesId = $(this).attr("data-id");
 
-  // store the headlinesId as the open slider
+  // store the headlinesId as the open headline slider
   openHeadlinesSliderName = headlinesId;
 
   openHeadlinesSlider();
@@ -135,6 +299,26 @@ $(".headlines-slider-bg").mousedown(function(e) {
   if (!$(e.target).is(currentHeadlinesSlider)) {
     closeHeadlinesSlider();
   }
+});
+
+// listener - close headlines slider with click outside slider
+$(".article-slider-bg").mousedown(function(e) {
+  var currentArticleSlider = document.getElementById(openArticleId + "-slider");
+
+  if (!$(e.target).is(currentArticleSlider)) {
+    closeArticleSlider();
+  }
+});
+
+// listener - open article slider
+$(document).on("click", ".article-slider-trigger", function() {
+  // get the article id
+  var articleId = $(this).attr("data-id");
+
+  // store the articleId as the open article slider
+  openArticleId = articleId;
+
+  openArticleSlider();
 });
 
 // listener - close slider with Esc key

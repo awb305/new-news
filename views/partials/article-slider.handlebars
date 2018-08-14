@@ -1,21 +1,19 @@
-<div id="article-slider" class="right-side-slider">
+<div id="{{articleId}}-slider" class="right-side-slider article-slider">
 
-	<div class="nav-slider-header">
-		<h2>News Worthy</h2>
-		<h3>[Tagline?]</h3>
+	<div class="article-slider-output">
+		<p class="article-slider-publication">{{publication}}</p>
+		<img class="article-slider-image" src="{{image}}">
+		<h4 class="article-slider-title">{{title}}</h4>
+		<p class="article-slider-byline">{{byline}}</p>
+		<p class="article-slider-date">{{date}}</p>
+		<p class="article-slider-summary">{{summary}}</p>
+		<p class="article-slider-read-article"><a href="{{url}}" target="_blank">Go To Article &raquo;</a></p>
 	</div>
 
-	<div class="nav-slider-body">
-		<a href="#"></a><h4>Top Headlines</h4></a>
-		<a href="#"><h4>News Worthy Headlines</h4></a>
-		<a href="#"><h4>Your Bundles</h4></a>
-	</div>
+	<button data-id="{{articleId}}" class="add-worthy-btn"> + WORTHY</button>
 
-	<div class="nav-slider-signup">
-		<a href="#" class="nav-slider-signup-link">Sign Up</a>  |  
-		<a href="#" class="nav-slider-login-link">Log In</a>
-	</div>
+	<div id="{{articleId}}-data" type="hidden" data-publication="{{publication}}" data-url="{{url}}" data-headline="{{headline}}" data-section="{{section}}" data-subsection="{{subsection}}" data-title="{{title}}" data-byline="{{byline}}" data-summary="{{summary}}" data-date="{{date}}" data-image="{{image}}" data-imageLarge="{{imageLarge}}"></div>
 
 </div>
 
-<div class="article-slider-bg"></div>
+<div id="{{articleId}}-slider-bg" class="article-slider-bg"></div>

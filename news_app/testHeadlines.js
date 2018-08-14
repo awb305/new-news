@@ -1,10 +1,17 @@
 // ==============================================================================
+// Set Dependencies
+// ==============================================================================
+
+var moment = require("moment");
+
+// ==============================================================================
 // Test Object For Creating Headlines Output Page
 // ==============================================================================
 
 var headlineArticles = {
   getOutput: function() {
-    var storiesOutputObj = [];
+    var allArticlesGrouped = [];
+    var allArticlesArr = [];
 
     var mainHeadlines = this.getHeadlines();
     var allStories = this.getStories();
@@ -25,23 +32,33 @@ var headlineArticles = {
         }
       }
 
-      var storyObj = {
+      var articleGroupObj = {
         headline: headline,
         headlineSlug: headlineSlug,
         articles: articles
       };
 
-      storiesOutputObj.push(storyObj);
+      allArticlesGrouped.push(articleGroupObj);
     }
 
-    return storiesOutputObj;
+    // for every article, add it to the allArticles array
+    for (var i = 0; i < allStories.length; i++) {
+      // push every article to the articles array
+      allArticlesArr.push(allStories[i]);
+    }
+
+    var headlinesOutputObj = {
+      articleGroups: allArticlesGrouped,
+      articles: allArticlesArr
+    };
+
+    return headlinesOutputObj;
   },
 
   getHeadlines: function() {
     var headlines = [];
     var storiesArr = this.articles[0].results;
 
-    // NEED TO ACCOUNT FOR DUPLICATES
     for (var i = 0; i < storiesArr.length; i++) {
 
       var headline = "";
@@ -72,6 +89,7 @@ var headlineArticles = {
 
       // create a temporary id for the story
       var tempId = Math.floor(Math.random() * 10000000) + 1;
+      tempId += "tid";
 
       // determine the headline for the story
       if (storiesArr[i].subsection !== "") {
@@ -80,23 +98,26 @@ var headlineArticles = {
         headline = storiesArr[i].section;
       }
 
-      var storyObj = {
+      // convert the publication date format using moment
+      var publicationDate = moment(storiesArr[i].published_date).format("LL");
+
+      var articleGroupObj = {
         // set for the example since all articles are from NYTimes
         publication: "NY Times",
         url: storiesArr[i].url,
-        articleTempId: tempId,
+        articleId: tempId,
         headline: headline,
         section: storiesArr[i].section,
         subsection: storiesArr[i].subsection,
         title: storiesArr[i].title,
         byline: storiesArr[i].byline,
         summary: storiesArr[i].abstract,
-        date: storiesArr[i].published_date,
+        date: publicationDate,
         image: storiesArr[i].multimedia[3].url,
         imageLarge: storiesArr[i].multimedia[4].url
       };
 
-      stories.push(storyObj);
+      stories.push(articleGroupObj);
     }
 
     return stories;
@@ -587,4 +608,4 @@ var headlineArticles = {
 };
 
 // export the object
-module.exports = headlineArticles;
+module.exports = headlineArticles.getOutput();
