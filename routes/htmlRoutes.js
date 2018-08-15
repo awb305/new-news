@@ -9,7 +9,19 @@ module.exports = function (app) {
     };
 
     res.render("headlines", displayObj);
+
+
+
   });
+
+
+  /* app.get('/', (req, res) => {
+    if (req.userinfo) {
+      res.send(`Hi ${req.userinfo.name}!`);
+    } else {
+      res.send('Hi!');
+    }
+  }); */
 
   // ===============================================================================
   // News Worthy Page

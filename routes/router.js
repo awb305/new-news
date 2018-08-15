@@ -66,7 +66,7 @@ var headlineArticles = require("../news_app/testHeadlines.js");
 // ===============================================================================
 // Headlines Page
 
-app.get("/", function(req, res) {
+app.get("/", function (req, res) {
   var displayObj = {
     title: "Top Headlines",
     articleGroup: headlineArticles.getOutput(),
@@ -77,7 +77,7 @@ app.get("/", function(req, res) {
 });
 
 // test url for checking data
-app.get("/headlines-data", function(req, res) {
+app.get("/headlines-data", function (req, res) {
   var displayObj = {
     title: "Headlines Data",
     articleGroup: headlineArticles.getOutput(),
@@ -90,7 +90,7 @@ app.get("/headlines-data", function(req, res) {
 // ===============================================================================
 // News Worthy Page
 
-app.get("/news-worthy", function(req, res) {
+app.get("/news-worthy", function (req, res) {
   res.render("worthy");
 });
 
@@ -98,33 +98,33 @@ app.get("/news-worthy", function(req, res) {
 // User Sign Up & Log in
 
 // Load sign-up page
-app.get("/sign-up", function(req, res) {
+app.get("/sign-up", function (req, res) {
   res.render("sign-up");
 });
 
 // Load log-in page
-app.get("/log-in", function(req, res) {
+app.get("/log-in", function (req, res) {
   res.render("log-in");
 });
 
 // ===============================================================================
 // User Profile Pages
 
-app.get("/user/:id", function(req, res) {
+app.get("/user/:id", function (req, res) {
   res.render("user-profile");
 });
 
 // ===============================================================================
 // Bundles Pages
 
-app.get("/bundle/:id", function(req, res) {
+app.get("/bundle/:id", function (req, res) {
   res.render("bundle-display");
 });
 
 // ===============================================================================
 // Individual Article Pages
 
-app.get("/article/:id", function(req, res) {
+app.get("/article/:id", function (req, res) {
   res.render("article-display");
 });
 
@@ -132,11 +132,11 @@ app.get("/article/:id", function(req, res) {
 // Unmatched routes
 
 // Render 404 page for any unmatched routes
-app.get("*", function(req, res) {
+app.get("*", function (req, res) {
   res.render("404");
 });
 
-app.get('/bob', oidc.ensureAuthenticated(), function(req, res) {
+app.get('/bob', oidc.ensureAuthenticated(), function (req, res) {
   console.log(req.userinfo)
   res.send(req.userinfo);
 });

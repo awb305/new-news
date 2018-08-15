@@ -11,12 +11,46 @@ require("dotenv").config();
 var express = require("express");
 var bodyParser = require("body-parser");
 var exphbs = require("express-handlebars");
+
+
+
+// ==============================================================================
+// Express Setup
+// create the express app
+// set up the express app to handle the data parsing
+// use express.static to serve static pages
+// ==============================================================================
+
+var app = express();
+var PORT = process.env.PORT || 3000;
+var db = require("./models");
+
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
+app.use(bodyParser.json());
+app.use(express.static("public"));
+
+
+
+
+
+// ==============================================================================
+// Okta setup
+// ==============================================================================
+
 const {
   ExpressOIDC
 } = require('@okta/oidc-middleware');
 const session = require('express-session');
 
-var db = require("./models");
+
+app.use(session({
+  cookie: {
+    httpOnly: true
+  },
+  secret: "long random string"
+}));
 
 
 const oidc = new ExpressOIDC(Object.assign({
@@ -31,6 +65,8 @@ const oidc = new ExpressOIDC(Object.assign({
   },
   scope: "openid profile email"
 }, {}));
+
+app.use(oidc.router);
 
 
 
@@ -47,30 +83,6 @@ const client = new okta.Client({
 
 
 
-// ==============================================================================
-// Express Setup
-// create the express app
-// set up the express app to handle the data parsing
-// use express.static to serve static pages
-// ==============================================================================
-
-var app = express();
-var PORT = process.env.PORT || 3000;
-
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
-app.use(bodyParser.json());
-app.use(express.static("public"));
-
-app.use(session({
-  cookie: {
-    httpOnly: true
-  },
-  secret: "long random string"
-}));
-
-app.use(oidc.router);
 
 // ==============================================================================
 // Handlebars Setup
