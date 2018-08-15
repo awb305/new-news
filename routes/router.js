@@ -3,9 +3,10 @@
 // ==============================================================================
 
 // var db = require("../models");
+// var headlineArticles = require("../news_app/testHeadlines.js");
 
-var headlineArticles = require("../news_app/testHeadlines.js");
 var authController = require("../controllers/authcontroller.js");
+var articlesRequester = require("../news_app/apiCalls.js");
 
 var db = require("../models");
 var moment = require("moment");
@@ -16,30 +17,31 @@ var moment = require("moment");
 module.exports = function(app, passport) {
   // ===============================================================================
   // Headlines Page
+  app.get("/", function (req, res) {
+    articlesRequester().then(function (headlineArticles) {
+      var displayObj = {
+        title: "Top Headlines",
+        today: moment().format("LL"),
+        articleGroup: headlineArticles.articleGroups,
+        allArticles: headlineArticles.articles
+      };
 
-  app.get("/", function(req, res) {
-    var displayObj = {
-      title: "Top Headlines",
-      today: moment().format("LL"),
-      articleGroup: headlineArticles.articleGroups,
-      allArticles: headlineArticles.articles
-    };
-
-    res.render("headlines", displayObj);
+      res.render("headlines", displayObj);
+    });
   });
 
   // test url for checking data
-  app.get("/headlines-data", function(req, res) {
-    var displayObj = {
-      title: "Headlines Data",
-      articleGroup: headlineArticles.articleGroups,
-      allArticles: headlineArticles.articles
-    };
-
-    res.json(displayObj);
+  app.get("/headlines-data", function (req, res) {
+    articlesRequester().then(function (headlineArticles) {
+      var displayObj = {
+        title: "Headlines Data",
+        articleGroup: headlineArticles.articleGroups,
+        allArticles: headlineArticles.articles
+      };
+      res.json(displayObj);
+    });
   });
-
-  // ===============================================================================
+  //===============================================================================
   // News Worthy Page
 
   app.get("/news-worthy", function(req, res) {
@@ -49,7 +51,7 @@ module.exports = function(app, passport) {
         ["worthyScore", "DESC"]
       ],
       //attributes: ["id","articleImg","articleImgLg","title","publication","worthyScore","date","summary","url"]
-
+      
     }).then(function(response) {
 
       var displayObj = {
@@ -194,6 +196,7 @@ module.exports = function(app, passport) {
   app.get("*", function (req, res) {
     res.render("404");
   });
+
 };
 
 // ===============================================================================
