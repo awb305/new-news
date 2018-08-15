@@ -100,7 +100,7 @@ var headlineArticles = {
 
       var articleGroupObj = {
         url: storiesArr[i].url,
-        articleId: tempId,
+        id: tempId,
         headline: headline,
         section: storiesArr[i].section,
         subsection: storiesArr[i].subsection,
