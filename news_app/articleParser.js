@@ -1,11 +1,5 @@
-var headlineArticles;
-var apiArticles = require("./apiPromiseCalls");
-apiArticles(function (articlesObj) {
-  headlineArticles = {
-    articles: [articlesObj]
-  };
-
-  headlineArticles.getOutput = function () {
+var headlineArticles = {
+  getOutput: function () {
     var allArticlesGrouped = [];
     var allArticlesArr = [];
 
@@ -43,19 +37,16 @@ apiArticles(function (articlesObj) {
       allArticlesArr.push(allStories[i]);
     }
 
-    var headlinesOutputObj = {
-      articleGroups: allArticlesGrouped,
-      articles: allArticlesArr
-    };
 
-    if (typeof callback == "function") {
-      callback(headlineArticles);
-    }
-  
-    return headlinesOutputObj;
-  };
+    this.articleGroups = allArticlesGrouped;
+    this.articles = allArticlesArr;
 
-  headlineArticles.getHeadlines = function () {
+
+    // if (typeof callback == "function") {
+    //   callback(headlineArticles);
+    // }
+  },
+  getHeadlines: function () {
     var headlines = [];
     var storiesArr = this.articles[0].results;
 
@@ -75,9 +66,8 @@ apiArticles(function (articlesObj) {
     }
 
     return headlines;
-  };
-
-  headlineArticles.getStories = function () {
+  },
+  getStories: function () {
     var stories = [];
     var storiesArr = this.articles[0].results;
 
@@ -108,25 +98,24 @@ apiArticles(function (articlesObj) {
         byline: storiesArr[i].byline,
         summary: storiesArr[i].abstract,
         date: storiesArr[i].published_date,
-        image: storiesArr[i].multimedia[3].url,
-        imageLarge: storiesArr[i].multimedia[4].url
+        image: function () {
+          if (storiesArr[i].multimedia[3]) {
+            return storiesArr[i].multimedia[3].url;
+          }
+        },
+        imageLarge: function () {
+          if (storiesArr[i].multimedia[4]) {
+            return storiesArr[i].multimedia[4].url;
+          }
+        }
       };
 
       stories.push(articleGroupObj);
     }
 
     return stories;
-  };
-  headlineArticles.getOutput();
-  console.log(headlineArticles);
-  // headlineArticles.getOutput();
-});
-
-// export the object
-module.exports = function (cb) {
-  if (typeof headlineArticles != "undefined") {
-    cb(headlineArticles);
-  } else {
-    callback = cb;
   }
 };
+
+// export the object
+module.exports = headlineArticles;
