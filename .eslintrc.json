@@ -2,12 +2,17 @@
     "env": {
         "browser": true,
         "commonjs": true,
-        "node": true
+        "node": true,
+        "es6": true
     },
     "extends": "prettier",
     "plugins": [
         "prettier"
       ],
+    "parserOptions": {
+        "ecmaVersion": 6,
+
+    },
     "rules": {
         "no-duplicate-case":"error",
         "no-empty":"error",
