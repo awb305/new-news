@@ -42,23 +42,23 @@ module.exports = function (app) {
 
 
   app.get("/news-worthy", function(req, res) {
-    var displayObj = {
-      title: "News Worthy Articles",
-      today: moment().format("LL"),
-    };
-
-    res.render("worthy", displayObj);
-
     db.Article.findAll({
       order: [
         ["date", "DESC"],
         ["worthyScore", "DESC"]
       ],
-      attributes: ["id","articleImg","title","publication","worthyScore"]
+      //attributes: ["id","articleImg","articleImgLg","title","publication","worthyScore","date","summary","url"]
 
 
-    }).then(function(articlesOfWorth) {
-      res.json(articlesOfWorth);
+    }).then(function(response) {
+
+      var displayObj = {
+        title: "News Worthy Articles",
+        today: moment().format("LL"),
+        worthyArticles: response 
+      };
+
+      res.render("worthy", displayObj);
     });
 
   });

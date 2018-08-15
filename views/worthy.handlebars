@@ -8,10 +8,10 @@
     <div id="worthy-articles-container">
 
         {{#each worthyArticles}}
-            <div class="article-summary article-slider-trigger" data-id="{{articleId}}">
-                <img class="article-summary-image article-slider-trigger" src="{{imageLarge}}" data-id="{{articleId}}">
-                <h3 class="article-summary-title article-slider-trigger" data-id="{{articleId}}">{{title}}</h3>
-                <p class="article-summary-publication article-slider-trigger" data-id="{{articleId}}">{{publication}}</p>
+            <div class="article-summary article-slider-trigger" data-id="{{id}}">
+                <img class="article-summary-image article-slider-trigger" src="{{articleImgLg}}" data-id="{{id}}">
+                <h3 class="article-summary-title article-slider-trigger" data-id="{{id}}">{{title}}</h3>
+                <p class="article-summary-publication article-slider-trigger" data-id="{{id}}">{{publication}}</p>
 	    	</div>
         {{/each}}
     </div>

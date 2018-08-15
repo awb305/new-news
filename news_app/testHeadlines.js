@@ -105,7 +105,7 @@ var headlineArticles = {
         // set for the example since all articles are from NYTimes
         publication: "NY Times",
         url: storiesArr[i].url,
-        articleId: tempId,
+        id: tempId,
         headline: headline,
         section: storiesArr[i].section,
         subsection: storiesArr[i].subsection,
@@ -113,8 +113,8 @@ var headlineArticles = {
         byline: storiesArr[i].byline,
         summary: storiesArr[i].abstract,
         date: publicationDate,
-        image: storiesArr[i].multimedia[3].url,
-        imageLarge: storiesArr[i].multimedia[4].url
+        articleImg: storiesArr[i].multimedia[3].url,
+        articleImgLg: storiesArr[i].multimedia[4].url
       };
 
       stories.push(articleGroupObj);
