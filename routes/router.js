@@ -14,11 +14,12 @@ var moment = require("moment");
 // ===============================================================================
 // Routing
 // ===============================================================================
+
 module.exports = function(app, passport) {
   // ===============================================================================
   // Headlines Page
-  app.get("/", function (req, res) {
-    articlesRequester().then(function (headlineArticles) {
+  app.get("/", function(req, res) {
+    articlesRequester().then(function(headlineArticles) {
       var displayObj = {
         title: "Top Headlines",
         today: moment().format("LL"),
@@ -31,8 +32,8 @@ module.exports = function(app, passport) {
   });
 
   // test url for checking data
-  app.get("/headlines-data", function (req, res) {
-    articlesRequester().then(function (headlineArticles) {
+  app.get("/headlines-data", function(req, res) {
+    articlesRequester().then(function(headlineArticles) {
       var displayObj = {
         title: "Headlines Data",
         articleGroup: headlineArticles.articleGroups,
@@ -41,28 +42,23 @@ module.exports = function(app, passport) {
       res.json(displayObj);
     });
   });
+
   //===============================================================================
   // News Worthy Page
 
   app.get("/news-worthy", function(req, res) {
     db.Article.findAll({
-      order: [
-        ["date", "DESC"],
-        ["worthyScore", "DESC"]
-      ],
+      order: [["date", "DESC"], ["worthyScore", "DESC"]]
       //attributes: ["id","articleImg","articleImgLg","title","publication","worthyScore","date","summary","url"]
-      
     }).then(function(response) {
-
       var displayObj = {
         title: "News Worthy Articles",
         today: moment().format("LL"),
-        worthyArticles: response 
+        worthyArticles: response
       };
 
       res.render("worthy", displayObj);
     });
-
   });
 
   // ===============================================================================
@@ -72,12 +68,13 @@ module.exports = function(app, passport) {
   app.get("/sign-up", authController.signup);
 
   // Create new user account
-  app.post("/signup", passport.authenticate("local-signup",
-    {
+  app.post(
+    "/signup",
+    passport.authenticate("local-signup", {
       successRedirect: "/dashboard",
       failureRedirect: "/sign-up"
-    }
-  ));
+    })
+  );
 
   // Create a new user account
   app.post("/api/sign-up", function(req, res) {
@@ -106,15 +103,19 @@ module.exports = function(app, passport) {
   app.get("/log-in", authController.login);
 
   // login user
-  app.post("/login", passport.authenticate("local-login",
-    {
+  app.post(
+    "/login",
+    passport.authenticate("local-login", {
       successRedirect: "/dashboard",
       failureRedirect: "/log-in"
-    }
-  ));
+    })
+  );
 
   // test dashboard page
   app.get("/dashboard", isLoggedIn, authController.dashboard);
+
+  // get user data
+  app.get("/api/user", authController.userData);
 
   // logout route
   app.get("/logout", authController.logout);
@@ -130,7 +131,7 @@ module.exports = function(app, passport) {
   // ===============================================================================
   // User Profile Pages
 
-  app.get("/user/:id", function(req, res) {
+  app.get("/user/:id", isLoggedIn, function(req, res) {
     res.render("user-profile");
   });
 
@@ -147,16 +148,19 @@ module.exports = function(app, passport) {
       where: {
         url: req.body.url
       }
-    }).then(function (results) {
+    }).then(function(results) {
       console.log(results);
       if (results !== null) {
-        db.Article.update({
-          worthyScore: results.worthyScore + 1
-        }, {
-          where: {
-            url: req.body.url
+        db.Article.update(
+          {
+            worthyScore: results.worthyScore + 1
+          },
+          {
+            where: {
+              url: req.body.url
+            }
           }
-        }).then(function (results) {
+        ).then(function(results) {
           res.json(results);
         });
         console.log("article already exists");
@@ -178,14 +182,12 @@ module.exports = function(app, passport) {
           res.json(dbArticle);
         });
       }
-
     });
-
   });
   // ===============================================================================
   // Individual Article Pages
 
-  app.get("/article/:id", function (req, res) {
+  app.get("/article/:id", function(req, res) {
     res.render("article-display");
   });
 
@@ -193,10 +195,9 @@ module.exports = function(app, passport) {
   // Unmatched routes
 
   // Render 404 page for any unmatched routes
-  app.get("*", function (req, res) {
+  app.get("*", function(req, res) {
     res.render("404");
   });
-
 };
 
 // ===============================================================================

@@ -20,3 +20,21 @@ exports.logout = function(req, res) {
     res.redirect("/");
   });
 };
+
+exports.userData = function(req, res) {
+  var userData;
+  try {
+    userData = {
+      id: req.user.id,
+      firstName: req.user.userNameFirst,
+      lastName: req.user.userNameLast
+    };
+  } catch (err) {
+    userData = {
+      id: "",
+      firstName: "",
+      lastName: ""
+    };
+  }
+  res.json(userData);
+};
