@@ -5,17 +5,19 @@
 // var db = require("../models");
 
 var headlineArticles = require("../news_app/testHeadlines.js");
+var authController = require("../controllers/authcontroller.js");
+
 var db = require("../models");
 var moment = require("moment");
 
 // ===============================================================================
 // Routing
 // ===============================================================================
-module.exports = function (app) {
+module.exports = function(app, passport) {
   // ===============================================================================
   // Headlines Page
 
-  app.get("/", function (req, res) {
+  app.get("/", function(req, res) {
     var displayObj = {
       title: "Top Headlines",
       today: moment().format("LL"),
@@ -27,7 +29,7 @@ module.exports = function (app) {
   });
 
   // test url for checking data
-  app.get("/headlines-data", function (req, res) {
+  app.get("/headlines-data", function(req, res) {
     var displayObj = {
       title: "Headlines Data",
       articleGroup: headlineArticles.articleGroups,
@@ -40,7 +42,6 @@ module.exports = function (app) {
   // ===============================================================================
   // News Worthy Page
 
-
   app.get("/news-worthy", function(req, res) {
     db.Article.findAll({
       order: [
@@ -48,7 +49,6 @@ module.exports = function (app) {
         ["worthyScore", "DESC"]
       ],
       //attributes: ["id","articleImg","articleImgLg","title","publication","worthyScore","date","summary","url"]
-
 
     }).then(function(response) {
 
@@ -64,22 +64,28 @@ module.exports = function (app) {
   });
 
   // ===============================================================================
-  // User Sign Up & Log in
+  // User Sign Up & Log in & Logout
 
   // Load sign-up page
-  app.get("/sign-up", function (req, res) {
-    res.render("sign-up");
-  });
+  app.get("/sign-up", authController.signup);
+
+  // Create new user account
+  app.post("/signup", passport.authenticate("local-signup",
+    {
+      successRedirect: "/dashboard",
+      failureRedirect: "/sign-up"
+    }
+  ));
 
   // Create a new user account
-  app.post("/api/sign-up", function (req, res) {
+  app.post("/api/sign-up", function(req, res) {
     console.log(req.body);
     db.User.findOne({
       where: {
         userEmail: req.body.email
       }
-    }).then(function(results){
-      if (results !== null){
+    }).then(function(results) {
+      if (results !== null) {
         console.log("a user with that email already exists");
       } else {
         db.User.create({
@@ -87,7 +93,7 @@ module.exports = function (app) {
           userNameLast: req.body.name,
           userEmail: req.body.email,
           userPassword: req.body.password
-        }).then(function(dbUser){
+        }).then(function(dbUser) {
           res.json(dbUser);
         });
       }
@@ -95,26 +101,46 @@ module.exports = function (app) {
   });
 
   // Load log-in page
-  app.get("/log-in", function (req, res) {
-    res.render("log-in");
-  });
+  app.get("/log-in", authController.login);
+
+  // login user
+  app.post("/login", passport.authenticate("local-login",
+    {
+      successRedirect: "/dashboard",
+      failureRedirect: "/log-in"
+    }
+  ));
+
+  // test dashboard page
+  app.get("/dashboard", isLoggedIn, authController.dashboard);
+
+  // logout route
+  app.get("/logout", authController.logout);
+
+  function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+      return next();
+    }
+
+    res.redirect("/sign-up");
+  }
 
   // ===============================================================================
   // User Profile Pages
 
-  app.get("/user/:id", function (req, res) {
+  app.get("/user/:id", function(req, res) {
     res.render("user-profile");
   });
 
   // ===============================================================================
   // Bundles & News Worthy Articles
 
-  app.get("/bundle/:id", function (req, res) {
+  app.get("/bundle/:id", function(req, res) {
     res.render("bundle-display");
   });
 
   // store an article deemed news worthy
-  app.post("/api/worthy-article", function (req, res) {
+  app.post("/api/worthy-article", function(req, res) {
     db.Article.findOne({
       where: {
         url: req.body.url
@@ -123,7 +149,7 @@ module.exports = function (app) {
       console.log(results);
       if (results !== null) {
         db.Article.update({
-          worthyScore: (results.worthyScore + 1)
+          worthyScore: results.worthyScore + 1
         }, {
           where: {
             url: req.body.url
