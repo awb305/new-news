@@ -18,8 +18,6 @@ var userLastName;
 
 function getUserData() {
   $.get("/api/user", function(response) {
-    console.log(response);
-
     if (response.id !== "") {
       userId = response.id;
       userFirstName = response.firstName;
@@ -32,6 +30,7 @@ function getUserData() {
 }
 
 function displayUserItems() {
+  // remove the hide-element class from user-specific items and add it to visitor specific items
   $(".visitor-item").addClass("hide-element");
   $(".user-item").removeClass("hide-element");
 }
@@ -50,6 +49,7 @@ $(".add-worthy-btn").on("click", function(event) {
   worthyArticleData = $(worthyArticleData);
 
   var worthyArticleObj = {
+    userId: userId,
     publication: worthyArticleData.attr("data-publication"),
     url: worthyArticleData.attr("data-url"),
     headline: worthyArticleData.attr("data-headline"),
