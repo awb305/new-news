@@ -74,7 +74,24 @@ module.exports = function (app) {
   // Create a new user account
   app.post("/api/sign-up", function (req, res) {
     console.log(req.body);
-    res.json();
+    db.User.findOne({
+      where: {
+        userEmail: req.body.email
+      }
+    }).then(function(results){
+      if (results !== null){
+        console.log("a user with that email already exists");
+      } else {
+        db.User.create({
+          userNameFirst: req.body.name,
+          userNameLast: req.body.name,
+          userEmail: req.body.email,
+          userPassword: req.body.password
+        }).then(function(dbUser){
+          res.json(dbUser);
+        });
+      }
+    });
   });
 
   // Load log-in page
@@ -100,7 +117,7 @@ module.exports = function (app) {
   app.post("/api/worthy-article", function (req, res) {
     db.Article.findOne({
       where: {
-        title: req.body.title
+        url: req.body.url
       }
     }).then(function (results) {
       console.log(results);
@@ -109,7 +126,7 @@ module.exports = function (app) {
           worthyScore: (results.worthyScore + 1)
         }, {
           where: {
-            title: req.body.title
+            url: req.body.url
           }
         }).then(function (results) {
           res.json(results);
@@ -129,7 +146,7 @@ module.exports = function (app) {
           articleImg: req.body.image,
           articleImgLg: req.body.imageLarge,
           worthyScore: 1
-        }).then(function (dbArticle) {
+        }).then(function(dbArticle) {
           res.json(dbArticle);
         });
       }
