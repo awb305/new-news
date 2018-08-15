@@ -115,6 +115,10 @@ a:hover {
   z-index: 2200;
 }
 
+.nav-slider-body h4 {
+  padding: 10px 0px;
+}
+
 .headlines-slider {
   background-color: #E0E0E0;
   color: #333;
@@ -201,12 +205,13 @@ a:hover {
 }
 
 .nav-slider-signup {
-  margin-top: 30px;
+  margin-top: 60px;
 }
 
 .nav-slider-signup a {
   font-weight: bold;
   text-transform: uppercase;
+  font-size: 20px;
 }
 
 .nav-slider-signup-link {
@@ -269,6 +274,12 @@ a:hover {
   text-align: left;
 }
 
+.cta-message {
+  font-size: 20px;
+  font-weight: bold;
+  color: #5C83E0;
+}
+
 .article-slider > .add-worthy-btn {
   margin-top: 20px;
 }
@@ -281,4 +292,12 @@ a:hover {
   text-transform: uppercase;
   font-weight: bold;
   color: #f7f7f7
+}
+
+.visitor-item {
+  display: block;
+}
+
+.user-item {
+  display: none;
 }
