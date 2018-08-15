@@ -1,10 +1,10 @@
 <div id="{{headlineSlug}}-slider" class="right-side-slider headlines-slider">
 
 	{{#each articles}}
-		<div class="article-summary article-slider-trigger" data-id="{{articleId}}">
-			<img class="article-summary-image article-slider-trigger" src="{{image}}" data-id="{{articleId}}">
-			<h4 class="article-summary-title article-slider-trigger" data-id="{{articleId}}">{{title}}</h4>
-			<p class="article-summary-publication article-slider-trigger" data-id="{{articleId}}">{{publication}}</p>
+		<div class="article-summary article-slider-trigger" data-id="{{id}}">
+			<img class="article-summary-image article-slider-trigger" src="{{articleImg}}" data-id="{{id}}">
+			<h4 class="article-summary-title article-slider-trigger" data-id="{{id}}">{{title}}</h4>
+			<p class="article-summary-publication article-slider-trigger" data-id="{{id}}">{{publication}}</p>
 		</div>
 		
 	{{/each}}

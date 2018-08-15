@@ -42,13 +42,24 @@ module.exports = function (app) {
 
 
   app.get("/news-worthy", function(req, res) {
-    var displayObj = {
-      title: "News Worthy Articles",
-      today: moment().format("LL"),
-      worthyArticles: headlineArticles.articles
-    };
+    db.Article.findAll({
+      order: [
+        ["date", "DESC"],
+        ["worthyScore", "DESC"]
+      ],
+      //attributes: ["id","articleImg","articleImgLg","title","publication","worthyScore","date","summary","url"]
 
-    res.render("worthy", displayObj);
+
+    }).then(function(response) {
+
+      var displayObj = {
+        title: "News Worthy Articles",
+        today: moment().format("LL"),
+        worthyArticles: response 
+      };
+
+      res.render("worthy", displayObj);
+    });
 
   });
 
