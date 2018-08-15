@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": "Drumline1!",
+    "password": "root",
     "database": "news_db",
     "host": "localhost",
     "dialect": "mysql"
