@@ -294,10 +294,6 @@ a:hover {
   color: #f7f7f7
 }
 
-.visitor-item {
-  display: block;
-}
-
-.user-item {
+.hide-element {
   display: none;
 }

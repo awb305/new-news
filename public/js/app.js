@@ -8,37 +8,32 @@ var articleSliderOpen = false;
 var bundleSliderOpen = false;
 var openHeadlinesSliderName = "";
 var openArticleId = "";
+var userId;
+var userFirstName;
+var userLastName;
 
 // ==============================================================================
-// User Signup
+// User Data
 // ==============================================================================
 
-$("#signup-submit").on("click", function(event) {
-  event.preventDefault();
-
-  var nameInput = $("#signup-name");
-  var emailInput = $("#signup-email");
-  var passwordInput = $("#signup-password");
-
-  if(!nameInput.val().trim() || !emailInput.val().trim() || !passwordInput.val().trim()) {
-    return;
-  }
-
-  var newUser = {
-    name: nameInput.val().trim(),
-    email: emailInput.val().trim(),
-    password: passwordInput.val().trim()
-  };
-
-  console.log(newUser);
-
-  signupSubmit(newUser);
-});
-
-function signupSubmit(newUser) {
-  $.post("/api/sign-up", newUser, function(response) {
+function getUserData() {
+  $.get("/api/user", function(response) {
     console.log(response);
+
+    if (response.id !== "") {
+      userId = response.id;
+      userFirstName = response.firstName;
+      userLastName = response.lastName;
+
+      // update the page displays to reflect the user information
+      displayUserItems();
+    }
   });
+}
+
+function displayUserItems() {
+  $(".visitor-item").addClass("hide-element");
+  $(".user-item").removeClass("hide-element");
 }
 
 // ==============================================================================
@@ -336,4 +331,12 @@ $(document).keyup(function(e) {
       return closeHeadlinesSlider();
     }
   }
+});
+
+// ==============================================================================
+// Page Load Processes
+// ==============================================================================
+
+$(function() {
+  getUserData();
 });
