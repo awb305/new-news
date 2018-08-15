@@ -1,8 +1,6 @@
-// var nyTimesApiKey = process.env.nyTimesApiKey;
-// var guardianApiKey = process.env.guardianApiKey;
+var nyTimesApiKey = process.env.nyTimesApiKey;
+var guardianApiKey = process.env.guardianApiKey;
 var request = require("request");
-var articlesObj;
-// var callback;
 var headlineArticles = require("./articleParser.js")
 
 var articlesPromise = function () {
@@ -22,8 +20,6 @@ var articlesPromise = function () {
             }
             body = JSON.parse(body);
             let nytResolve = body.results;
-            // console.log(nytResolve);
-            // console.log(nyTimesArticles);
             resolve(nytResolve);
           })),
         new Promise((resolve, reject) =>
@@ -41,8 +37,6 @@ var articlesPromise = function () {
             }
             body = JSON.parse(body);
             let guardianResolve = body.response.results;
-            // console.log(guardianResolve);
-            // console.log(guardianArticles);
             resolve(guardianResolve);
           }))
       ]).then(function (result) {
@@ -67,22 +61,12 @@ var articlesPromise = function () {
 
         var allArticles = nytArticles.concat(guardianArticles);
         headlineArticles.articles = [{"results" : allArticles}];
-        // headlineArticles.getStories();
-        // headlineArticles.getHeadlines();
-        // headlineArticles.getOutput();
-        // if (typeof callback == "function") {
-        //   callback(articlesObj);
-        // }
-        // console.log(headlineArticles);
 
         return headlineArticles;
-        // }).then(function (result){
-        //   console.log(result);
       }).then(function (headlineArticles) {
         headlineArticles.getOutput();
         return headlineArticles;
       })
-      // .catch(error => alert(error))
       .then(function (headlineArticles) {
         resolve(headlineArticles);
       });
@@ -90,13 +74,5 @@ var articlesPromise = function () {
 };
 
 articlesPromise();
-// articlesPromise();
 
 module.exports = articlesPromise;
-// module.exports = function (cb) {
-//   if (typeof articleObj != "undefined") {
-//     cb(articleObj);
-//   } else {
-//     callback = cb;
-//   }
-// }

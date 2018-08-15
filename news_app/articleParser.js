@@ -80,6 +80,16 @@ var headlineArticles = {
       // create a temporary id for the story
       var tempId = Math.floor(Math.random() * 10000000) + 1;
       tempId += "tid";
+      // var img;
+      // var imgLg;
+
+      // if (storiesArr[i].multimedia[4]) {
+      //   img = storiesArr[i].multimedia[3].url;
+      //   imgLg = storiesArr[i].multimedia[4].url;
+      // } else {
+      //   img = "../public/images/guardian-logo-med.png";
+      //   imgLg = "../public/images/guardian-logo-large.png";
+      // }
 
       // determine the headline for the story
       if (storiesArr[i].subsection !== "") {
@@ -98,16 +108,8 @@ var headlineArticles = {
         byline: storiesArr[i].byline,
         summary: storiesArr[i].abstract,
         date: storiesArr[i].published_date,
-        image: function () {
-          if (storiesArr[i].multimedia[3]) {
-            return storiesArr[i].multimedia[3].url;
-          }
-        },
-        imageLarge: function () {
-          if (storiesArr[i].multimedia[4]) {
-            return storiesArr[i].multimedia[4].url;
-          }
-        }
+        // image: img,
+        // imageLarge: imgLg
       };
 
       stories.push(articleGroupObj);

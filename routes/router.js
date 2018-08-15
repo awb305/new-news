@@ -4,9 +4,8 @@
 
 // var db = require("../models");
 
-var headlineArticles = require("../news_app/testHeadlines.js");
+var articlesRequester = require("../news_app/apiCalls.js");
 var db = require("../models");
-
 
 // ===============================================================================
 // Routing
@@ -16,40 +15,42 @@ module.exports = function (app) {
   // Headlines Page
 
   app.get("/", function (req, res) {
-    var displayObj = {
-      title: "Top Headlines",
-      articleGroup: headlineArticles.articleGroups,
-      allArticles: headlineArticles.articles
-    };
+    articlesRequester().then(function (headlineArticles) {
+      var displayObj = {
+        title: "Top Headlines",
+        articleGroup: headlineArticles.articleGroups,
+        allArticles: headlineArticles.articles
+      };
 
-    res.render("headlines", displayObj);
+      res.render("headlines", displayObj);
+    });
   });
 
   // test url for checking data
   app.get("/headlines-data", function (req, res) {
-    var displayObj = {
-      title: "Headlines Data",
-      articleGroup: headlineArticles.articleGroups,
-      allArticles: headlineArticles.articles
-    };
-
-    res.json(displayObj);
+    articlesRequester().then(function (headlineArticles) {
+      var displayObj = {
+        title: "Headlines Data",
+        articleGroup: headlineArticles.articleGroups,
+        allArticles: headlineArticles.articles
+      };
+      res.json(displayObj);
+    });
   });
-
   // ===============================================================================
   // News Worthy Page
 
+  app.get("/news-worthy", function (req, res) {
+    articlesRequester().then(function (headlineArticles) {
+      var displayObj = {
+        title: "News Worthy Articles",
+        worthyArticles: headlineArticles.articles
+      };
 
-  app.get("/news-worthy", function(req, res) {
-    var displayObj = {
-      title: "News Worthy Articles",
-      worthyArticles: headlineArticles.articles
-    };
+      res.render("worthy", displayObj);
 
-    res.render("worthy", displayObj);
-
+    });
   });
-
   // ===============================================================================
   // User Sign Up & Log in
 
@@ -138,6 +139,7 @@ module.exports = function (app) {
   app.get("*", function (req, res) {
     res.render("404");
   });
+
 };
 
 // ===============================================================================
@@ -185,4 +187,4 @@ module.exports = function (app) {
 //   ) {
 //     res.json(dbExample);
 //   });
-// });
+// })
