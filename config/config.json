@@ -5,6 +5,7 @@
     "database": "news_db",
     "host": "localhost",
     "dialect": "mysql"
+
   },
   "test": {
     "username": "root",

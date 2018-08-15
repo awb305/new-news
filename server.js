@@ -4,6 +4,8 @@
 
 require("dotenv").config();
 var express = require("express");
+var passport = require("passport");
+var session = require("express-session");
 var bodyParser = require("body-parser");
 var exphbs = require("express-handlebars");
 
@@ -24,6 +26,14 @@ app.use(bodyParser.json());
 app.use(express.static("public"));
 
 // ==============================================================================
+// Passport Setup
+// ==============================================================================
+
+app.use(session({ secret: "keyboard cat", resave: true, saveUninitialized: true}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+// ==============================================================================
 // Handlebars Setup
 // ==============================================================================
 
@@ -39,13 +49,19 @@ app.set("view engine", "handlebars");
 // Routing
 // ==============================================================================
 
-require("./routes/router")(app);
+require("./routes/router")(app, passport);
+
+// ==============================================================================
+// Load Passport Strategy
+// ==============================================================================
+
+require("./config/passport/passport.js")(passport, db.User);
 
 // ==============================================================================
 // Database Sync Options
 // ==============================================================================
 
-var syncOptions = { force: false };
+var syncOptions = { force: true };
 
 // If running a test, set syncOptions.force to true
 // clearing the `testdb`
@@ -57,7 +73,7 @@ if (process.env.NODE_ENV === "test") {
 // Server Listener
 // ==============================================================================
 
-db.sequelize.sync({syncOptions}).then(function() {
+db.sequelize.sync(syncOptions).then(function() {
   app.listen(PORT, function() {
     console.log(
       "==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.",

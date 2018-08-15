@@ -1,20 +1,16 @@
 <div class="container">
   <div class="row">
     <div class="col-8 offset-2">
-      <form class="clearfix mb-4" action="POST">
+      <form class="clearfix mb-4" id="signin" name="signin" method="post" action="/login">
           <div class="form-group">
-            <label for="signup-name">Name</label>
-            <input type="text" id="signup-name" class="form-control" aria-describedby="signup-name" placeholder="John Doe">
+            <label for="email">Email Address</label>
+            <input name="email" type="text" id="signup-email" class="form-control text" aria-describedby="signup-email" placeholder="example@gmail.com">
           </div>
           <div class="form-group">
-            <label for="signup-email">Email</label>
-            <input type="text" id="signup-email" class="form-control" aria-describedby="signup-email" placeholder="john@gmail.com">
+            <label for="password">Password</label>
+            <input name="password" type="password" id="signup-password" class="form-control" aria-describedby="signup-password">
           </div>
-          <div class="form-group">
-            <label for="signup-password">Password</label>
-            <input type="text" id="signup-password" class="form-control" aria-describedby="signup-password">
-          </div>
-          <button id="signup-submit" class="btn btn-primary float-right">Submit</button>
+          <input class="btn" type="submit" value="Sign In" />
         </form>
     </div>
   </div>
