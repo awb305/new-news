@@ -74,13 +74,23 @@ module.exports = function (app) {
   // Create a new user account
   app.post("/api/sign-up", function (req, res) {
     console.log(req.body);
-    db.User.create({
-      userNameFirst: req.body.name,
-      userNameLast: req.body.name,
-      userEmail: req.body.email,
-      userPassword: req.body.password
-    }).then(function(dbUser){
-      res.json(dbUser);
+    db.User.findOne({
+      where: {
+        userEmail: req.body.email
+      }
+    }).then(function(results){
+      if (results !== null){
+        console.log("a user with that email already exists");
+      } else {
+        db.User.create({
+          userNameFirst: req.body.name,
+          userNameLast: req.body.name,
+          userEmail: req.body.email,
+          userPassword: req.body.password
+        }).then(function(dbUser){
+          res.json(dbUser);
+        });
+      }
     });
   });
 
