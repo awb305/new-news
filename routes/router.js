@@ -6,6 +6,7 @@
 
 var articlesRequester = require("../news_app/apiCalls.js");
 var db = require("../models");
+var moment = require("moment");
 
 // ===============================================================================
 // Routing
@@ -13,7 +14,6 @@ var db = require("../models");
 module.exports = function (app) {
   // ===============================================================================
   // Headlines Page
-
   app.get("/", function (req, res) {
     articlesRequester().then(function (headlineArticles) {
       var displayObj = {
@@ -37,20 +37,32 @@ module.exports = function (app) {
       res.json(displayObj);
     });
   });
-  // ===============================================================================
+  //===============================================================================
   // News Worthy Page
 
-  app.get("/news-worthy", function (req, res) {
-    articlesRequester().then(function (headlineArticles) {
+
+  app.get("/news-worthy", function(req, res) {
+    db.Article.findAll({
+      order: [
+        ["date", "DESC"],
+        ["worthyScore", "DESC"]
+      ],
+      //attributes: ["id","articleImg","articleImgLg","title","publication","worthyScore","date","summary","url"]
+
+
+    }).then(function(response) {
+
       var displayObj = {
         title: "News Worthy Articles",
-        worthyArticles: headlineArticles.articles
+        today: moment().format("LL"),
+        worthyArticles: response 
       };
 
       res.render("worthy", displayObj);
-
     });
+
   });
+
   // ===============================================================================
   // User Sign Up & Log in
 
@@ -62,7 +74,24 @@ module.exports = function (app) {
   // Create a new user account
   app.post("/api/sign-up", function (req, res) {
     console.log(req.body);
-    res.json();
+    db.User.findOne({
+      where: {
+        userEmail: req.body.email
+      }
+    }).then(function(results){
+      if (results !== null){
+        console.log("a user with that email already exists");
+      } else {
+        db.User.create({
+          userNameFirst: req.body.name,
+          userNameLast: req.body.name,
+          userEmail: req.body.email,
+          userPassword: req.body.password
+        }).then(function(dbUser){
+          res.json(dbUser);
+        });
+      }
+    });
   });
 
   // Load log-in page
@@ -187,4 +216,4 @@ module.exports = function (app) {
 //   ) {
 //     res.json(dbExample);
 //   });
-// })
+// });

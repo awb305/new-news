@@ -55,8 +55,8 @@ var articlesPromise = function () {
           element.subsection = element.sectionId;
           element.byline = element.type;
           element.summary = element.webTitle;
-          element.image = "../public/img/guardian-logo-med.png";
-          element.imageLarge = "../public/img/guardian-logo-large.png";
+          element.image = "../public/images/guardian-logo-med.png";
+          element.imageLarge = "../public/images/guardian-logo-large.png";
         })
 
         var allArticles = nytArticles.concat(guardianArticles);
