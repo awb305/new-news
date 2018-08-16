@@ -6,6 +6,7 @@
 // var headlineArticles = require("../news_app/testHeadlines.js");
 
 var authController = require("../controllers/authcontroller.js");
+//importing our promise object, which, after it processes, will contain our headlineArticles object, which will contain all of the original methods and also all of the articles we've added to it in the apiCalls 
 var articlesRequester = require("../news_app/apiCalls.js");
 
 var db = require("../models");
@@ -18,8 +19,14 @@ var moment = require("moment");
 module.exports = function (app, passport) {
   // ===============================================================================
   // Headlines Page
+<<<<<<< HEAD
   app.get("/", function (req, res) {
     articlesRequester().then(function (headlineArticles) {
+=======
+  app.get("/", function(req, res) {
+    //call our promise object as a function and a .then so that it won't activate until the promises in apiCalls have resolved and the asynchronous data has been passed through
+    articlesRequester().then(function(headlineArticles) {
+>>>>>>> 54216a6fcfb54ebdbe7b0ffd8dba3424e76e491f
       var displayObj = {
         title: "Top Headlines",
         today: moment().format("LL"),
@@ -32,8 +39,14 @@ module.exports = function (app, passport) {
   });
 
   // test url for checking data
+<<<<<<< HEAD
   app.get("/headlines-data", function (req, res) {
     articlesRequester().then(function (headlineArticles) {
+=======
+  app.get("/headlines-data", function(req, res) {
+    //again, call our promise object
+    articlesRequester().then(function(headlineArticles) {
+>>>>>>> 54216a6fcfb54ebdbe7b0ffd8dba3424e76e491f
       var displayObj = {
         title: "Headlines Data",
         articleGroup: headlineArticles.articleGroups,
@@ -74,8 +87,9 @@ module.exports = function (app, passport) {
   app.post(
     "/signup",
     passport.authenticate("local-signup", {
-      successRedirect: "/dashboard",
-      failureRedirect: "/sign-up"
+      successRedirect: "/",
+      failureRedirect: "/sign-up",
+      failureFlash: true
     })
   );
 
@@ -123,13 +137,14 @@ module.exports = function (app, passport) {
   app.post(
     "/login",
     passport.authenticate("local-login", {
-      successRedirect: "/dashboard",
-      failureRedirect: "/log-in"
+      successRedirect: "/",
+      failureRedirect: "/log-in",
+      failureFlash: true
     })
   );
 
   // test dashboard page
-  app.get("/dashboard", isLoggedIn, authController.dashboard);
+  // app.get("/dashboard", isLoggedIn, authController.dashboard);
 
   // get user data
   app.get("/api/user", authController.userData);
@@ -204,12 +219,15 @@ module.exports = function (app, passport) {
       }
     });
   });
+<<<<<<< HEAD
   // ===============================================================================
   // Individual Article Pages
 
   app.get("/article/:id", function (req, res) {
     res.render("article-display");
   });
+=======
+>>>>>>> 54216a6fcfb54ebdbe7b0ffd8dba3424e76e491f
 
   // ===============================================================================
   // Unmatched routes
@@ -219,6 +237,13 @@ module.exports = function (app, passport) {
     res.render("404");
   });
 };
+
+// ===============================================================================
+// Individual Article Pages
+
+// app.get("/article/:id", function(req, res) {
+//   res.render("article-display");
+// });
 
 // ===============================================================================
 // Example Pages & Functionality to be removed

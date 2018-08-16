@@ -8,6 +8,7 @@ var passport = require("passport");
 var session = require("express-session");
 var bodyParser = require("body-parser");
 var exphbs = require("express-handlebars");
+var flash = require("connect-flash");
 
 var db = require("./models");
 
@@ -29,7 +30,14 @@ app.use(express.static("public"));
 // Passport Setup
 // ==============================================================================
 
-app.use(session({ secret: "keyboard cat", resave: true, saveUninitialized: true}));
+app.use(
+  session({
+    secret: "keyboard cat",
+    resave: true,
+    saveUninitialized: true
+  })
+);
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
