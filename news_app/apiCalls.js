@@ -60,6 +60,7 @@ var articlesPromise = function () {
           element.summary = element.webTitle;
           element.image = "../public/images/guardian-logo-med.png";
           element.imageLarge = "../public/images/guardian-logo-large.png";
+          element.multimedia = [];
         })
 
         var allArticles = nytArticles.concat(guardianArticles);

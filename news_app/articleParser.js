@@ -11,7 +11,7 @@ var headlineArticles = {
       // create variables for the headline, the headline slug and the articles that correspond with that headline
       var headline = mainHeadlines[i];
       var headlineSlug = headline.toLowerCase();
-      headlineSlug = headlineSlug.replace(/ /g, "_");
+      headlineSlug = headlineSlug.replace(/[\W]+/g, "_");
       var articles = [];
 
       // look at each article
@@ -80,16 +80,16 @@ var headlineArticles = {
       // create a temporary id for the story
       var tempId = Math.floor(Math.random() * 10000000) + 1;
       tempId += "tid";
-      // var img;
-      // var imgLg;
+      var img;
+      var imgLg;
 
-      // if (storiesArr[i].multimedia[4]) {
-      //   img = storiesArr[i].multimedia[3].url;
-      //   imgLg = storiesArr[i].multimedia[4].url;
-      // } else {
-      //   img = "../public/images/guardian-logo-med.png";
-      //   imgLg = "../public/images/guardian-logo-large.png";
-      // }
+      if (storiesArr[i].multimedia[4]) {
+        img = storiesArr[i].multimedia[3].url;
+        imgLg = storiesArr[i].multimedia[4].url;
+      } else {
+        img = "../public/images/guardian-logo-med.png";
+        imgLg = "../public/images/guardian-logo-large.png";
+      }
 
       // determine the headline for the story
       if (storiesArr[i].subsection !== "") {
@@ -108,8 +108,9 @@ var headlineArticles = {
         byline: storiesArr[i].byline,
         summary: storiesArr[i].abstract,
         date: storiesArr[i].published_date,
-        // image: img,
-        // imageLarge: imgLg
+        image: img,
+        imageLarge: imgLg,
+        publication: storiesArr[i].publication
       };
 
       stories.push(articleGroupObj);
