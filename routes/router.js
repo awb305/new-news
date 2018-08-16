@@ -49,6 +49,11 @@ module.exports = function(app, passport) {
 
   app.get("/news-worthy", function(req, res) {
     db.Article.findAll({
+      where: {
+        worthyScore: {
+          $gt: 0
+        }
+      },
       order: [["date", "DESC"], ["worthyScore", "DESC"]]
       //attributes: ["id","articleImg","articleImgLg","title","publication","worthyScore","date","summary","url"]
     }).then(function(response) {
@@ -188,7 +193,7 @@ module.exports = function(app, passport) {
     });
   });
 
-  // store an article saved by a user
+  // store an article saved by a user in their saved bundle
   app.post("/api/save-article", articleController.saveArticle);
 
   // ===============================================================================
