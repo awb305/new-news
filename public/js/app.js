@@ -26,7 +26,7 @@ function getUserData() {
 
       // update the page displays to reflect the user information
       displayUserItems();
-      getUserBundles(response.id);
+      getUserBundles();
     }
   });
 }
@@ -47,9 +47,9 @@ function displayUserItems() {
 // Populate User Activity Slider
 // ==============================================================================
 
-function getUserBundles(id) {
+function getUserBundles() {
   // create the query with the user ID
-  var query = "/api/user-bundles/" + id;
+  var query = "/api/user-bundles/" + userId;
 
   $.get(query, function(response) {
     // empty the container
@@ -65,7 +65,7 @@ function getUserBundles(id) {
         } else {
           var bundleName = response[i].name;
         }
-        var bundle = $('<a href="/bundles/' + response[i].id + '"><h4>' + bundleName + ' &raquo;</h4></a>');
+        var bundle = $('<a href="/bundle/' + response[i].id + '"><h4>' + bundleName + ' &raquo;</h4></a>');
         bundle.appendTo(".user-activity-slider-body");
       }
     } else {
