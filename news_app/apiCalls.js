@@ -54,7 +54,7 @@ var articlesPromise = function () {
         element.abstract = element.webTitle;
         element.section = element.sectionName;
         element.url = element.webUrl;
-        element.date = element.webPublicationDate;
+        element.published_date = element.webPublicationDate;
         element.subsection = element.sectionName;
         element.byline = element.publication;
         element.summary = element.webTitle;
@@ -68,6 +68,7 @@ var articlesPromise = function () {
       return headlineArticles;
     })
       .then(function (headlineArticles) {
+        // headlineArticles.articleSorter("date");
         headlineArticles.getOutput();
         return headlineArticles;
       })

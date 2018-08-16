@@ -121,6 +121,17 @@ var headlineArticles = {
 
     return stories;
   },
+  articleSorter: function (property) {
+    var sortOrder = 1;
+    if (property[0] === "-") {
+      sortOrder = -1;
+      property = property.substr(1);
+    }
+    return function (a, b) {
+      var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+      return result * sortOrder;
+    };
+  },
   headlineSetter: function (articleObj) {
     var headline;
     var section = articleObj.subsection;
@@ -131,19 +142,26 @@ var headlineArticles = {
 
     if (
       section === "Business Day" ||
+      section === "Your Money" ||
       section === "Money") {
       headline = "Business";
     } else if (
       section === "Books" ||
       section === "Book Review" ||
-      section === "Style" ||
       section === "Movies" ||
       section === "Film" ||
+      section === "Television & radio" ||
+      section === "Television" ||
+      section === "Music" ||
+      section === "Games") {
+      headline = "Media";
+    } else if (
+      section === "Style" ||
+      section === "Theater" ||
       section === "Culture" ||
       section === "Food" ||
-      section === "Art and Design" ||
-      section === "Television & radio" ||
-      section === "Fasion" ||
+      section === "Art and design" ||
+      section === "Fashion" ||
       section === "T Magazine" ||
       section === "Life and style") {
       headline = "Arts & Leisure";
@@ -151,15 +169,22 @@ var headlineArticles = {
       section === "Well") {
       headline = "Health";
     } else if (
+      section === "Cities") {
+      headline = "Travel";
+    } else if (
       section === "Briefing" ||
       section === "The Upshot" ||
       section === "Magazine" ||
       section === "Smarter Living" ||
       section === "Family" ||
+      section === "Guardian Masterclasses" ||
+      section === "Higher Education Network" ||
+      section === "Obituaries" ||
       section === "Education") {
       headline = "Other";
     } else if (
       section === "Science" ||
+      section === "Personal Tech" ||
       section === "Technology" ||
       section === "Environment") {
       headline = "Science & Technology";
