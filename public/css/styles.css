@@ -43,6 +43,7 @@ a:hover {
 
 .bundle-title-container>h1 {
   font-size: 2.5rem;
+  text-transform: capitalize;
 }
 
 .title-container>.title-date {
@@ -53,7 +54,8 @@ a:hover {
   padding-bottom: 100px;
 }
 
-#worthy-articles-container {
+#worthy-articles-container,
+#bundle-articles-container {
   padding-top: 20px;
   padding-bottom: 100px;
   width: 800px;
@@ -61,12 +63,14 @@ a:hover {
   margin: 0 auto;
 }
 
-#worthy-articles-container>.article-summary>.article-summary-title {
+#worthy-articles-container>.article-summary>.article-summary-title,
+#bundle-articles-container>.article-summary>.article-summary-title {
   margin-top: 10px;
   line-height: 1.1;
 }
 
-#worthy-articles-container>.article-summary>img {
+#worthy-articles-container>.article-summary>img,
+#bundle-articles-container>.article-summary>img {
   width: 800px;
   max-width: 90vw;
 }
