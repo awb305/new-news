@@ -1,11 +1,17 @@
 var exports = (module.exports = {});
 
 exports.signup = function(req, res) {
-  res.render("sign-up");
+  var displayObj = {
+    title: "News Worthy Sign-Up"
+  };
+  res.render("sign-up", displayObj);
 };
 
 exports.login = function(req, res) {
-  res.render("log-in");
+  var displayObj = {
+    title: "News Worthy Log In"
+  };
+  res.render("log-in", displayObj);
 };
 
 exports.dashboard = function(req, res) {

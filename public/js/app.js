@@ -33,6 +33,10 @@ function displayUserItems() {
   // remove the hide-element class from user-specific items and add it to visitor specific items
   $(".visitor-item").addClass("hide-element");
   $(".user-item").removeClass("hide-element");
+
+  // set the correct url for the user profile page
+  var userProfileLink = "/user/" + userId;
+  $(".profile-link").attr("href", userProfileLink);
 }
 
 // ==============================================================================
@@ -64,12 +68,19 @@ $(".add-worthy-btn").on("click", function(event) {
   };
   
   console.log(worthyArticleObj);
-  worthyArticleSubmit(worthyArticleObj);
+  worthyArticleSubmit(worthyArticleObj, articleId);
 });
   
-function worthyArticleSubmit(worthyArticle) {
+function worthyArticleSubmit(worthyArticle, articleId) {
   $.post("/api/worthy-article", worthyArticle, function(response) {
     console.log(response);
+
+    var worthyButton = document.getElementById(articleId + "-worthy-btn");
+
+    worthyButton = $(worthyButton);
+
+    worthyButton.addClass("worthy-added");
+    worthyButton.html("DEEMED WORTHY!");
   });
 }
 
@@ -263,7 +274,7 @@ function enableArticleSwipeClose(slider) {
 // ==============================================================================
 
 // listener - open nav slider
-$(document).on("click", ".nav-icon", function() {
+$(document).on("click", ".nav-slider-trigger", function() {
   navSliderOpen ? closeNavSlider() : openNavSlider();
 });
 
