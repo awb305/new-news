@@ -4,18 +4,15 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    articleid: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    bundleType: {
+    userEmail: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    userBundleName: {
+    articleArray: {
       type: DataTypes.STRING,
-      allowNull: false
-    }
+      // allowNull: false
+    },
+
 
   });
   return Bundle;

@@ -15,11 +15,11 @@ var moment = require("moment");
 // Routing
 // ===============================================================================
 
-module.exports = function(app, passport) {
+module.exports = function (app, passport) {
   // ===============================================================================
   // Headlines Page
-  app.get("/", function(req, res) {
-    articlesRequester().then(function(headlineArticles) {
+  app.get("/", function (req, res) {
+    articlesRequester().then(function (headlineArticles) {
       var displayObj = {
         title: "Top Headlines",
         today: moment().format("LL"),
@@ -32,8 +32,8 @@ module.exports = function(app, passport) {
   });
 
   // test url for checking data
-  app.get("/headlines-data", function(req, res) {
-    articlesRequester().then(function(headlineArticles) {
+  app.get("/headlines-data", function (req, res) {
+    articlesRequester().then(function (headlineArticles) {
       var displayObj = {
         title: "Headlines Data",
         articleGroup: headlineArticles.articleGroups,
@@ -46,11 +46,14 @@ module.exports = function(app, passport) {
   //===============================================================================
   // News Worthy Page
 
-  app.get("/news-worthy", function(req, res) {
+  app.get("/news-worthy", function (req, res) {
     db.Article.findAll({
-      order: [["date", "DESC"], ["worthyScore", "DESC"]]
+      order: [
+        ["date", "DESC"],
+        ["worthyScore", "DESC"]
+      ]
       //attributes: ["id","articleImg","articleImgLg","title","publication","worthyScore","date","summary","url"]
-    }).then(function(response) {
+    }).then(function (response) {
       var displayObj = {
         title: "News Worthy Articles",
         today: moment().format("LL"),
@@ -77,27 +80,41 @@ module.exports = function(app, passport) {
   );
 
   // Create a new user account
-  app.post("/api/sign-up", function(req, res) {
+  app.post("/api/sign-up", function (req, res) {
     console.log(req.body);
     db.User.findOne({
       where: {
         userEmail: req.body.email
       }
-    }).then(function(results) {
+    }).then(function (results) {
+      var createUser = db.User.create({
+        userNameFirst: req.body.name,
+        userNameLast: req.body.name,
+        userEmail: req.body.email,
+        userPassword: req.body.password
+      });
+
+      var createBundle = db.Bundle.create({
+        // userid: req.body.userid,
+        userEmail: req.body.email,
+        articleArray: "["
+      });
       if (results !== null) {
         console.log("a user with that email already exists");
       } else {
-        db.User.create({
-          userNameFirst: req.body.name,
-          userNameLast: req.body.name,
-          userEmail: req.body.email,
-          userPassword: req.body.password
-        }).then(function(dbUser) {
-          res.json(dbUser);
-        });
+        Promise
+          .all([createUser, createBundle])
+          .then(function (results) {
+            res.json(results);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
       }
+
     });
   });
+
 
   // Load log-in page
   app.get("/log-in", authController.login);
@@ -131,36 +148,39 @@ module.exports = function(app, passport) {
   // ===============================================================================
   // User Profile Pages
 
-  app.get("/user/:id", isLoggedIn, function(req, res) {
+  app.get("/user/:id", isLoggedIn, function (req, res) {
+    db.Bundle.findAll({
+      where: {
+        userid: req.body.userId
+      }
+    })
+    
     res.render("user-profile");
   });
 
   // ===============================================================================
   // Bundles & News Worthy Articles
 
-  app.get("/bundle/:id", function(req, res) {
+  app.get("/bundle/:id", function (req, res) {
     res.render("bundle-display");
   });
 
   // store an article deemed news worthy
-  app.post("/api/worthy-article", function(req, res) {
+  app.post("/api/worthy-article", function (req, res) {
     db.Article.findOne({
       where: {
         url: req.body.url
       }
-    }).then(function(results) {
+    }).then(function (results) {
       console.log(results);
       if (results !== null) {
-        db.Article.update(
-          {
-            worthyScore: results.worthyScore + 1
-          },
-          {
-            where: {
-              url: req.body.url
-            }
+        db.Article.update({
+          worthyScore: results.worthyScore + 1
+        }, {
+          where: {
+            url: req.body.url
           }
-        ).then(function(results) {
+        }).then(function (results) {
           res.json(results);
         });
         console.log("article already exists");
@@ -178,7 +198,7 @@ module.exports = function(app, passport) {
           articleImg: req.body.image,
           articleImgLg: req.body.imageLarge,
           worthyScore: 1
-        }).then(function(dbArticle) {
+        }).then(function (dbArticle) {
           res.json(dbArticle);
         });
       }
@@ -187,7 +207,7 @@ module.exports = function(app, passport) {
   // ===============================================================================
   // Individual Article Pages
 
-  app.get("/article/:id", function(req, res) {
+  app.get("/article/:id", function (req, res) {
     res.render("article-display");
   });
 
@@ -195,7 +215,7 @@ module.exports = function(app, passport) {
   // Unmatched routes
 
   // Render 404 page for any unmatched routes
-  app.get("*", function(req, res) {
+  app.get("*", function (req, res) {
     res.render("404");
   });
 };
