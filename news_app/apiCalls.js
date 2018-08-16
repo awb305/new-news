@@ -58,10 +58,7 @@ var articlesPromise = function () {
           element.subsection = element.sectionName;
           element.byline = element.publication;
           element.summary = element.webTitle;
-          // element.image = "../public/images/guardian-logo-med.png";
-          // element.imageLarge = "../public/images/guardian-logo-large.png";
-          // element.multimedia = [];
-        })
+        });
 
         var allArticles = nytArticles.concat(guardianArticles);
         headlineArticles.articles = [{
@@ -69,7 +66,8 @@ var articlesPromise = function () {
         }];
 
         return headlineArticles;
-      }).then(function (headlineArticles) {
+      })
+      .then(function (headlineArticles) {
         headlineArticles.getOutput();
         return headlineArticles;
       })

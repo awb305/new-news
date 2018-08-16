@@ -53,13 +53,6 @@ var headlineArticles = {
     for (var i = 0; i < storiesArr.length; i++) {
 
       var headline = "";
-
-      // if (storiesArr[i].subsection !== "") {
-      //   headline = storiesArr[i].subsection;
-      // } else {
-      //   headline = storiesArr[i].section;
-      // }
-
       var headline = this.headlineSetter(storiesArr[i]);
 
       if (headline !== "hide" && !headlines.includes(headline)) {
@@ -86,7 +79,7 @@ var headlineArticles = {
       var imgLg;
 
 
-
+      // assign an image if one exists, or else a default by publication if one doesn't
       if (storiesArr[i].publication === "The New York Times") {
         if (typeof storiesArr[i].multimedia[3] !== "undefined") {
           img = storiesArr[i].multimedia[3].url;
@@ -104,39 +97,6 @@ var headlineArticles = {
       }
 
       // determine the headline for the story
-      // if (storiesArr[i].subsection !== "") {
-      //   headline = storiesArr[i].subsection;
-      // } else {
-      //   headline = storiesArr[i].section;
-      // }
-
-      // if (storiesArr[i].subsection === "") {
-      //   storiesArr[i].subsection = storiesArr[i].section;
-      // }
-
-      // if (storiesArr[i].subsection === "Business Day") {
-      //   headline = "Business";
-      // } else if (storiesArr[i].subsection === ("Books" || "Book Review" || "Style" || "Movies" || "Film" || "Culture" || "Food" || "Art And Design" || "Television & Radio" || "Fasion" || "T Magazine" || "Life And Style")) {
-      //   headline = "Arts & Leisure";
-      // } else if (storiesArr[i].subsection === "Well") {
-      //   headline = "Health";
-      // } else if (storiesArr[i].subsection === ("Briefing" || "The Upshot" || "Magazine" || "Smarter Living" || "Family" || "Education")) {
-      //   headline = "Other";
-      // } else if (storiesArr[i].subsection === ("Science" || "Technology" || "Environment")) {
-      //   headline = "Science & Technology";
-      // } else if (storiesArr[i].subsection === ("Football" || "Sport")) {
-      //   headline = "Sports";
-      // } else if (storiesArr[i].subsection === "US News") {
-      //   headline = "U.S.";
-      // } else if (
-      //   storiesArr[i].subsection ===
-      //   ("Europe" || "Middle East" || "Australia News" || "World News" || "Global Development" || "News" || "UK News")) {
-      //   headline = "World";
-      // } else if (storiesArr[i].subsection === ("Society" || "Real Estate" || "Crosswords" || "Stage")) {
-      //   headline = "hide"
-      // } else {
-      //   headline = storiesArr[i].subsection;
-      // }
       var headline = this.headlineSetter(storiesArr[i]);
 
       var articleGroupObj = {
