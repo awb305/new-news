@@ -54,13 +54,15 @@ var headlineArticles = {
 
       var headline = "";
 
-      if (storiesArr[i].subsection !== "") {
-        headline = storiesArr[i].subsection;
-      } else {
-        headline = storiesArr[i].section;
-      }
+      // if (storiesArr[i].subsection !== "") {
+      //   headline = storiesArr[i].subsection;
+      // } else {
+      //   headline = storiesArr[i].section;
+      // }
 
-      if (!headlines.includes(headline)) {
+      var headline = this.headlineSetter(storiesArr[i]);
+
+      if (headline !== "hide" && !headlines.includes(headline)) {
         headlines.push(headline);
       }
     }
@@ -83,20 +85,59 @@ var headlineArticles = {
       var img;
       var imgLg;
 
-      if (storiesArr[i].multimedia[4]) {
-        img = storiesArr[i].multimedia[3].url;
-        imgLg = storiesArr[i].multimedia[4].url;
+
+
+      if (storiesArr[i].publication === "The New York Times") {
+        if (typeof storiesArr[i].multimedia[3] !== "undefined") {
+          img = storiesArr[i].multimedia[3].url;
+        } else {
+          img = "/images/nyt-logo-med.png";
+        }
+        if (typeof storiesArr[i].multimedia[4] !== "undefined") {
+          imgLg = storiesArr[i].multimedia[4].url;
+        } else {
+          imgLg = "/images/nyt-logo-lg.jpg";
+        }
       } else {
-        img = "../public/images/guardian-logo-med.png";
-        imgLg = "../public/images/guardian-logo-large.png";
+        img = "/images/guardian-logo-med.png";
+        imgLg = "/images/guardian-logo-large.png";
       }
 
       // determine the headline for the story
-      if (storiesArr[i].subsection !== "") {
-        headline = storiesArr[i].subsection;
-      } else {
-        headline = storiesArr[i].section;
-      }
+      // if (storiesArr[i].subsection !== "") {
+      //   headline = storiesArr[i].subsection;
+      // } else {
+      //   headline = storiesArr[i].section;
+      // }
+
+      // if (storiesArr[i].subsection === "") {
+      //   storiesArr[i].subsection = storiesArr[i].section;
+      // }
+
+      // if (storiesArr[i].subsection === "Business Day") {
+      //   headline = "Business";
+      // } else if (storiesArr[i].subsection === ("Books" || "Book Review" || "Style" || "Movies" || "Film" || "Culture" || "Food" || "Art And Design" || "Television & Radio" || "Fasion" || "T Magazine" || "Life And Style")) {
+      //   headline = "Arts & Leisure";
+      // } else if (storiesArr[i].subsection === "Well") {
+      //   headline = "Health";
+      // } else if (storiesArr[i].subsection === ("Briefing" || "The Upshot" || "Magazine" || "Smarter Living" || "Family" || "Education")) {
+      //   headline = "Other";
+      // } else if (storiesArr[i].subsection === ("Science" || "Technology" || "Environment")) {
+      //   headline = "Science & Technology";
+      // } else if (storiesArr[i].subsection === ("Football" || "Sport")) {
+      //   headline = "Sports";
+      // } else if (storiesArr[i].subsection === "US News") {
+      //   headline = "U.S.";
+      // } else if (
+      //   storiesArr[i].subsection ===
+      //   ("Europe" || "Middle East" || "Australia News" || "World News" || "Global Development" || "News" || "UK News")) {
+      //   headline = "World";
+      // } else if (storiesArr[i].subsection === ("Society" || "Real Estate" || "Crosswords" || "Stage")) {
+      //   headline = "hide"
+      // } else {
+      //   headline = storiesArr[i].subsection;
+      // }
+      var headline = this.headlineSetter(storiesArr[i]);
 
       var articleGroupObj = {
         url: storiesArr[i].url,
@@ -108,15 +149,85 @@ var headlineArticles = {
         byline: storiesArr[i].byline,
         summary: storiesArr[i].abstract,
         date: storiesArr[i].published_date,
-        image: img,
-        imageLarge: imgLg,
+        articleImg: img,
+        articleImgLg: imgLg,
         publication: storiesArr[i].publication
       };
 
-      stories.push(articleGroupObj);
+      if (headline !== "hide") {
+        stories.push(articleGroupObj);
+      }
     }
 
     return stories;
+  },
+  headlineSetter: function (articleObj) {
+    var headline;
+    var section = articleObj.subsection;
+
+    if (section === "") {
+      section = articleObj.section;
+    }
+
+    if (section === "Business Day") {
+      headline = "Business";
+    } else if (
+      section === "Books" ||
+      section === "Book Review" ||
+      section === "Style" ||
+      section === "Movies" ||
+      section === "Film" ||
+      section === "Culture" ||
+      section === "Food" ||
+      section === "Art and Design" ||
+      section === "Television & radio" ||
+      section === "Fasion" ||
+      section === "T Magazine" ||
+      section === "Life and style") {
+      headline = "Arts & Leisure";
+    } else if (
+      section === "Well") {
+      headline = "Health";
+    } else if (
+      section === "Briefing" ||
+      section === "The Upshot" ||
+      section === "Magazine" ||
+      section === "Smarter Living" ||
+      section === "Family" ||
+      section === "Education") {
+      headline = "Other";
+    } else if (
+      section === "Science" ||
+      section === "Technology" ||
+      section === "Environment") {
+      headline = "Science & Technology";
+    } else if (
+      section === "Football" ||
+      section === "Sport") {
+      headline = "Sports";
+    } else if (
+      section === "US news") {
+      headline = "U.S.";
+    } else if (
+      section === "Europe" ||
+      section === "Middle East" ||
+      section === "Australia news" ||
+      section === "World news" ||
+      section === "Global development" ||
+      section === "News" ||
+      section === "UK news") {
+      headline = "World";
+    } else if (
+      section === "New York" ||
+      section === "Society" ||
+      section === "Real Estate" ||
+      section === "Crosswords" ||
+      section === "Stage") {
+      headline = "hide";
+    } else {
+      headline = section;
+    }
+    return headline;
   }
 };
 
