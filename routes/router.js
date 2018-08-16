@@ -6,7 +6,11 @@
 // var headlineArticles = require("../news_app/testHeadlines.js");
 
 var authController = require("../controllers/authcontroller.js");
+<<<<<<< HEAD
 var articleController = require("../controllers/articlecontroller.js");
+=======
+//importing our promise object, which, after it processes, will contain our headlineArticles object, which will contain all of the original methods and also all of the articles we've added to it in the apiCalls 
+>>>>>>> master
 var articlesRequester = require("../news_app/apiCalls.js");
 
 var db = require("../models");
@@ -20,6 +24,7 @@ module.exports = function(app, passport) {
   // ===============================================================================
   // Headlines Page
   app.get("/", function(req, res) {
+    //call our promise object as a function and a .then so that it won't activate until the promises in apiCalls have resolved and the asynchronous data has been passed through
     articlesRequester().then(function(headlineArticles) {
       var displayObj = {
         title: "Top Headlines",
@@ -34,6 +39,7 @@ module.exports = function(app, passport) {
 
   // test url for checking data
   app.get("/headlines-data", function(req, res) {
+    //again, call our promise object
     articlesRequester().then(function(headlineArticles) {
       var displayObj = {
         title: "Headlines Data",

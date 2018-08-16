@@ -17,7 +17,9 @@ a:hover {
   color: #283860;
 }
 
-.headlines-page-container, .worthy-page-container, .profile-worthy-page-container {
+.headlines-page-container,
+.worthy-page-container,
+.profile-worthy-page-container {
   height: 100vh;
   max-width: 100vw;
   margin: 0;
@@ -25,23 +27,25 @@ a:hover {
   text-align: center;
 }
 
-.headlines-title-container, .worthy-title-container, .profile-worthy-title-container {
+.headlines-title-container,
+.worthy-title-container,
+.profile-worthy-title-container {
   background-color: #333;
   color: #fff;
   padding: 20px 5px 10px 5px;
 }
 
-.title-container > h1 {
+.title-container>h1 {
   font-size: 3rem;
   font-weight: 300;
   line-height: 1.2;
 }
 
-.profile-worthy-title-container > h1 {
+.profile-worthy-title-container>h1 {
   font-size: 2.5rem;
 }
 
-.title-container > .title-date {
+.title-container>.title-date {
   font-style: italic;
 }
 
@@ -57,12 +61,12 @@ a:hover {
   margin: 0 auto;
 }
 
-#worthy-articles-container > .article-summary > .article-summary-title {
+#worthy-articles-container>.article-summary>.article-summary-title {
   margin-top: 10px;
   line-height: 1.1;
 }
 
-#worthy-articles-container > .article-summary > img {
+#worthy-articles-container>.article-summary>img {
   width: 800px;
   max-width: 90vw;
 }
@@ -164,7 +168,10 @@ a:hover {
   overflow: auto;
 }
 
-.nav-slider-backdrop, .headlines-slider-backdrop, .article-slider-backdrop, .bundle-slider-backdrop {
+.nav-slider-backdrop,
+.headlines-slider-backdrop,
+.article-slider-backdrop,
+.bundle-slider-backdrop {
   position: fixed;
   top: 0;
   left: 0;
@@ -203,7 +210,7 @@ a:hover {
   margin-top: 20px;
 }
 
-.nav-slider-header > h1 {
+.nav-slider-header>h1 {
   font-weight: bold;
 }
 
@@ -213,11 +220,13 @@ a:hover {
   margin-top: 50px;
 }
 
-.nav-slider-signup, .nav-slider-logout {
+.nav-slider-signup,
+.nav-slider-logout {
   margin-top: 60px;
 }
 
-.nav-slider-signup a, .nav-slider-logout a {
+.nav-slider-signup a,
+.nav-slider-logout a {
   font-weight: bold;
   text-transform: uppercase;
   font-size: 20px;
@@ -242,7 +251,8 @@ a:hover {
   text-align: center;
 }
 
-.article-summary-image, .article-slider-image {
+.article-summary-image,
+.article-slider-image {
   width: 250px;
   max-width: 90vw;
 }
@@ -264,10 +274,10 @@ a:hover {
   font-weight: bold;
   font-size: 20px;
   border-bottom: 1px solid #cccccc;
-
 }
 
-.article-slider-byline, .article-slider-date {
+.article-slider-byline,
+.article-slider-date {
   font-size: 0.9rem;
   font-style: italic;
   margin-bottom: 0px;
@@ -358,4 +368,10 @@ a:hover {
 .saved-btn {
   background-color: #283860;
   color: #f7f7f7;
+}
+
+/* user validation css */
+
+.error {
+  color: #E30B5D;
 }
