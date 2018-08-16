@@ -227,6 +227,7 @@ a:hover {
 .nav-slider-body h4,
 .user-activity-slider-body h4 {
   padding: 10px 0px;
+  text-transform: uppercase;
 }
 
 #nav-slider a,

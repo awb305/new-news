@@ -200,6 +200,18 @@ module.exports = function(app, passport) {
   // store an article saved by a user in their saved bundle
   app.post("/api/save-article", articleController.saveArticle);
 
+  // get user bundle data
+  app.get("/api/user-bundles/:id", function(req, res) {
+    console.log(req.params.id);
+    db.Bundle.findAll({
+      where: {
+        userid: req.params.id
+      }
+    }).then(function(response) {
+      res.json(response);
+    });
+  });
+
   // ===============================================================================
   // Unmatched routes
 

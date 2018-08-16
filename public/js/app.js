@@ -26,6 +26,7 @@ function getUserData() {
 
       // update the page displays to reflect the user information
       displayUserItems();
+      getUserBundles(response.id);
     }
   });
 }
@@ -35,9 +36,52 @@ function displayUserItems() {
   $(".visitor-item").addClass("hide-element");
   $(".user-item").removeClass("hide-element");
 
+  // add the user's name and message to the user activity slider
+  var userName = $("<h1>" + userFirstName + " " + userLastName + "</h1>");
+  var message = $("<h3>Your Bundles</h3>");
+  userName.appendTo(".user-activity-slider-header");
+  message.appendTo(".user-activity-slider-header");
+
   // set the correct url for the user profile page
   var userProfileLink = "/user/" + userId;
   $(".profile-link").attr("href", userProfileLink);
+}
+
+// ==============================================================================
+// Populate User Activity Slider
+// ==============================================================================
+
+// function populateUserActivitySlider() {
+
+// }
+
+function getUserBundles(id) {
+  // create the query with the user ID
+  var query = "/api/user-bundles/" + id;
+
+  $.get(query, function(response) {
+    
+    // empty the container
+    $(".user-activity-slider-body").empty();
+
+    if (response.length > 0) {
+      console.log("we have bundles!");
+
+      // for each response, create a header and add it to the slider body
+      for (var i = 0; i < response.length; i++) {
+        if (response[i].name === "saved" || response[i].name === "worthy") {
+          var bundleName = response[i].name + " articles";
+        } else {
+          var bundleName = response[i].name;
+        }
+        var bundle = $('<a href="/bundles/' + response[i].id + '"><h4>' + bundleName + ' &raquo;</h4></a>');
+        bundle.appendTo(".user-activity-slider-body");
+      }
+    } else {
+      var message = $("<h4>You have not created any bundles yet</h4>");
+      message.appendTo(".user-activity-slider-body");
+    }
+  });
 }
 
 // ==============================================================================
@@ -83,6 +127,8 @@ function worthyArticleSubmit(worthyArticle, articleId) {
 
     worthyButton.addClass("worthy-added");
     worthyButton.html("DEEMED WORTHY!");
+
+    getUserBundles();
   });
 }
 
@@ -129,6 +175,8 @@ function savedArticleSubmit(savedArticle, articleId) {
 
     saveButton.addClass("saved-btn");
     saveButton.html("SAVED!");
+
+    getUserBundles();
   });
 }
 
@@ -471,6 +519,4 @@ $(document).keyup(function(e) {
 
 $(function() {
   getUserData();
-
-  // populate the user activity slider
 });

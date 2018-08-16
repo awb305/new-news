@@ -10,6 +10,17 @@ var db = require("../models");
 
 var exports = (module.exports = {});
 
+exports.userBundles = function(req, res) {
+  console.log(req.body.userId);
+  db.Bundle.findAll({
+    where: {
+      userid: req.body.userId
+    }
+  }).then(function(response) {
+    res.json(response);
+  });
+};
+
 exports.saveArticle = function(req, res) {
   // first step is to see if the article exists
   db.Article.findOne({
