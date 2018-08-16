@@ -2,6 +2,7 @@
 // Set Global Variables
 // ==============================================================================
 
+var userActivitySliderOpen = false;
 var navSliderOpen = false;
 var headlinesSliderOpen = false;
 var articleSliderOpen = false;
@@ -155,7 +156,7 @@ function openNavSlider() {
   $(navSlider).addClass("left-side-slider-shadow");
 
   // enable swipe to close
-  enableNavSwipeClose(navSlider);
+  enableNavSwipe(navSlider);
 }
 
 function closeNavSlider() {
@@ -168,6 +169,42 @@ function closeNavSlider() {
 
   $("body").removeClass("lock-scroll");
   $(navSlider).removeClass("left-side-slider-shadow");
+}
+
+function openUserActivitySlider() {
+  userActivitySliderOpen = true;
+  var userActivitySlider = document.getElementById("user-activity-slider");
+
+  // slide the sider out to the left side of the screen
+  userActivitySlider.style.left = "0";
+
+  // add the slider-backdrop class to create a dark opaque background behind the nav slider
+  $(".user-activity-slider-bg").addClass("user-activity-slider-backdrop");
+
+  // add focus to the open slider
+  userActivitySlider.focus();
+
+  // add the shadow effect to the slider
+  $(userActivitySlider).addClass("left-side-slider-shadow");
+
+  // nudge the nav slider over
+  nudgeSlider("nav");
+
+  // enable swipe to close
+  enableUserActivitySwipeClose(userActivitySlider);
+}
+
+function closeUserActivitySlider() {
+  userActivitySliderOpen = false;
+  var userActivitySlider = document.getElementById("user-activity-slider");
+
+  // move the slider so that it is off the screen. The number of pixels must be equal to or greater than what is set in the css
+  userActivitySlider.style.left = "-350px";
+  $(".user-activity-slider-bg").removeClass("user-activity-slider-backdrop");
+
+  $(userActivitySlider).removeClass("left-side-slider-shadow");
+
+  nudgeBackSlider("nav", 0);
 }
 
 function openHeadlinesSlider() {
@@ -265,6 +302,12 @@ function closeArticleSlider() {
 }
 
 function nudgeSlider(slider) {
+  if (openNavSlider && slider === "nav") {
+    var navSlider = document.getElementById("nav-slider");
+
+    // slide the nav slider 350px more from the left
+    navSlider.style.left = "+350px";
+  }
   if (openHeadlinesSlider && slider === "headlines") {
     var currentHeadlinesSlider = document.getElementById(openHeadlinesSliderName + "-slider");
 
@@ -281,6 +324,14 @@ function nudgeSlider(slider) {
 }
 
 function nudgeBackSlider(slider, spot) {
+  if (openNavSlider && slider === "nav") {
+    var navSlider = document.getElementById("nav-slider");
+
+    // slide the nav slider back to the correct screen location
+    var navLocation = 350 * spot + "px";
+    navSlider.style.left = navLocation;
+  }
+
   if (openHeadlinesSlider && slider === "headlines") {
     var currentHeadlinesSlider = document.getElementById(openHeadlinesSliderName + "-slider");
 
@@ -298,10 +349,17 @@ function nudgeBackSlider(slider, spot) {
   }
 }
 
-function enableNavSwipeClose(slider) {
+function enableNavSwipe(slider) {
   // create a new Hammer instance and apply to the current slider. On swipe, call the close nav slider function
   var touchSlider = new Hammer(slider);
   touchSlider.on("swipeleft", closeNavSlider);
+  touchSlider.on("swiperight", openUserActivitySlider);
+}
+
+function enableUserActivitySwipeClose(slider) {
+  // create a new Hammer instance and apply to the current slider. On swipe, call the close nav slider function
+  var touchSlider = new Hammer(slider);
+  touchSlider.on("swipeleft", closeUserActivitySlider);
 }
 
 function enableHeadlinesSwipeClose(slider) {
@@ -331,6 +389,20 @@ $(".nav-slider-bg").mousedown(function(e) {
 
   if (!$(e.target).is(navSlider)) {
     closeNavSlider();
+  }
+});
+
+// listener - open user-activity-slider
+$(document).on("click", ".user-activity-slider-trigger", function() {
+  openUserActivitySlider();
+});
+
+// listener - close user-activity-slider with click outside slider
+$(".user-activity-slider-bg").mousedown(function(e) {
+  var userActivitySlider = document.getElementById("user-activity-slider");
+
+  if (!$(e.target).is(userActivitySlider)) {
+    closeUserActivitySlider();
   }
 });
 
@@ -379,7 +451,9 @@ $(document).keyup(function(e) {
   // determine if the key pressed was Esc
   if (e.keyCode === 27) {
     // if yes, then go through the slider priority and close the approriate slider
-    if (navSliderOpen) {
+    if (userActivitySliderOpen) {
+      return closeUserActivitySlider();
+    } else if (navSliderOpen) {
       return closeNavSlider();
     } else if (bundleSliderOpen) {
       return closeBundleSlider();
@@ -397,4 +471,6 @@ $(document).keyup(function(e) {
 
 $(function() {
   getUserData();
+
+  // populate the user activity slider
 });

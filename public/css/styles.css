@@ -95,7 +95,7 @@ a:hover {
   bottom: 20px;
   left: 20px;
   cursor: pointer;
-  z-index: 2500;
+  z-index: 2300;
 }
 
 .left-side-slider {
@@ -128,8 +128,10 @@ a:hover {
   z-index: 2200;
 }
 
-.nav-slider-body h4 {
-  padding: 10px 0px;
+#user-activity-slider {
+  background-color: #E0E0E0;
+  color: #333;
+  z-index: 2400;
 }
 
 .headlines-slider {
@@ -158,17 +160,12 @@ a:hover {
   box-shadow: -5px 0px 10px rgba(255, 255, 255, .5), -5px 0px 10px rgb(0, 0, 0, 1);
 }
 
-#nav-slider a {
-  text-decoration: none;
-  color: #333;
-  cursor: pointer;
-}
-
 .side-slider-container {
   overflow: auto;
 }
 
 .nav-slider-backdrop,
+.user-activity-slider-backdrop,
 .headlines-slider-backdrop,
 .article-slider-backdrop,
 .bundle-slider-backdrop {
@@ -183,6 +180,10 @@ a:hover {
 
 .nav-slider-backdrop {
   z-index: 2150;
+}
+
+.user-activity-slider-backdrop {
+  z-index: 2350;
 }
 
 .headlines-slider-backdrop {
@@ -201,24 +202,40 @@ a:hover {
   overflow: hidden;
 }
 
-#nav-slider {
+#nav-slider, #user-activity-slider {
   padding: 20px 10px 0px 10px;
 }
 
-.nav-slider-header {
+.nav-slider-header,
+.user-activity-slider-header {
   text-align: center;
   margin-top: 20px;
 }
 
-.nav-slider-header>h1 {
+.nav-slider-header>h1,
+.user-activity-slider-header>h1 {
   font-weight: bold;
 }
 
-.nav-slider-body {
+.nav-slider-body,
+.user-activity-slider-body {
   text-align: left;
   display: block;
   margin-top: 50px;
 }
+
+.nav-slider-body h4,
+.user-activity-slider-body h4 {
+  padding: 10px 0px;
+}
+
+#nav-slider a,
+#user-activity-slider a {
+  text-decoration: none;
+  color: #333;
+  cursor: pointer;
+}
+
 
 .nav-slider-signup,
 .nav-slider-logout {

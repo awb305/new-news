@@ -6,11 +6,9 @@
 // var headlineArticles = require("../news_app/testHeadlines.js");
 
 var authController = require("../controllers/authcontroller.js");
-<<<<<<< HEAD
 var articleController = require("../controllers/articlecontroller.js");
-=======
+
 //importing our promise object, which, after it processes, will contain our headlineArticles object, which will contain all of the original methods and also all of the articles we've added to it in the apiCalls 
->>>>>>> master
 var articlesRequester = require("../news_app/apiCalls.js");
 
 var db = require("../models");
