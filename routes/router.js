@@ -184,12 +184,6 @@ module.exports = function(app, passport) {
       }
     });
   });
-  // ===============================================================================
-  // Individual Article Pages
-
-  app.get("/article/:id", function(req, res) {
-    res.render("article-display");
-  });
 
   // ===============================================================================
   // Unmatched routes
@@ -199,6 +193,13 @@ module.exports = function(app, passport) {
     res.render("404");
   });
 };
+
+// ===============================================================================
+// Individual Article Pages
+
+// app.get("/article/:id", function(req, res) {
+//   res.render("article-display");
+// });
 
 // ===============================================================================
 // Example Pages & Functionality to be removed

@@ -297,3 +297,7 @@ a:hover {
 .hide-element {
   display: none;
 }
+
+.worthy-added {
+  background-color: #2E4C93; 
+}

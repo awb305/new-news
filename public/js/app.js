@@ -64,12 +64,19 @@ $(".add-worthy-btn").on("click", function(event) {
   };
   
   console.log(worthyArticleObj);
-  worthyArticleSubmit(worthyArticleObj);
+  worthyArticleSubmit(worthyArticleObj, articleId);
 });
   
-function worthyArticleSubmit(worthyArticle) {
+function worthyArticleSubmit(worthyArticle, articleId) {
   $.post("/api/worthy-article", worthyArticle, function(response) {
     console.log(response);
+
+    var worthyButton = document.getElementById(articleId + "-worthy-btn");
+
+    worthyButton = $(worthyButton);
+
+    worthyButton.addClass("worthy-added");
+    worthyButton.html("DEEMED WORTHY!");
   });
 }
 
