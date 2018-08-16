@@ -53,6 +53,7 @@ $(".add-worthy-btn").on("click", function(event) {
   worthyArticleData = $(worthyArticleData);
 
   var worthyArticleObj = {
+    bundle: "worthy",
     userId: userId,
     publication: worthyArticleData.attr("data-publication"),
     url: worthyArticleData.attr("data-url"),
@@ -66,11 +67,11 @@ $(".add-worthy-btn").on("click", function(event) {
     image: worthyArticleData.attr("data-image"),
     imageLarge: worthyArticleData.attr("data-imageLarge")
   };
-  
+
   console.log(worthyArticleObj);
   worthyArticleSubmit(worthyArticleObj, articleId);
 });
-  
+
 function worthyArticleSubmit(worthyArticle, articleId) {
   $.post("/api/worthy-article", worthyArticle, function(response) {
     console.log(response);
@@ -81,6 +82,52 @@ function worthyArticleSubmit(worthyArticle, articleId) {
 
     worthyButton.addClass("worthy-added");
     worthyButton.html("DEEMED WORTHY!");
+  });
+}
+
+// ==============================================================================
+// Save Button Click on Article
+// ==============================================================================
+
+$(".add-save-btn").on("click", function(event) {
+  event.preventDefault();
+
+  var articleId = $(this).attr("data-id");
+
+  var savedArticleData = document.getElementById(articleId + "-data");
+  // convert element to JQuery
+  savedArticleData = $(savedArticleData);
+
+  var savedArticleObj = {
+    bundle: "saved",
+    userId: userId,
+    publication: savedArticleData.attr("data-publication"),
+    url: savedArticleData.attr("data-url"),
+    headline: savedArticleData.attr("data-headline"),
+    section: savedArticleData.attr("data-section"),
+    subsection: savedArticleData.attr("data-subsection"),
+    title: savedArticleData.attr("data-title"),
+    byline: savedArticleData.attr("data-byline"),
+    summary: savedArticleData.attr("data-summary"),
+    date: savedArticleData.attr("data-date"),
+    image: savedArticleData.attr("data-image"),
+    imageLarge: savedArticleData.attr("data-imageLarge")
+  };
+
+  console.log(savedArticleObj);
+  savedArticleSubmit(savedArticleObj, articleId);
+});
+
+function savedArticleSubmit(savedArticle, articleId) {
+  $.post("/api/save-article", savedArticle, function(response) {
+    console.log(response);
+
+    var saveButton = document.getElementById(articleId + "-save-btn");
+
+    saveButton = $(saveButton);
+
+    saveButton.addClass("saved-btn");
+    saveButton.html("SAVED!");
   });
 }
 

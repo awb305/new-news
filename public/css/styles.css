@@ -304,6 +304,7 @@ a:hover {
 
 .signup-login-icon {
   width: 100px;
+  cursor: pointer;
 }
 
 .signup-login-btn {
@@ -316,7 +317,7 @@ a:hover {
   color: #f7f7f7;
 }
 
-.article-slider > .add-worthy-btn {
+.article-slider > .add-worthy-btn, .article-slider > .add-save-btn {
   margin-top: 20px;
 }
 
@@ -327,7 +328,23 @@ a:hover {
   padding: 5px 10px;
   text-transform: uppercase;
   font-weight: bold;
-  color: #f7f7f7
+  color: #f7f7f7;
+  display: block;
+  min-width: 125px;
+  margin: 5px auto;
+}
+
+.add-save-btn {
+  border-radius: 8px;
+  border: none;
+  background-color: #f2f2f2;
+  padding: 5px 10px;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #333;
+  display: block;
+  min-width: 125px;
+  margin: 5px auto;
 }
 
 .hide-element {
@@ -336,4 +353,9 @@ a:hover {
 
 .worthy-added {
   background-color: #2E4C93; 
+}
+
+.saved-btn {
+  background-color: #283860;
+  color: #f7f7f7;
 }
