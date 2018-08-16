@@ -143,15 +143,44 @@ module.exports = function(app, passport) {
   // ===============================================================================
   // User Profile Pages
 
-  app.get("/user/:id", isLoggedIn, function(req, res) {
-    res.render("user-profile");
-  });
+  // app.get("/user/:id", isLoggedIn, function(req, res) {
+  //   res.render("user-profile");
+  // });
 
   // ===============================================================================
   // Bundles & News Worthy Articles
 
   app.get("/bundle/:id", function(req, res) {
-    res.render("bundle-display");
+    db.Bundle.findOne({
+      where: {
+        id: req.params.id
+      }
+    }).then(function(bundleResults) {
+      // res.json(results);
+
+      // store the articles as a variable
+      var bundleArticles = bundleResults.articles;
+
+      // extract the list of articles to an array
+      var bundleArticlesArr = bundleArticles.split(", ");
+
+      var bundleName = bundleResults.name;
+
+      db.Article.findAll({
+        where: {
+          id: bundleArticlesArr
+        }
+      }).then(function(articleResults) {
+
+        var displayObj = {
+          title: bundleName,
+          bundleName: bundleName,
+          bundleArticles: articleResults
+        };
+
+        res.render("bundle-display", displayObj);
+      });
+    });
   });
 
   // store an article deemed news worthy
