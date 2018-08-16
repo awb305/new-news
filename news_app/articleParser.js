@@ -11,7 +11,7 @@ var headlineArticles = {
       // create variables for the headline, the headline slug and the articles that correspond with that headline
       var headline = mainHeadlines[i];
       var headlineSlug = headline.toLowerCase();
-      headlineSlug = headlineSlug.replace(/ /g, "_");
+      headlineSlug = headlineSlug.replace(/[\W]+/g, "_");
       var articles = [];
 
       // look at each article
@@ -53,14 +53,9 @@ var headlineArticles = {
     for (var i = 0; i < storiesArr.length; i++) {
 
       var headline = "";
+      var headline = this.headlineSetter(storiesArr[i]);
 
-      if (storiesArr[i].subsection !== "") {
-        headline = storiesArr[i].subsection;
-      } else {
-        headline = storiesArr[i].section;
-      }
-
-      if (!headlines.includes(headline)) {
+      if (headline !== "hide" && !headlines.includes(headline)) {
         headlines.push(headline);
       }
     }
@@ -80,23 +75,29 @@ var headlineArticles = {
       // create a temporary id for the story
       var tempId = Math.floor(Math.random() * 10000000) + 1;
       tempId += "tid";
-      // var img;
-      // var imgLg;
+      var img;
+      var imgLg;
 
-      // if (storiesArr[i].multimedia[4]) {
-      //   img = storiesArr[i].multimedia[3].url;
-      //   imgLg = storiesArr[i].multimedia[4].url;
-      // } else {
-      //   img = "../public/images/guardian-logo-med.png";
-      //   imgLg = "../public/images/guardian-logo-large.png";
-      // }
+
+      // assign an image if one exists, or else a default by publication if one doesn't
+      if (storiesArr[i].publication === "The New York Times") {
+        if (typeof storiesArr[i].multimedia[3] !== "undefined") {
+          img = storiesArr[i].multimedia[3].url;
+        } else {
+          img = "/images/nyt-logo-med.png";
+        }
+        if (typeof storiesArr[i].multimedia[4] !== "undefined") {
+          imgLg = storiesArr[i].multimedia[4].url;
+        } else {
+          imgLg = "/images/nyt-logo-lg.jpg";
+        }
+      } else {
+        img = "/images/guardian-logo-med.png";
+        imgLg = "/images/guardian-logo-large.png";
+      }
 
       // determine the headline for the story
-      if (storiesArr[i].subsection !== "") {
-        headline = storiesArr[i].subsection;
-      } else {
-        headline = storiesArr[i].section;
-      }
+      var headline = this.headlineSetter(storiesArr[i]);
 
       var articleGroupObj = {
         url: storiesArr[i].url,
@@ -108,14 +109,112 @@ var headlineArticles = {
         byline: storiesArr[i].byline,
         summary: storiesArr[i].abstract,
         date: storiesArr[i].published_date,
-        // image: img,
-        // imageLarge: imgLg
+        articleImg: img,
+        articleImgLg: imgLg,
+        publication: storiesArr[i].publication
       };
 
-      stories.push(articleGroupObj);
+      if (headline !== "hide") {
+        stories.push(articleGroupObj);
+      }
     }
 
     return stories;
+  },
+  articleSorter: function (property) {
+    var sortOrder = 1;
+    if (property[0] === "-") {
+      sortOrder = -1;
+      property = property.substr(1);
+    }
+    return function (a, b) {
+      var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+      return result * sortOrder;
+    };
+  },
+  headlineSetter: function (articleObj) {
+    var headline;
+    var section = articleObj.subsection;
+
+    if (section === "") {
+      section = articleObj.section;
+    }
+
+    if (
+      section === "Business Day" ||
+      section === "Your Money" ||
+      section === "Money") {
+      headline = "Business";
+    } else if (
+      section === "Books" ||
+      section === "Book Review" ||
+      section === "Movies" ||
+      section === "Film" ||
+      section === "Television & radio" ||
+      section === "Television" ||
+      section === "Music" ||
+      section === "Games") {
+      headline = "Media";
+    } else if (
+      section === "Style" ||
+      section === "Theater" ||
+      section === "Culture" ||
+      section === "Food" ||
+      section === "Art and design" ||
+      section === "Fashion" ||
+      section === "T Magazine" ||
+      section === "Life and style") {
+      headline = "Arts & Leisure";
+    } else if (
+      section === "Well") {
+      headline = "Health";
+    } else if (
+      section === "Cities") {
+      headline = "Travel";
+    } else if (
+      section === "Briefing" ||
+      section === "The Upshot" ||
+      section === "Magazine" ||
+      section === "Smarter Living" ||
+      section === "Family" ||
+      section === "Guardian Masterclasses" ||
+      section === "Higher Education Network" ||
+      section === "Obituaries" ||
+      section === "Education") {
+      headline = "Other";
+    } else if (
+      section === "Science" ||
+      section === "Personal Tech" ||
+      section === "Technology" ||
+      section === "Environment") {
+      headline = "Science & Technology";
+    } else if (
+      section === "Football" ||
+      section === "Sport") {
+      headline = "Sports";
+    } else if (
+      section === "US news") {
+      headline = "U.S.";
+    } else if (
+      section === "Europe" ||
+      section === "Middle East" ||
+      section === "Australia news" ||
+      section === "World news" ||
+      section === "Global development" ||
+      section === "News" ||
+      section === "UK news") {
+      headline = "World";
+    } else if (
+      section === "New York" ||
+      section === "Society" ||
+      section === "Real Estate" ||
+      section === "Crosswords" ||
+      section === "Stage") {
+      headline = "hide";
+    } else {
+      headline = section;
+    }
+    return headline;
   }
 };
 
