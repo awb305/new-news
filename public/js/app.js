@@ -33,6 +33,10 @@ function displayUserItems() {
   // remove the hide-element class from user-specific items and add it to visitor specific items
   $(".visitor-item").addClass("hide-element");
   $(".user-item").removeClass("hide-element");
+
+  // set the correct url for the user profile page
+  var userProfileLink = "/user/" + userId;
+  $(".profile-link").attr("href", userProfileLink);
 }
 
 // ==============================================================================
