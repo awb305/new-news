@@ -5,22 +5,26 @@
         <img class="nav-slider-trigger signup-login-icon" src="/images/nav-icon.svg">
       </div>
       <form class="clearfix mb-4" id="signin" name="signin" method="post" action="/login">
-          <div class="form-group">
-            <label for="email">Email Address</label>
-            <input name="email" type="text" id="signup-email" class="form-control text" aria-describedby="signup-email" placeholder="example@gmail.com">
-          </div>
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input name="password" type="password" id="signup-password" class="form-control" aria-describedby="signup-password" placeholder="password">
-          </div>
-          <input class="btn signup-login-btn" type="submit" value="Log In" />
-        </form>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input name="email" type="text" id="signup-email" class="form-control text" aria-describedby="signup-email" placeholder="example@gmail.com">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input name="password" type="password" id="signup-password" class="form-control" aria-describedby="signup-password" placeholder="password">
+        </div>
+        <input class="btn signup-login-btn" type="submit" value="Log In" />
+      </form>
     </div>
   </div>
 </div>
 
 <div class="side-slider-container">
 
-    {{> nav-slider}}
+  {{> nav-slider}}
 
 </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.js"></script>
+<script type="text/javascript" src="/js/validation.js"></script>
