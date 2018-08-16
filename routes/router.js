@@ -71,8 +71,9 @@ module.exports = function(app, passport) {
   app.post(
     "/signup",
     passport.authenticate("local-signup", {
-      successRedirect: "/dashboard",
-      failureRedirect: "/sign-up"
+      successRedirect: "/",
+      failureRedirect: "/sign-up",
+      failureFlash: true
     })
   );
 
@@ -106,13 +107,14 @@ module.exports = function(app, passport) {
   app.post(
     "/login",
     passport.authenticate("local-login", {
-      successRedirect: "/dashboard",
-      failureRedirect: "/log-in"
+      successRedirect: "/",
+      failureRedirect: "/log-in",
+      failureFlash: true
     })
   );
 
   // test dashboard page
-  app.get("/dashboard", isLoggedIn, authController.dashboard);
+  // app.get("/dashboard", isLoggedIn, authController.dashboard);
 
   // get user data
   app.get("/api/user", authController.userData);
@@ -184,12 +186,6 @@ module.exports = function(app, passport) {
       }
     });
   });
-  // ===============================================================================
-  // Individual Article Pages
-
-  app.get("/article/:id", function(req, res) {
-    res.render("article-display");
-  });
 
   // ===============================================================================
   // Unmatched routes
@@ -199,6 +195,13 @@ module.exports = function(app, passport) {
     res.render("404");
   });
 };
+
+// ===============================================================================
+// Individual Article Pages
+
+// app.get("/article/:id", function(req, res) {
+//   res.render("article-display");
+// });
 
 // ===============================================================================
 // Example Pages & Functionality to be removed
