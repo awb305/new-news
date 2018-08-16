@@ -78,14 +78,11 @@ $(".add-worthy-btn").on("click", function(event) {
     console.log("first part of array: "+ splitArticles);
     var arrayBeginning = splitArticles[0];
     console.log("test that split[0] is working: "+arrayBeginning);
-    var newArray = arrayBeginning + ", " + worthyArticleObj.id + "]"
-    console.log("value to be pushed to model: "+newArray);
+    var newArray = arrayBeginning + ", " + worthyArticleObj.id + "]";
+    console.log("value to be pushed to model: " + newArray);
     db.Bundle.update({
       articleArray: newArray
-
     });
-
-    
   });
 });
   
