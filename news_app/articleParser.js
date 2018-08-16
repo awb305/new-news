@@ -1,3 +1,4 @@
+// var moment = require("moment");
 var headlineArticles = {
   getOutput: function () {
     var allArticlesGrouped = [];
@@ -108,7 +109,7 @@ var headlineArticles = {
         title: storiesArr[i].title,
         byline: storiesArr[i].byline,
         summary: storiesArr[i].abstract,
-        date: storiesArr[i].published_date,
+        date: storiesArr[i].date,
         articleImg: img,
         articleImgLg: imgLg,
         publication: storiesArr[i].publication

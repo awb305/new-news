@@ -4,19 +4,16 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    articleid: {
-      type: DataTypes.INTEGER,
-      allowNull: false
+    description: {
+      type: DataTypes.TEXT
     },
-    bundleType: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    userBundleName: {
-      type: DataTypes.STRING,
-      allowNull: false
+    articles: {
+      type: DataTypes.STRING
     }
-
   });
   return Bundle;
 };

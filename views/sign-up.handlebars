@@ -8,19 +8,19 @@
       <form class="clearfix mb-4" id="signup" name="signup" method="post" action="/signup">
         <div class="form-group">
           <label for="email">Email Address</label>
-          <input class="form-control text" name="email" type="email" placeholder="example@gmail.com"/>
+          <input class="form-control text" name="email" type="email" placeholder="example@gmail.com" />
         </div>
         <div class="form-group">
           <label for="firstname">Firstname</label>
-          <input class="form-control text" name="firstname" type="text" placeholder="Jane"/>
+          <input class="form-control text" name="firstname" type="text" placeholder="Jane" />
         </div>
         <div class="form-group">
           <label for="lastname">Lastname</label>
-          <input class="form-control text" name="lastname" type="text" placeholder="Doe"/>
+          <input class="form-control text" name="lastname" type="text" placeholder="Doe" />
         </div>
         <div class="form-group">
           <label for="password">Password</label>
-          <input class="form-control" name="password" type="password" placeholder="password"/>
+          <input class="form-control" name="password" type="password" placeholder="password" />
         </div>
         <input class="btn signup-login-btn" type="submit" value="Sign Up" />
       </form>
@@ -30,6 +30,9 @@
 
 <div class="side-slider-container">
 
-    {{> nav-slider}}
+  {{> nav-slider}}
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.js"></script>
+<script type="text/javascript" src="/js/validation.js"></script>
