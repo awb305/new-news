@@ -65,6 +65,28 @@ $(".add-worthy-btn").on("click", function(event) {
   
   console.log(worthyArticleObj);
   worthyArticleSubmit(worthyArticleObj);
+
+  db.Bundle.findOne({
+    where: {
+      id: worthyArticleObj.userId
+    }
+  }).then(function(results){
+    console.log("Bundle data: " + results);
+    var bundleResult = db.Bundle.articleArray;
+    console.log("Bundle data, article string only: " + bundleResult);
+    var splitArticles = bundleResult.split("]");
+    console.log("first part of array: "+ splitArticles);
+    var arrayBeginning = splitArticles[0];
+    console.log("test that split[0] is working: "+arrayBeginning);
+    var newArray = arrayBeginning + ", " + worthyArticleObj.id + "]"
+    console.log("value to be pushed to model: "+newArray);
+    db.Bundle.update({
+      articleArray: newArray
+
+    });
+
+    
+  });
 });
   
 function worthyArticleSubmit(worthyArticle) {
