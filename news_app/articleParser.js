@@ -129,7 +129,9 @@ var headlineArticles = {
       section = articleObj.section;
     }
 
-    if (section === "Business Day") {
+    if (
+      section === "Business Day" ||
+      section === "Money") {
       headline = "Business";
     } else if (
       section === "Books" ||
