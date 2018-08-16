@@ -41,8 +41,13 @@ a:hover {
   font-style: italic;
 }
 
+#headlines-container {
+  padding-bottom: 100px;
+}
+
 #worthy-articles-container {
   padding-top: 20px;
+  padding-bottom: 100px;
   width: 800px;
   max-width: 95vw;
   margin: 0 auto;
@@ -204,11 +209,11 @@ a:hover {
   margin-top: 50px;
 }
 
-.nav-slider-signup {
+.nav-slider-signup, .nav-slider-logout {
   margin-top: 60px;
 }
 
-.nav-slider-signup a {
+.nav-slider-signup a, .nav-slider-logout a {
   font-weight: bold;
   text-transform: uppercase;
   font-size: 20px;
@@ -223,7 +228,7 @@ a:hover {
 }
 
 .headlines-slider {
-  padding: 20px 10px 0px 10px;
+  padding: 20px 10px 100px 10px;
 }
 
 .article-summary {
@@ -247,7 +252,7 @@ a:hover {
 }
 
 .article-slider {
-  padding: 5px 10px 0px 10px;
+  padding: 5px 10px 100px 10px;
   text-align: center;
 }
 
@@ -278,6 +283,33 @@ a:hover {
   font-size: 20px;
   font-weight: bold;
   color: #5C83E0;
+}
+
+.form-container {
+  margin: 50px auto 0px auto;
+  padding: 20px 10px 50px 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+
+.logo-form-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.signup-login-icon {
+  width: 100px;
+}
+
+.signup-login-btn {
+  border-radius: 8px;
+  border: none;
+  background-color: #5C83E0;
+  padding: 5px 10px;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #f7f7f7;
 }
 
 .article-slider > .add-worthy-btn {

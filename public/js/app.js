@@ -274,7 +274,7 @@ function enableArticleSwipeClose(slider) {
 // ==============================================================================
 
 // listener - open nav slider
-$(document).on("click", ".nav-icon", function() {
+$(document).on("click", ".nav-slider-trigger", function() {
   navSliderOpen ? closeNavSlider() : openNavSlider();
 });
 

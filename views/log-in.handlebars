@@ -1,6 +1,9 @@
 <div class="container">
   <div class="row">
-    <div class="col-8 offset-2">
+    <div class="col-md-6 form-container">
+      <div class="logo-form-container">
+        <img class="nav-slider-trigger signup-login-icon" src="/images/nav-icon.svg">
+      </div>
       <form class="clearfix mb-4" id="signin" name="signin" method="post" action="/login">
           <div class="form-group">
             <label for="email">Email Address</label>
@@ -8,10 +11,16 @@
           </div>
           <div class="form-group">
             <label for="password">Password</label>
-            <input name="password" type="password" id="signup-password" class="form-control" aria-describedby="signup-password">
+            <input name="password" type="password" id="signup-password" class="form-control" aria-describedby="signup-password" placeholder="password">
           </div>
-          <input class="btn" type="submit" value="Sign In" />
+          <input class="btn signup-login-btn" type="submit" value="Log In" />
         </form>
     </div>
   </div>
+</div>
+
+<div class="side-slider-container">
+
+    {{> nav-slider}}
+
 </div>
