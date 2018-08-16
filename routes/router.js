@@ -6,6 +6,8 @@
 // var headlineArticles = require("../news_app/testHeadlines.js");
 
 var authController = require("../controllers/authcontroller.js");
+var articleController = require("../controllers/articlecontroller.js");
+
 //importing our promise object, which, after it processes, will contain our headlineArticles object, which will contain all of the original methods and also all of the articles we've added to it in the apiCalls 
 var articlesRequester = require("../news_app/apiCalls.js");
 
@@ -51,6 +53,11 @@ module.exports = function(app, passport) {
 
   app.get("/news-worthy", function(req, res) {
     db.Article.findAll({
+      where: {
+        worthyScore: {
+          $gt: 0
+        }
+      },
       order: [["date", "DESC"], ["worthyScore", "DESC"]]
       //attributes: ["id","articleImg","articleImgLg","title","publication","worthyScore","date","summary","url"]
     }).then(function(response) {
@@ -136,15 +143,44 @@ module.exports = function(app, passport) {
   // ===============================================================================
   // User Profile Pages
 
-  app.get("/user/:id", isLoggedIn, function(req, res) {
-    res.render("user-profile");
-  });
+  // app.get("/user/:id", isLoggedIn, function(req, res) {
+  //   res.render("user-profile");
+  // });
 
   // ===============================================================================
   // Bundles & News Worthy Articles
 
   app.get("/bundle/:id", function(req, res) {
-    res.render("bundle-display");
+    db.Bundle.findOne({
+      where: {
+        id: req.params.id
+      }
+    }).then(function(bundleResults) {
+      // res.json(results);
+
+      // store the articles as a variable
+      var bundleArticles = bundleResults.articles;
+
+      // extract the list of articles to an array
+      var bundleArticlesArr = bundleArticles.split(", ");
+
+      var bundleName = bundleResults.name;
+
+      db.Article.findAll({
+        where: {
+          id: bundleArticlesArr
+        }
+      }).then(function(articleResults) {
+
+        var displayObj = {
+          title: bundleName,
+          bundleName: bundleName,
+          bundleArticles: articleResults
+        };
+
+        res.render("bundle-display", displayObj);
+      });
+    });
   });
 
   // store an article deemed news worthy
@@ -187,6 +223,21 @@ module.exports = function(app, passport) {
           res.json(dbArticle);
         });
       }
+    });
+  });
+
+  // store an article saved by a user in their saved bundle
+  app.post("/api/save-article", articleController.saveArticle);
+
+  // get user bundle data
+  app.get("/api/user-bundles/:id", function(req, res) {
+    console.log(req.params.id);
+    db.Bundle.findAll({
+      where: {
+        userid: req.params.id
+      }
+    }).then(function(response) {
+      res.json(response);
     });
   });
 
