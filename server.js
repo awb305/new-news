@@ -22,7 +22,9 @@ var db = require("./models");
 var app = express();
 var PORT = process.env.PORT || 3000;
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(bodyParser.json());
 app.use(express.static("public"));
 
@@ -69,7 +71,9 @@ require("./config/passport/passport.js")(passport, db.User);
 // Database Sync Options
 // ==============================================================================
 
-var syncOptions = { force: false };
+var syncOptions = {
+  force: false
+};
 
 // If running a test, set syncOptions.force to true
 // clearing the `testdb`
@@ -81,8 +85,8 @@ if (process.env.NODE_ENV === "test") {
 // Server Listener
 // ==============================================================================
 
-db.sequelize.sync(syncOptions).then(function() {
-  app.listen(PORT, function() {
+db.sequelize.sync(syncOptions).then(function () {
+  app.listen(PORT, function () {
     console.log(
       "==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.",
       PORT,
@@ -90,3 +94,5 @@ db.sequelize.sync(syncOptions).then(function() {
     );
   });
 });
+
+module.exports = app;
