@@ -12,6 +12,7 @@ var openArticleId = "";
 var userId;
 var userFirstName;
 var userLastName;
+var bundleArticleId = "";
 
 // ==============================================================================
 // User Data
@@ -44,7 +45,7 @@ function displayUserItems() {
 }
 
 // ==============================================================================
-// Populate User Activity Slider
+// Populate User Bundles
 // ==============================================================================
 
 function getUserBundles() {
@@ -55,11 +56,15 @@ function getUserBundles() {
     // empty the container
     $(".user-activity-slider-body").empty();
 
+    // sort through the responses and add to the page
     if (response.length > 0) {
-      console.log("we have bundles!");
 
-      // for each response, create a header and add it to the slider body
+      var customBundles = false;
+
+      // for each response display them on the page
       for (var i = 0; i < response.length; i++) {
+
+        // Populate all bundle names on the user activity slider
         if (response[i].name === "saved" || response[i].name === "worthy") {
           var bundleName = response[i].name + " articles";
         } else {
@@ -67,10 +72,26 @@ function getUserBundles() {
         }
         var bundle = $('<a href="/bundle/' + response[i].id + '"><h4>' + bundleName + ' &raquo;</h4></a>');
         bundle.appendTo(".user-activity-slider-body");
+
+        // Populate all custom bundles on the bundle slider
+        if (response[i].name !== "saved" && response[i].name !== "worthy") {
+          customBundles = true;
+
+          var bundleButton = $('<button class="create-bundle-btn existing-bundle-btn" bundle-id="' + response[i].name + '">' + response[i].name + '</button>');
+
+          bundleButton.appendTo(".slider-existing-bundles");
+        }
       }
     } else {
       var message = $("<h4>You have not created any bundles yet</h4>");
+      // append the message to the user activity slider
       message.appendTo(".user-activity-slider-body");
+    }
+
+    if (!customBundles) {
+      console.log("we got here");
+      var customMessage = $("<p>You have not created any bundles yet</p>");
+      customMessage.appendTo(".bundle-slider-header");
     }
   });
 }
@@ -79,7 +100,7 @@ function getUserBundles() {
 // Worthy Button Click on Article
 // ==============================================================================
 
-$(".add-worthy-btn").on("click", function(event) {
+$(document).on("click", ".add-worthy-btn", function(event) {
   event.preventDefault();
 
   var articleId = $(this).attr("data-id");
@@ -127,7 +148,7 @@ function worthyArticleSubmit(worthyArticle, articleId) {
 // Save Button Click on Article
 // ==============================================================================
 
-$(".add-save-btn").on("click", function(event) {
+$(document).on("click", ".add-save-btn", function(event) {
   event.preventDefault();
 
   var articleId = $(this).attr("data-id");
@@ -168,6 +189,61 @@ function savedArticleSubmit(savedArticle, articleId) {
     saveButton.html("SAVED!");
 
     getUserBundles();
+  });
+}
+
+// ==============================================================================
+// Bundle Article
+// ==============================================================================
+
+$(document).on("click", ".create-bundle-btn", function(event) {
+  event.preventDefault();
+
+  var articleId = bundleArticleId;
+  var bundleName = "";
+  var bundleId = $(this).attr("bundle-id");
+
+  // get the name of the bundle
+  if (bundleId === "custom") {
+    // store the name and description inputs
+    bundleName = $("#create-bundle-name").val().trim();
+    bundleName = bundleName.toLowerCase();
+  } else {
+    // get the bundleId from the bundle button
+    bundleName = bundleId;
+  }
+
+  var bundledArticleData = document.getElementById(articleId + "-data");
+  // convert element to JQuery
+  bundledArticleData = $(bundledArticleData);
+
+  var bundledArticleObj = {
+    bundle: bundleName,
+    userId: userId,
+    publication: bundledArticleData.attr("data-publication"),
+    url: bundledArticleData.attr("data-url"),
+    headline: bundledArticleData.attr("data-headline"),
+    section: bundledArticleData.attr("data-section"),
+    subsection: bundledArticleData.attr("data-subsection"),
+    title: bundledArticleData.attr("data-title"),
+    byline: bundledArticleData.attr("data-byline"),
+    summary: bundledArticleData.attr("data-summary"),
+    date: bundledArticleData.attr("data-date"),
+    image: bundledArticleData.attr("data-image"),
+    imageLarge: bundledArticleData.attr("data-imageLarge")
+  };
+
+  console.log(bundledArticleObj);
+  bundledArticleSubmit(bundledArticleObj, articleId);
+});
+
+function bundledArticleSubmit(bundledArticle) {
+  $.post("/api/bundle-article", bundledArticle, function(response) {
+    console.log(response);
+
+    $("#create-bundle-name").val("");
+
+    location.reload();
   });
 }
 
@@ -214,10 +290,10 @@ function openUserActivitySlider() {
   userActivitySliderOpen = true;
   var userActivitySlider = document.getElementById("user-activity-slider");
 
-  // slide the sider out to the left side of the screen
+  // slide the slider out to the left side of the screen
   userActivitySlider.style.left = "0";
 
-  // add the slider-backdrop class to create a dark opaque background behind the nav slider
+  // add the slider-backdrop class to create a dark opaque background behind the user activity slider
   $(".user-activity-slider-bg").addClass("user-activity-slider-backdrop");
 
   // add focus to the open slider
@@ -227,7 +303,7 @@ function openUserActivitySlider() {
   $(userActivitySlider).addClass("left-side-slider-shadow");
 
   // nudge the nav slider over
-  nudgeSlider("nav");
+  nudgeSlider("nav", 1);
 
   // enable swipe to close
   enableUserActivitySwipeClose(userActivitySlider);
@@ -244,6 +320,53 @@ function closeUserActivitySlider() {
   $(userActivitySlider).removeClass("left-side-slider-shadow");
 
   nudgeBackSlider("nav", 0);
+}
+
+function openBundleSlider() {
+  bundleSliderOpen = true;
+  var bundleSlider = document.getElementById("bundle-slider");
+
+  // slide the slider out to the right side of the screen
+  bundleSlider.style.right = "0";
+
+  // add the slider-backdrop class
+  $(".bundle-slider-bg").addClass("bundle-slider-backdrop");
+
+  // add focus to the open slider
+  bundleSlider.focus();
+
+  // add the shadow effect to the slider
+  $(bundleSlider).addClass("right-side-slider-shadow");
+
+  if (headlinesSliderOpen) {
+    // if headlinesSlider is open, nudge 2 spots
+    nudgeSlider("headlines", 2);
+  }
+
+  // nudge the article slider
+  nudgeSlider("article", 1);
+
+  // enable swipe to close
+  enableBundleSliderSwipeClose(bundleSlider);
+}
+
+function closeBundleSlider() {
+  bundleSliderOpen = false;
+  var bundleSlider = document.getElementById("bundle-slider");
+
+  // move the slider so that it is off the screen. The number of pixels must be equal to or greater than what is set in the css
+  bundleSlider.style.right = "-350px";
+  $(".bundle-slider-bg").removeClass("bundle-slider-backdrop");
+
+  $(bundleSlider).removeClass("right-side-slider-shadow");
+
+  // check if the headlines slider is open
+  if (headlinesSliderOpen) {
+    // nudge open headlines slider back to spot "zero"
+    nudgeBackSlider("headlines", 1);
+  }
+
+  nudgeBackSlider("article", 0);
 }
 
 function openHeadlinesSlider() {
@@ -306,7 +429,7 @@ function openArticleSlider() {
   // check if the headlines slider is open
   if (headlinesSliderOpen) {
     // nudge open headlines slider 1 spot
-    nudgeSlider("headlines");
+    nudgeSlider("headlines", 1);
   } else {
     // lock the body from scrolling
     $("body").addClass("lock-scroll");
@@ -340,25 +463,21 @@ function closeArticleSlider() {
   openArticleId = "";
 }
 
-function nudgeSlider(slider) {
+function nudgeSlider(slider, spot) {
+  var sliderLocation = "+" + (350 * spot) + "px";
+
   if (openNavSlider && slider === "nav") {
     var navSlider = document.getElementById("nav-slider");
-
-    // slide the nav slider 350px more from the left
-    navSlider.style.left = "+350px";
+    navSlider.style.left = sliderLocation;
   }
   if (openHeadlinesSlider && slider === "headlines") {
     var currentHeadlinesSlider = document.getElementById(openHeadlinesSliderName + "-slider");
-
-    // slide the headlines slider 350px more
-    currentHeadlinesSlider.style.right = "+350px";
+    currentHeadlinesSlider.style.right = sliderLocation;
   }
 
   if (openArticleSlider && slider === "article") {
     var currentArticleSlider = document.getElementById(openArticleId + "-slider");
-
-    // slide the articles slider 350px more
-    currentArticleSlider.style.right = "+350px";
+    currentArticleSlider.style.right = sliderLocation;
   }
 }
 
@@ -396,7 +515,7 @@ function enableNavSwipe(slider) {
 }
 
 function enableUserActivitySwipeClose(slider) {
-  // create a new Hammer instance and apply to the current slider. On swipe, call the close nav slider function
+  // create a new Hammer instance and apply to the current slider. On swipe, call the close user activity slider function
   var touchSlider = new Hammer(slider);
   touchSlider.on("swipeleft", closeUserActivitySlider);
 }
@@ -411,6 +530,12 @@ function enableArticleSwipeClose(slider) {
   // create a new Hammer instance and apply to the current slider. On swipe, call the close article slider function
   var touchSlider = new Hammer(slider);
   touchSlider.on("swiperight", closeArticleSlider);
+}
+
+function enableBundleSliderSwipeClose(slider) {
+  // create a new Hammer instance and apply to the current slider. On swipe, call the close bundle slider function
+  var touchSlider = new Hammer(slider);
+  touchSlider.on("swiperight", closeBundleSlider);
 }
 
 // ==============================================================================
@@ -465,12 +590,19 @@ $(".headlines-slider-bg").mousedown(function(e) {
   }
 });
 
-// listener - close headlines slider with click outside slider
-$(".article-slider-bg").mousedown(function(e) {
-  var currentArticleSlider = document.getElementById(openArticleId + "-slider");
+// listener - open bundle-slider
+$(document).on("click", ".bundle-slider-trigger", function() {
+  bundleArticleId = $(this).attr("data-id");
 
-  if (!$(e.target).is(currentArticleSlider)) {
-    closeArticleSlider();
+  openBundleSlider();
+});
+
+// listener - close bundle-slider with click outside slider
+$(".bundle-slider-bg").mousedown(function(e) {
+  var bundleSlider = document.getElementById("bundle-slider");
+
+  if (!$(e.target).is(bundleSlider)) {
+    closeBundleSlider();
   }
 });
 
@@ -483,6 +615,15 @@ $(document).on("click", ".article-slider-trigger", function() {
   openArticleId = articleId;
 
   openArticleSlider();
+});
+
+// listener - close article slider with click outside slider
+$(".article-slider-bg").mousedown(function(e) {
+  var currentArticleSlider = document.getElementById(openArticleId + "-slider");
+
+  if (!$(e.target).is(currentArticleSlider)) {
+    closeArticleSlider();
+  }
 });
 
 // listener - close slider with Esc key
