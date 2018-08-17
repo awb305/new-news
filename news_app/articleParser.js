@@ -143,6 +143,7 @@ var headlineArticles = {
     }
     //filter the sections that appear into fewer more useful categories
     if (
+      section === "Business to business" ||
       section === "Business Day" ||
       section === "Your Money" ||
       section === "DealBook" ||
@@ -205,6 +206,7 @@ var headlineArticles = {
       section === "US news") {
       headline = "U.S.";
     } else if (
+      section === "Americas" ||
       section === "Asia Pacific" ||
       section === "Europe" ||
       section === "Middle East" ||
