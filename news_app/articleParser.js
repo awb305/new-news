@@ -224,11 +224,11 @@ var headlineArticles = {
     } else if (
       section === "Columnists") {
       headline = "Opinion";
-  } else {
-    headline = section;
+    } else {
+      headline = section;
+    }
+    return headline;
   }
-  return headline;
-}
 };
 
 // export the object
