@@ -154,6 +154,8 @@ a:hover {
   background-color: #E0E0E0;
   color: #333;
   z-index: 2100;
+  padding: 5px 10px 100px 10px;
+  text-align: center;
 }
 
 .left-side-slider-shadow {
@@ -219,6 +221,12 @@ a:hover {
 .nav-slider-header>h1,
 .user-activity-slider-header>h1 {
   font-weight: bold;
+}
+
+.bundle-slider-header>h3, 
+.bundle-slider-body>h3 {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ccc;
 }
 
 .nav-slider-body,
@@ -364,6 +372,7 @@ a:hover {
   display: block;
   min-width: 125px;
   margin: 5px auto;
+  cursor: pointer;
 }
 
 .add-save-btn {
@@ -377,6 +386,27 @@ a:hover {
   display: block;
   min-width: 125px;
   margin: 5px auto;
+  cursor: pointer;
+}
+
+.bundle-it-btn, .create-bundle-btn {
+  border-radius: 8px;
+  border: none;
+  background-color: #2E4C93;
+  padding: 5px 10px;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #f7f7f7;
+  display: block;
+  min-width: 125px;
+  margin: 5px auto;
+  cursor: pointer;
+}
+
+.existing-bundle-btn {
+  margin: 15px auto;
+  background-color: #7F7F7F;
+  min-width: 175px;
 }
 
 .hide-element {

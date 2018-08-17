@@ -102,7 +102,7 @@ exports.worthyArticle = function(req, res) {
       var articleId = articleResults.id;
       var articleWorthyScore = articleResults.worthyScore;
 
-      // check if the user has a Saved bundle
+      // check if the user has Worthy bundle
       db.Bundle.findOne({
         where: {
           userid: req.body.userId,
@@ -231,7 +231,7 @@ exports.saveArticle = function(req, res) {
         // store the new article ID as a string
         var articleId = articleResponse.id;
 
-        // article has been created, check if the user has a Saved bundle
+        // article has been created, check if the user has the bundle
         db.Bundle.findOne({
           where: {
             userid: req.body.userId,
@@ -282,7 +282,7 @@ exports.saveArticle = function(req, res) {
       // article does exist
       // store the article id
       var articleId = articleResults.id;
-      // check if the user has a Saved bundle
+      // check if the user has the bundle
       db.Bundle.findOne({
         where: {
           userid: req.body.userId,
@@ -302,7 +302,7 @@ exports.saveArticle = function(req, res) {
             res.json(bundleResponse);
           });
         } else {
-          // article exists and user has Saved bundle
+          // article exists and user has the bundle
 
           // store the articles in the bundle
           var bundleArticles = bundleResults.articles;
