@@ -35,6 +35,27 @@ a:hover {
   padding: 20px 5px 10px 5px;
 }
 
+.title-container a {
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.nav-slider-header a {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+#title-link {
+  color: #fff;
+  cursor: pointer;
+}
+
+.title-container a:hover,
+.nav-slider-header a:hover {
+  color: #fff;
+} 
+
 .title-container>h1 {
   font-size: 3rem;
   font-weight: 300;
@@ -67,6 +88,13 @@ a:hover {
 #bundle-articles-container>.article-summary>.article-summary-title {
   margin-top: 10px;
   line-height: 1.1;
+}
+
+#worthy-articles-container>.article-summary>.article-worthy-count,
+#bundle-articles-container>.article-summary>
+.article-worthy-count { 
+  font-variant: small-caps;
+  color: #B0B0B0;
 }
 
 #worthy-articles-container>.article-summary>img,
@@ -285,6 +313,7 @@ a:hover {
 
 .article-summary-publication {
   font-style: italic;
+  margin-bottom: 0px;
 }
 
 .article-slider {

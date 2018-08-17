@@ -64,6 +64,13 @@ module.exports = function (app, passport) {
         ["worthyScore", "DESC"]
       ]
     }).then(function (response) {
+      response.forEach(function(element){
+        if (element.worthyScore === 1){
+          element.humanCount = "person";
+        } else { 
+          element.humanCount = "people";
+        }
+      });
       var displayObj = {
         title: "News Worthy Articles",
         today: moment().format("LL"),
@@ -151,12 +158,19 @@ module.exports = function (app, passport) {
           id: bundleArticlesArr
         }
       }).then(function (articleResults) {
-
+        articleResults.forEach(function(element){
+          if (element.worthyScore === 1){
+            element.humanCount = "person";
+          } else { 
+            element.humanCount = "people";
+          }
+        });
         var displayObj = {
           title: bundleName,
           bundleName: bundleName,
-          bundleArticles: articleResults
+          bundleArticles: articleResults,
         };
+
 
         res.render("bundle-display", displayObj);
       });
