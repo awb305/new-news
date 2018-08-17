@@ -18,12 +18,12 @@ var moment = require("moment");
 // Routing
 // ===============================================================================
 
-module.exports = function(app, passport) {
+module.exports = function (app, passport) {
   // ===============================================================================
   // Headlines Page
-  app.get("/", function(req, res) {
+  app.get("/", function (req, res) {
     //call our promise object as a function and a .then so that it won't activate until the promises in apiCalls have resolved and the asynchronous data has been passed through
-    articlesRequester().then(function(headlineArticles) {
+    articlesRequester().then(function (headlineArticles) {
       var displayObj = {
         title: "Top Headlines",
         today: moment().format("LL"),
@@ -36,9 +36,9 @@ module.exports = function(app, passport) {
   });
 
   // test url for checking data
-  app.get("/headlines-data", function(req, res) {
+  app.get("/headlines-data", function (req, res) {
     //again, call our promise object
-    articlesRequester().then(function(headlineArticles) {
+    articlesRequester().then(function (headlineArticles) {
       var displayObj = {
         title: "Headlines Data",
         articleGroup: headlineArticles.articleGroups,
@@ -51,7 +51,7 @@ module.exports = function(app, passport) {
   //===============================================================================
   // News Worthy Page
 
-  app.get("/news-worthy", function(req, res) {
+  app.get("/news-worthy", function (req, res) {
     db.Article.findAll({
       where: {
         worthyScore: {
@@ -59,8 +59,11 @@ module.exports = function(app, passport) {
         }
       },
       limit: 50,
-      order: [["date", "DESC"], ["worthyScore", "DESC"]]
-    }).then(function(response) {
+      order: [
+        ["date", "DESC"],
+        ["worthyScore", "DESC"]
+      ]
+    }).then(function (response) {
       var displayObj = {
         title: "News Worthy Articles",
         today: moment().format("LL"),
@@ -82,23 +85,33 @@ module.exports = function(app, passport) {
     "/signup",
     passport.authenticate("local-signup", {
       successRedirect: "/",
-      failureRedirect: "/sign-up",
+      failureRedirect: "/sign-up-return",
       failureFlash: true
     })
   );
 
+  app.get("/sign-up-return", authController.signupReturn);
+
   // Load log-in page
   app.get("/log-in", authController.login);
+
+
+
 
   // login user
   app.post(
     "/login",
     passport.authenticate("local-login", {
       successRedirect: "/",
-      failureRedirect: "/log-in",
+      failureRedirect: "/log-in-return",
       failureFlash: true
     })
   );
+
+  app.get("/log-in-return", authController.loginReturn);
+
+  // test dashboard page
+  // app.get("/dashboard", isLoggedIn, authController.dashboard);
 
   // get user data
   app.get("/api/user", authController.userData);
@@ -117,12 +130,12 @@ module.exports = function(app, passport) {
   // ===============================================================================
   // Bundles & News Worthy Articles
 
-  app.get("/bundle/:id", function(req, res) {
+  app.get("/bundle/:id", function (req, res) {
     db.Bundle.findOne({
       where: {
         id: req.params.id
       }
-    }).then(function(bundleResults) {
+    }).then(function (bundleResults) {
       // res.json(results);
 
       // store the articles as a variable
@@ -137,7 +150,7 @@ module.exports = function(app, passport) {
         where: {
           id: bundleArticlesArr
         }
-      }).then(function(articleResults) {
+      }).then(function (articleResults) {
 
         var displayObj = {
           title: bundleName,
@@ -157,13 +170,13 @@ module.exports = function(app, passport) {
   app.post("/api/save-article", articleController.saveArticle);
 
   // get user bundle data
-  app.get("/api/user-bundles/:id", function(req, res) {
+  app.get("/api/user-bundles/:id", function (req, res) {
     console.log(req.params.id);
     db.Bundle.findAll({
       where: {
         userid: req.params.id
       }
-    }).then(function(response) {
+    }).then(function (response) {
       res.json(response);
     });
   });
@@ -172,7 +185,7 @@ module.exports = function(app, passport) {
   // Unmatched routes
 
   // Render 404 page for any unmatched routes
-  app.get("*", function(req, res) {
+  app.get("*", function (req, res) {
     res.render("404");
   });
 };
