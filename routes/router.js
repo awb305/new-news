@@ -87,29 +87,6 @@ module.exports = function(app, passport) {
     })
   );
 
-  // Create a new user account
-  app.post("/api/sign-up", function(req, res) {
-    console.log(req.body);
-    db.User.findOne({
-      where: {
-        userEmail: req.body.email
-      }
-    }).then(function(results) {
-      if (results !== null) {
-        console.log("a user with that email already exists");
-      } else {
-        db.User.create({
-          userNameFirst: req.body.name,
-          userNameLast: req.body.name,
-          userEmail: req.body.email,
-          userPassword: req.body.password
-        }).then(function(dbUser) {
-          res.json(dbUser);
-        });
-      }
-    });
-  });
-
   // Load log-in page
   app.get("/log-in", authController.login);
 
@@ -122,9 +99,6 @@ module.exports = function(app, passport) {
       failureFlash: true
     })
   );
-
-  // test dashboard page
-  // app.get("/dashboard", isLoggedIn, authController.dashboard);
 
   // get user data
   app.get("/api/user", authController.userData);
@@ -139,13 +113,6 @@ module.exports = function(app, passport) {
 
     res.redirect("/sign-up");
   }
-
-  // ===============================================================================
-  // User Profile Pages
-
-  // app.get("/user/:id", isLoggedIn, function(req, res) {
-  //   res.render("user-profile");
-  // });
 
   // ===============================================================================
   // Bundles & News Worthy Articles
@@ -184,47 +151,7 @@ module.exports = function(app, passport) {
   });
 
   // store an article deemed news worthy
-  app.post("/api/worthy-article", function(req, res) {
-    db.Article.findOne({
-      where: {
-        url: req.body.url
-      }
-    }).then(function(results) {
-      console.log(results);
-      if (results !== null) {
-        db.Article.update(
-          {
-            worthyScore: results.worthyScore + 1
-          },
-          {
-            where: {
-              url: req.body.url
-            }
-          }
-        ).then(function(results) {
-          res.json(results);
-        });
-        console.log("article already exists");
-      } else {
-        db.Article.create({
-          publication: req.body.publication,
-          url: req.body.url,
-          headline: req.body.headline,
-          section: req.body.section,
-          subsection: req.body.subsection,
-          title: req.body.title,
-          byline: req.body.byline,
-          summary: req.body.summary,
-          date: req.body.date,
-          articleImg: req.body.image,
-          articleImgLg: req.body.imageLarge,
-          worthyScore: 1
-        }).then(function(dbArticle) {
-          res.json(dbArticle);
-        });
-      }
-    });
-  });
+  app.post("/api/worthy-article", articleController.worthyArticle);
 
   // store an article saved by a user in their saved bundle
   app.post("/api/save-article", articleController.saveArticle);
@@ -249,57 +176,3 @@ module.exports = function(app, passport) {
     res.render("404");
   });
 };
-
-// ===============================================================================
-// Individual Article Pages
-
-// app.get("/article/:id", function(req, res) {
-//   res.render("article-display");
-// });
-
-// ===============================================================================
-// Example Pages & Functionality to be removed
-
-// Loads example index page - replace with our own home page
-// router.get("/", function(req, res) {
-//   db.Example.findAll({}).then(function(dbExamples) {
-//     res.render("index", {
-//       msg: "Welcome!",
-//       examples: dbExamples
-//     });
-//   });
-// });
-
-// Load example page and pass in an example by id
-// router.get("/example/:id", function(req, res) {
-//   db.Example.findOne({ where: { id: req.params.id } }).then(function(
-//     dbExample
-//   ) {
-//     res.render("example", {
-//       example: dbExample
-//     });
-//   });
-// });
-
-// Get all examples
-// router.get("/api/examples", function(req, res) {
-//   db.Example.findAll({}).then(function(dbExamples) {
-//     res.json(dbExamples);
-//   });
-// });
-
-// Create a new example
-// router.post("/api/examples", function(req, res) {
-//   db.Example.create(req.body).then(function(dbExample) {
-//     res.json(dbExample);
-//   });
-// });
-
-// Delete an example by id
-// router.delete("/api/examples/:id", function(req, res) {
-//   db.Example.destroy({ where: { id: req.params.id } }).then(function(
-//     dbExample
-//   ) {
-//     res.json(dbExample);
-//   });
-// });
