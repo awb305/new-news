@@ -150,7 +150,7 @@ a:hover {
   z-index: 2000;
 }
 
-.bundle-slider {
+#bundle-slider {
   background-color: #E0E0E0;
   color: #333;
   z-index: 2100;

@@ -12,6 +12,7 @@ var openArticleId = "";
 var userId;
 var userFirstName;
 var userLastName;
+var bundleArticleId = "";
 
 // ==============================================================================
 // User Data
@@ -214,10 +215,10 @@ function openUserActivitySlider() {
   userActivitySliderOpen = true;
   var userActivitySlider = document.getElementById("user-activity-slider");
 
-  // slide the sider out to the left side of the screen
+  // slide the slider out to the left side of the screen
   userActivitySlider.style.left = "0";
 
-  // add the slider-backdrop class to create a dark opaque background behind the nav slider
+  // add the slider-backdrop class to create a dark opaque background behind the user activity slider
   $(".user-activity-slider-bg").addClass("user-activity-slider-backdrop");
 
   // add focus to the open slider
@@ -244,6 +245,54 @@ function closeUserActivitySlider() {
   $(userActivitySlider).removeClass("left-side-slider-shadow");
 
   nudgeBackSlider("nav", 0);
+}
+
+function openBundleSlider() {
+  bundleSliderOpen = true;
+  var bundleSlider = document.getElementById("bundle-slider");
+
+  // slide the slider out to the right side of the screen
+  bundleSlider.style.right = "0";
+
+  // add the slider-backdrop class
+  $(".bundle-slider-bg").addClass("bundle-slider-backdrop");
+
+  // add focus to the open slider
+  bundleSlider.focus();
+
+  // add the shadow effect to the slider
+  $(bundleSlider).addClass("right-side-slider-shadow");
+
+  // check if the headlines slider is open
+  if (headlinesSliderOpen) {
+    // nudge open headlines slider 1 spot
+    nudgeSlider("headlines");
+  }
+
+  // nudge the article slider
+  nudgeSlider("article");
+
+  // enable swipe to close
+  enableBundleSliderSwipeClose(bundleSlider);
+}
+
+function closeBundleSlider() {
+  bundleSliderOpen = false;
+  var bundleSlider = document.getElementById("bundle-slider");
+
+  // move the slider so that it is off the screen. The number of pixels must be equal to or greater than what is set in the css
+  bundleSlider.style.left = "-350px";
+  $(".bundle-slider-bg").removeClass("bundle-slider-backdrop");
+
+  $(bundleSlider).removeClass("right-side-slider-shadow");
+
+  // check if the headlines slider is open
+  if (headlinesSliderOpen) {
+    // nudge open headlines slider back to spot "zero"
+    nudgeBackSlider("headlines", 1);
+  }
+
+  nudgeBackSlider("article", 0);
 }
 
 function openHeadlinesSlider() {
@@ -396,7 +445,7 @@ function enableNavSwipe(slider) {
 }
 
 function enableUserActivitySwipeClose(slider) {
-  // create a new Hammer instance and apply to the current slider. On swipe, call the close nav slider function
+  // create a new Hammer instance and apply to the current slider. On swipe, call the close user activity slider function
   var touchSlider = new Hammer(slider);
   touchSlider.on("swipeleft", closeUserActivitySlider);
 }
@@ -411,6 +460,12 @@ function enableArticleSwipeClose(slider) {
   // create a new Hammer instance and apply to the current slider. On swipe, call the close article slider function
   var touchSlider = new Hammer(slider);
   touchSlider.on("swiperight", closeArticleSlider);
+}
+
+function enableBundleSliderSwipeClose(slider) {
+  // create a new Hammer instance and apply to the current slider. On swipe, call the close bundle slider function
+  var touchSlider = new Hammer(slider);
+  touchSlider.on("swiperight", closeBundleSlider);
 }
 
 // ==============================================================================
@@ -465,12 +520,19 @@ $(".headlines-slider-bg").mousedown(function(e) {
   }
 });
 
-// listener - close headlines slider with click outside slider
-$(".article-slider-bg").mousedown(function(e) {
-  var currentArticleSlider = document.getElementById(openArticleId + "-slider");
+// listener - open bundle-slider
+$(document).on("click", ".bundle-slider-trigger", function() {
+  bundleArticleId = $(this).attr("data-id");
 
-  if (!$(e.target).is(currentArticleSlider)) {
-    closeArticleSlider();
+  openBundleSlider();
+});
+
+// listener - close bundle-slider with click outside slider
+$(".bundle-slider-bg").mousedown(function(e) {
+  var bundleSlider = document.getElementById("bundle-slider");
+
+  if (!$(e.target).is(bundleSlider)) {
+    closeBundleSlider();
   }
 });
 
@@ -483,6 +545,15 @@ $(document).on("click", ".article-slider-trigger", function() {
   openArticleId = articleId;
 
   openArticleSlider();
+});
+
+// listener - close article slider with click outside slider
+$(".article-slider-bg").mousedown(function(e) {
+  var currentArticleSlider = document.getElementById(openArticleId + "-slider");
+
+  if (!$(e.target).is(currentArticleSlider)) {
+    closeArticleSlider();
+  }
 });
 
 // listener - close slider with Esc key
