@@ -58,8 +58,8 @@ module.exports = function(app, passport) {
           $gt: 0
         }
       },
+      limit: 50,
       order: [["date", "DESC"], ["worthyScore", "DESC"]]
-      //attributes: ["id","articleImg","articleImgLg","title","publication","worthyScore","date","summary","url"]
     }).then(function(response) {
       var displayObj = {
         title: "News Worthy Articles",
