@@ -136,7 +136,8 @@ module.exports = function(app, passport) {
       db.Article.findAll({
         where: {
           id: bundleArticlesArr
-        }
+        },
+        order: [["date", "DESC"]]
       }).then(function(articleResults) {
 
         var displayObj = {
