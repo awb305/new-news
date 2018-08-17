@@ -141,10 +141,11 @@ var headlineArticles = {
     if (section === "") {
       section = articleObj.section;
     }
-
+    //filter the sections that appear into fewer more useful categories
     if (
       section === "Business Day" ||
       section === "Your Money" ||
+      section === "DealBook" ||
       section === "Money") {
       headline = "Business";
     } else if (
@@ -214,6 +215,11 @@ var headlineArticles = {
       section === "UK news") {
       headline = "World";
     } else if (
+      section === "Columnists") {
+      headline = "Opinion";
+      //hide these sections
+    } else if (
+      section === "Crosswords & Games" ||
       section === "Law" ||
       section === "New York" ||
       section === "Society" ||
@@ -221,9 +227,7 @@ var headlineArticles = {
       section === "Crosswords" ||
       section === "Stage") {
       headline = "hide";
-    } else if (
-      section === "Columnists") {
-      headline = "Opinion";
+
     } else {
       headline = section;
     }

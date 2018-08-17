@@ -70,14 +70,14 @@ var articlesPromise = function () {
       guardianArticles.forEach(function (element) {
         element.publication = "The Guardian";
         element.title = element.webTitle;
-        element.abstract = element.webTitle;
+        element.abstract = "";
         element.section = element.sectionName;
         element.url = element.webUrl;
         element.date = moment(element.webPublicationDate).format("YYYY-MM-DD HH:mm:ss");
         element.datePretty = moment(element.webPublicationDate).format("dddd MMMM Do h:mm a");
         element.subsection = element.sectionName;
         element.byline = element.publication;
-        element.summary = "";
+        element.summary = element.webTitle;
       });
       //combine the two arrays into one large array and sort the articles by date, using the article sorter method contained in the articleParser object
       var allArticles = (nytArticles
