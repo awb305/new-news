@@ -1,25 +1,39 @@
 var exports = (module.exports = {});
 
-exports.signup = function(req, res) {
+exports.signup = function (req, res) {
   var displayObj = {
     title: "News Worthy Sign-Up"
   };
   res.render("sign-up", displayObj);
 };
 
-exports.login = function(req, res) {
+exports.signupReturn = function (req, res) {
+  var displayObj = {
+    title: "News Worthy Sign-Up"
+  };
+  res.render("sign-up-return", displayObj);
+};
+
+exports.login = function (req, res) {
   var displayObj = {
     title: "News Worthy Log In"
   };
   res.render("log-in", displayObj);
 };
 
-exports.dashboard = function(req, res) {
+exports.loginReturn = function (req, res) {
+  var displayObj = {
+    title: "News Worthy Log In"
+  };
+  res.render("log-in-return", displayObj);
+};
+
+exports.dashboard = function (req, res) {
   res.render("dashboard-test");
 };
 
-exports.logout = function(req, res) {
-  req.session.destroy(function(err) {
+exports.logout = function (req, res) {
+  req.session.destroy(function (err) {
     if (err) {
       throw err;
     }
@@ -27,7 +41,7 @@ exports.logout = function(req, res) {
   });
 };
 
-exports.userData = function(req, res) {
+exports.userData = function (req, res) {
   var userData;
   try {
     userData = {
