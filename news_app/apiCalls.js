@@ -59,7 +59,10 @@ var articlesPromise = function () {
         //add a couple of relevant properties to the article objects in the nyt array
         element.publication = "The New York Times";
         element.date = moment(element.updated_date).format("YYYY-MM-DD HH:mm:ss");
+        element.datePretty = moment(element.updated_date).format("dddd MMMM Do h:mm a");
+
       });
+      
       //our guardian response is the second object in the promise object array--again, this is the 'result' property of the guardian request promise object
       var guardianArticles = result[1];
       // console.log(guardianArticles[0]);
@@ -67,10 +70,11 @@ var articlesPromise = function () {
       guardianArticles.forEach(function (element) {
         element.publication = "The Guardian";
         element.title = element.webTitle;
-        element.abstract = element.webTitle;
+        element.abstract = "";
         element.section = element.sectionName;
         element.url = element.webUrl;
         element.date = moment(element.webPublicationDate).format("YYYY-MM-DD HH:mm:ss");
+        element.datePretty = moment(element.webPublicationDate).format("dddd MMMM Do h:mm a");
         element.subsection = element.sectionName;
         element.byline = element.publication;
         element.summary = element.webTitle;

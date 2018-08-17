@@ -2,9 +2,6 @@
 // Set Dependencies & Required files
 // ==============================================================================
 
-// var db = require("../models");
-// var headlineArticles = require("../news_app/testHeadlines.js");
-
 var authController = require("../controllers/authcontroller.js");
 var articleController = require("../controllers/articlecontroller.js");
 
@@ -21,6 +18,7 @@ var moment = require("moment");
 module.exports = function (app, passport) {
   // ===============================================================================
   // Headlines Page
+  
   app.get("/", function (req, res) {
     //call our promise object as a function and a .then so that it won't activate until the promises in apiCalls have resolved and the asynchronous data has been passed through
     articlesRequester().then(function (headlineArticles) {
@@ -64,6 +62,13 @@ module.exports = function (app, passport) {
         ["worthyScore", "DESC"]
       ]
     }).then(function (response) {
+      response.forEach(function(element){
+        if (element.worthyScore === 1){
+          element.humanCount = "person";
+        } else { 
+          element.humanCount = "people";
+        }
+      });
       var displayObj = {
         title: "News Worthy Articles",
         today: moment().format("LL"),
@@ -95,9 +100,6 @@ module.exports = function (app, passport) {
   // Load log-in page
   app.get("/log-in", authController.login);
 
-
-
-
   // login user
   app.post(
     "/login",
@@ -109,9 +111,6 @@ module.exports = function (app, passport) {
   );
 
   app.get("/log-in-return", authController.loginReturn);
-
-  // test dashboard page
-  // app.get("/dashboard", isLoggedIn, authController.dashboard);
 
   // get user data
   app.get("/api/user", authController.userData);
@@ -151,12 +150,18 @@ module.exports = function (app, passport) {
           id: bundleArticlesArr
         },
         order: [["date", "DESC"]]
-      }).then(function(articleResults) {
-
+      }).then(function (articleResults) {
+        articleResults.forEach(function(element){
+          if (element.worthyScore === 1){
+            element.humanCount = "person";
+          } else { 
+            element.humanCount = "people";
+          }
+        });
         var displayObj = {
           title: bundleName,
           bundleName: bundleName,
-          bundleArticles: articleResults
+          bundleArticles: articleResults,
         };
 
         res.render("bundle-display", displayObj);

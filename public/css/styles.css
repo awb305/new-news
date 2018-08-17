@@ -35,6 +35,27 @@ a:hover {
   padding: 20px 5px 10px 5px;
 }
 
+.title-container a {
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.nav-slider-header a {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+#title-link {
+  color: #fff;
+  cursor: pointer;
+}
+
+.title-container a:hover,
+.nav-slider-header a:hover {
+  color: #fff;
+} 
+
 .title-container>h1 {
   font-size: 3rem;
   font-weight: 300;
@@ -67,6 +88,13 @@ a:hover {
 #bundle-articles-container>.article-summary>.article-summary-title {
   margin-top: 10px;
   line-height: 1.1;
+}
+
+#worthy-articles-container>.article-summary>.article-worthy-count,
+#bundle-articles-container>.article-summary>
+.article-worthy-count { 
+  font-variant: small-caps;
+  color: #B0B0B0;
 }
 
 #worthy-articles-container>.article-summary>img,
@@ -293,6 +321,7 @@ a:hover {
 
 .article-summary-publication {
   font-style: italic;
+  margin-bottom: 0px;
 }
 
 .article-slider {
@@ -323,10 +352,28 @@ a:hover {
   text-align: left;
 }
 
-.cta-message {
-  font-size: 20px;
-  font-weight: bold;
-  color: #5C83E0;
+#cta-message {
+  font-size: 18px;
+  font-variant: small-caps;
+  /* font-family: "Gill Sans", sans-serif; */
+  /* font-weight: bold; */
+  /* color: #5C83E0; */
+  margin-top: 10px;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+
+}
+#cta-logo {
+  font-size: 22px;
+  font-variant: none; 
+  /* color: #333; */
+  margin-top: 0px;
+  padding-top: 0px;
+
+}
+
+.cta-link {
+  color:#333;
 }
 
 .form-container {
@@ -373,6 +420,19 @@ a:hover {
   min-width: 125px;
   margin: 5px auto;
   cursor: pointer;
+}
+
+.fake-worthy-btn {
+  border-radius: 8px;
+  border: none;
+  background-color: #B7C3E0;
+  padding: 5px 10px;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #f7f7f7;
+  display: block;
+  min-width: 125px;
+  margin: 5px auto;
 }
 
 .add-save-btn {
