@@ -110,6 +110,7 @@ var headlineArticles = {
         byline: storiesArr[i].byline,
         summary: storiesArr[i].abstract,
         date: storiesArr[i].date,
+        datePretty: storiesArr[i].datePretty,
         articleImg: img,
         articleImgLg: imgLg,
         publication: storiesArr[i].publication
@@ -157,6 +158,10 @@ var headlineArticles = {
       section === "Games") {
       headline = "Media";
     } else if (
+      section === "Royal Canin felines" ||
+      section === "Sunday Review" ||
+      section === "Lens" ||
+      section === "Eat" ||
       section === "Style" ||
       section === "Theater" ||
       section === "Culture" ||
@@ -167,6 +172,7 @@ var headlineArticles = {
       section === "Life and style") {
       headline = "Arts & Leisure";
     } else if (
+      section === "Live" ||
       section === "Well") {
       headline = "Health";
     } else if (
@@ -185,6 +191,7 @@ var headlineArticles = {
       headline = "Other";
     } else if (
       section === "Science" ||
+      section === "Energy & Environment" ||
       section === "Personal Tech" ||
       section === "Technology" ||
       section === "Environment") {
@@ -197,6 +204,7 @@ var headlineArticles = {
       section === "US news") {
       headline = "U.S.";
     } else if (
+      section === "Asia Pacific" ||
       section === "Europe" ||
       section === "Middle East" ||
       section === "Australia news" ||
@@ -206,17 +214,21 @@ var headlineArticles = {
       section === "UK news") {
       headline = "World";
     } else if (
+      section === "Law" ||
       section === "New York" ||
       section === "Society" ||
       section === "Real Estate" ||
       section === "Crosswords" ||
       section === "Stage") {
       headline = "hide";
-    } else {
-      headline = section;
-    }
-    return headline;
+    } else if (
+      section === "Columnists") {
+      headline = "Opinion";
+  } else {
+    headline = section;
   }
+  return headline;
+}
 };
 
 // export the object

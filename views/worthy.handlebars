@@ -1,8 +1,8 @@
 <div class="worthy-page-container">
 
     <div class="title-container worthy-title-container">
-        <h1>News Worthy</h1>
-        <h4 class="title-date">{{today}}</h4>
+        <h1><a href="/">News Worthy</a></h1>
+        <h4 class="title-date"><a href="/">{{today}}</a></h4>
     </div>
 
     <div id="worthy-articles-container">
@@ -12,6 +12,7 @@
                 <img class="article-summary-image article-slider-trigger" src="{{articleImgLg}}" data-id="{{id}}">
                 <h3 class="article-summary-title article-slider-trigger" data-id="{{id}}">{{title}}</h3>
                 <p class="article-summary-publication article-slider-trigger" data-id="{{id}}">{{publication}}</p>
+                <p class = "article-worthy-count article-slider-trigger" data-id="{{id}}"> <span style= "color:#283860"> {{worthyScore}} </span> {{humanCount}} deemed this article news worthy</p>
 	    	</div>
         {{/each}}
     </div>
