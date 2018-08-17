@@ -55,6 +55,7 @@ function getUserBundles() {
   $.get(query, function(response) {
     // empty the container
     $(".user-activity-slider-body").empty();
+    $(".slider-existing-bundles").empty();
 
     // sort through the responses and add to the page
     if (response.length > 0) {
