@@ -145,6 +145,7 @@ var headlineArticles = {
     if (
       section === "Business Day" ||
       section === "Your Money" ||
+      section === "DealBook" ||
       section === "Money") {
       headline = "Business";
     } else if (
