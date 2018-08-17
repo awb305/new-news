@@ -90,6 +90,8 @@ module.exports = function (app, passport) {
     })
   );
 
+  app.get("/sign-up", authController.signupReturn);
+
   // Load log-in page
   app.get("/log-in", authController.login);
 
