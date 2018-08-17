@@ -482,6 +482,16 @@ a:hover {
   color: #f7f7f7;
 }
 
+.share-this-inline-share-buttons {
+  margin: 10px 0px;
+}
+
+.st-btn {
+  background-color: #333333 !important;
+  font-family: 'Crimson Text', serif;
+  text-transform: uppercase;
+}
+
 /* user validation css */
 
 .error {
