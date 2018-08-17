@@ -93,6 +93,7 @@ var articlesPromise = function () {
       .then(function (headlineArticles) {
         //call the getOutput method from the articleParser, which generates our articles objects and calls methods to generate and filter headlines
         headlineArticles.getOutput();
+        headlineArticles.timeStamp = moment().format("HH:mm:ss");
         return headlineArticles;
         //return our headlines object and call a final .then
       })
