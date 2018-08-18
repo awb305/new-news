@@ -56,6 +56,10 @@ function getUserBundles() {
     // empty the container
     $(".user-activity-slider-body").empty();
     $(".slider-existing-bundles").empty();
+    $(".bundle-slider-header").empty();
+
+    var bundleHeader = $("<h3>Add to one of your bundles.</h3>");
+    bundleHeader.appendTo(".bundle-slider-header");
 
     // sort through the responses and add to the page
     if (response.length > 0) {
@@ -90,7 +94,6 @@ function getUserBundles() {
     }
 
     if (!customBundles) {
-      console.log("we got here");
       var customMessage = $("<p>You have not created any bundles yet</p>");
       customMessage.appendTo(".bundle-slider-header");
     }
