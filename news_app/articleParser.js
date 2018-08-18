@@ -143,6 +143,7 @@ var headlineArticles = {
     }
     //filter the sections that appear into fewer more useful categories
     if (
+      section === "Economy" ||
       section === "Business to business" ||
       section === "Business Day" ||
       section === "Your Money" ||
@@ -160,6 +161,7 @@ var headlineArticles = {
       section === "Games") {
       headline = "Media";
     } else if (
+      section === "Arts" ||
       section === "Royal Canin felines" ||
       section === "Sunday Review" ||
       section === "Lens" ||
@@ -181,6 +183,7 @@ var headlineArticles = {
       section === "Cities") {
       headline = "Travel";
     } else if (
+      section === "Weddings" ||
       section === "Briefing" ||
       section === "The Upshot" ||
       section === "Magazine" ||
@@ -192,6 +195,7 @@ var headlineArticles = {
       section === "Education") {
       headline = "Other";
     } else if (
+      section === "Climate" ||
       section === "Science" ||
       section === "Energy & Environment" ||
       section === "Personal Tech" ||
@@ -221,6 +225,7 @@ var headlineArticles = {
       headline = "Opinion";
       //hide these sections
     } else if (
+      section === "Membership" ||
       section === "Crosswords & Games" ||
       section === "Law" ||
       section === "New York" ||
